@@ -1,0 +1,53 @@
+﻿@model IEnumerable<Order_And_Sales_Management_ver1.Models.ProductModel>
+
+@{
+    ViewData["Title"] = "Liste";
+}
+
+<h1>Liste</h1>
+
+<p>
+    <a asp-action="Create">Yeni Kayıt Ekle</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.ProductName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.productBarcodeID)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.productRetailPrice)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.productWholesalePrice)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ProductName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.productBarcodeID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.productRetailPrice)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.productWholesalePrice)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.productID"><button type="button" class="btn btn-primary">Düzenle</button></a>
+                <a asp-action="Details" asp-route-id="@item.productID"><button type="button" class="btn btn-secondary">Kaydı Görüntüle</button></a>
+                <a asp-action="Delete" asp-route-id="@item.productID"><button type="button" class="btn btn-danger">Sil</button></a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
