@@ -14,9 +14,6 @@
             <label class="control-label">Ürün Adı</label>
         </div>
         <div class="col-md-6">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input asp-for="productName" id="product" class="form-control" />
-            <span asp-validation-for="productName" class="text-danger"></span>
         </div>
         <div class="col-md-4">
             <input type="submit" id="getProducts" value="Filtrele" class="btn btn-primary" />
@@ -27,8 +24,6 @@
 <table class="table table-striped table-curved table_data" id="products">
     <thead class="table-head">
         <tr>
-            @if (Model.products.Count > 0)
-            {
                 <th>
                     @Html.DisplayName("Ürün Id")
                 </th>
@@ -36,24 +31,14 @@
                     @Html.DisplayName("Ürün Adı")
                 </th>
                 <th></th>
-            }
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model.products)
-        {
             <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.productID)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ProductName)
-                </td>
                 <td>
                     <input type="checkbox" id="selected" onclick="fnSelect()" />
                 </td>
             </tr>
-        }
     </tbody>
 </table>
 
