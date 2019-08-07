@@ -3,39 +3,37 @@
 @{
     ViewData["Title"] = "Görüntüleme";
 }
-
-<h1>Kayıt Görüntüleme Ekranı</h1>
-
-<div>
-    <h4>Ürün Tablosu</h4>
+    <div class="panel-info">
+        <h1>Kayıt Görüntüleme Ekranı</h1>
+        <h4>Ürün Tablosu</h4>
+    </div>
     <hr />
     <dl class="row">
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.ProductName)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.ProductName)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.productBarcodeID)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.productBarcodeID)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.productRetailPrice)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.productRetailPrice)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.productWholesalePrice)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.productWholesalePrice)
         </dd>
     </dl>
-</div>
 <div>
     <a asp-action="Edit" asp-route-id="@Model.productID">Kaydı Düzenle</a> |
     <a asp-action="Index">Liste Ekranına Geri Dönüş</a>

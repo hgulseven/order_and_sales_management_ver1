@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using order_and_sales_management_ver1.Data;
 
-namespace order_and_sales_management_ver1.Data.Migrations
+namespace order_and_sales_management_ver1.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20190805155137_foreignkey")]
+    partial class foreignkey
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -203,6 +205,8 @@ namespace order_and_sales_management_ver1.Data.Migrations
                     b.Property<string>("persSurName")
                         .HasMaxLength(40);
 
+                    b.Property<bool>("recStatus");
+
                     b.Property<bool>("userActive");
 
                     b.Property<string>("userName");
@@ -234,6 +238,8 @@ namespace order_and_sales_management_ver1.Data.Migrations
 
                     b.Property<int>("productionLotID");
 
+                    b.Property<bool>("recStatus");
+
                     b.HasKey("orderID", "orderLineNo");
 
                     b.HasIndex("OrderModelorderID");
@@ -254,6 +260,8 @@ namespace order_and_sales_management_ver1.Data.Migrations
                     b.Property<int?>("orderOwnerEmployeeModelpersonelID");
 
                     b.Property<int>("orderOwner_personelID");
+
+                    b.Property<bool>("recStatus");
 
                     b.HasKey("orderID");
 
@@ -297,6 +305,8 @@ namespace order_and_sales_management_ver1.Data.Migrations
 
                     b.Property<double>("productWholesalePrice");
 
+                    b.Property<bool>("recStatus");
+
                     b.HasKey("productID");
 
                     b.ToTable("ProductModels");
@@ -331,17 +341,21 @@ namespace order_and_sales_management_ver1.Data.Migrations
                 {
                     b.Property<int>("productID");
 
-                    b.Property<int>("LocationID");
+                    b.Property<int>("locationID");
 
                     b.Property<int?>("StockLocationModellocationID");
 
-                    b.Property<int>("productionLotID");
+                    b.Property<string>("productionLotID")
+                        .IsRequired()
+                        .HasMaxLength(10);
+
+                    b.Property<bool>("recStatus");
 
                     b.Property<double>("stockAmount");
 
-                    b.HasKey("productID", "LocationID");
+                    b.HasKey("productID", "locationID");
 
-                    b.HasAlternateKey("LocationID", "productID");
+                    b.HasAlternateKey("locationID", "productID", "productionLotID");
 
                     b.HasIndex("StockLocationModellocationID");
 
@@ -471,6 +485,11 @@ namespace order_and_sales_management_ver1.Data.Migrations
                     b.HasOne("Order_And_Sales_Management_ver1.Models.StockLocationModel", "StockLocationModel")
                         .WithMany()
                         .HasForeignKey("StockLocationModellocationID");
+
+                    b.HasOne("Order_And_Sales_Management_ver1.Models.ProductModel", "product")
+                        .WithMany()
+                        .HasForeignKey("productID")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618
         }

@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Order_And_Sales_Management_ver1.Models;
 using order_and_sales_management_ver1.Data;
+
 
 namespace order_and_sales_management_ver1.Controllers
 {
@@ -22,7 +21,7 @@ namespace order_and_sales_management_ver1.Controllers
         // GET: ProductModels
         public async Task<IActionResult> Index()
         {
-            return View(await _context.ProductModels.ToListAsync());
+            return View(await _context.ProductModels.Where(x => x.recStatus == true).ToListAsync());
         }
 
         // GET: ProductModels/Details/5
@@ -34,7 +33,7 @@ namespace order_and_sales_management_ver1.Controllers
             }
 
             var productModel = await _context.ProductModels
-                .FirstOrDefaultAsync(m => m.productID == id);
+                .FirstOrDefaultAsync(m => m.productID == id && m.recStatus ==true);
             if (productModel == null)
             {
                 return NotFound();
@@ -58,6 +57,7 @@ namespace order_and_sales_management_ver1.Controllers
         {
             if (ModelState.IsValid)
             {
+                productModel.recStatus = true;
                 _context.Add(productModel);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -97,6 +97,7 @@ namespace order_and_sales_management_ver1.Controllers
             {
                 try
                 {
+                    productModel.recStatus = true;
                     _context.Update(productModel);
                     await _context.SaveChangesAsync();
                 }
@@ -140,14 +141,15 @@ namespace order_and_sales_management_ver1.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var productModel = await _context.ProductModels.FindAsync(id);
-            _context.ProductModels.Remove(productModel);
+            productModel.recStatus = false;
+            _context.ProductModels.Update(productModel);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool ProductModelExists(int id)
         {
-            return _context.ProductModels.Any(e => e.productID == id);
+            return _context.ProductModels.Any(e => e.productID == id && e.recStatus==true);
         }
     }
 }

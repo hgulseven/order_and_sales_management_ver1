@@ -20,7 +20,8 @@ namespace order_and_sales_management_ver1.Data
         public virtual DbSet<SalesModel> SalesModels { get; set; }
         public virtual DbSet<StockItem> StockItems { get; set; }
         public virtual DbSet<TeraziScreenMapping> TeraziScreenMappings { get; set; }
-
+        public DbSet<Order_And_Sales_Management_ver1.Models.EmployeesModel> EmployeesModel { get; set; }
+        public DbSet<Order_And_Sales_Management_ver1.Models.StockLocationModel> StockLocationModel { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -32,7 +33,7 @@ namespace order_and_sales_management_ver1.Data
             modelBuilder.Entity<PackagedProductDetailsModel>()
                 .HasKey(b => new { b.PackedProductID, b.PackagedProductLineNo });
             modelBuilder.Entity<StockItem>()
-                .HasKey(b => new { b.productID, b.LocationID });
+                .HasKey(b => new { b.productID, b.locationID, b.productionLotID });
             modelBuilder.Entity<TeraziScreenMapping>()
                 .HasKey(b => new { b.teraziID, b.productID });
             modelBuilder.Entity<OrderModel>()
@@ -41,6 +42,8 @@ namespace order_and_sales_management_ver1.Data
                                     .HasForeignKey("orderOwner_personelID")
                                     .OnDelete(DeleteBehavior.Restrict);
         }
+        public DbSet<Order_And_Sales_Management_ver1.Models.OrderModel> OrderModel { get; set; }
+
 
 
     }

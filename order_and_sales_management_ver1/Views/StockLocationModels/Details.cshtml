@@ -1,0 +1,22 @@
+﻿@model Order_And_Sales_Management_ver1.Models.StockLocationModel
+
+@{
+    ViewData["Title"] = "Details";
+}
+<div class="panel-info">
+<h1>Kayıt Görüntüleme</h1>
+<h4>Stok Lokasyon Tablosu</h4>
+</div>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.locationName)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.locationName)
+        </dd>
+    </dl>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.locationID">Kayıt Düzeltme Ekranı</a> |
+    <a asp-action="Index">Liste Ekranına Geri Dömüş</a>
+</div>

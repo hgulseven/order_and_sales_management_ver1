@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.2</TargetFramework>
@@ -7,8 +7,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Data\Migrations\20190729111609_second.cs" />
-    <Compile Remove="Data\Migrations\20190729111609_second.Designer.cs" />
+    <Compile Remove="Migrations\20190805160922_foreignkey2.cs" />
+    <Compile Remove="Migrations\20190805160922_foreignkey2.Designer.cs" />
   </ItemGroup>
 
 

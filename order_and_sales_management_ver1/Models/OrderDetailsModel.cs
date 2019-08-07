@@ -30,5 +30,7 @@ namespace Order_And_Sales_Management_ver1.Models
         public virtual OrderModel OrderModel { get; set; }
 
         public virtual ProductModel ProductModel { get; set; }
+
+        public bool recStatus { get; set; }
     }
 }

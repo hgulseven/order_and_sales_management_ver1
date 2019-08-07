@@ -1,0 +1,34 @@
+﻿@model Order_And_Sales_Management_ver1.Models.StockLocationModel
+
+@{
+    ViewData["Title"] = "Edit";
+}
+<div class="panel-info">
+<h1>Kayıt Düzenleme Ekranı</h1>
+<h4>Stok Lokasyon Tablosu</h4>
+</div>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="locationID" />
+            <div class="form-group">
+                <label asp-for="locationName" class="control-label"></label>
+                <input asp-for="locationName" class="form-control" />
+                <span asp-validation-for="locationName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Güncelle" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Liste Ekranına Geri Dönüş</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

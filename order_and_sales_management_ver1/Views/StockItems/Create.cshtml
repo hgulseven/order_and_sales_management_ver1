@@ -1,0 +1,51 @@
+﻿@model Order_And_Sales_Management_ver1.Models.StockItem
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>StockItem</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="productID" class="control-label"></label>
+                <select asp-for="productID" class ="form-control" asp-items="ViewBag.productName"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="locationID" class="control-label"></label>
+                <select asp-for="locationID" class ="form-control" asp-items="ViewBag.locationName"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="productionLotID" class="control-label"></label>
+                <input asp-for="productionLotID" class="form-control" />
+                <span asp-validation-for="productionLotID" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="stockAmount" class="control-label"></label>
+                <input asp-for="stockAmount" class="form-control" />
+                <span asp-validation-for="stockAmount" class="text-danger"></span>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="recStatus" /> @Html.DisplayNameFor(model => model.recStatus)
+                </label>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

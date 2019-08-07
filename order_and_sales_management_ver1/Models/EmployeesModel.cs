@@ -1,6 +1,7 @@
 namespace Order_And_Sales_Management_ver1.Models
 {
     using System.ComponentModel.DataAnnotations;
+    using System.ComponentModel.DataAnnotations.Schema;
 
     public partial class EmployeesModel
     {
@@ -12,10 +13,17 @@ namespace Order_And_Sales_Management_ver1.Models
         public string persName { get; set; }
 
         [StringLength(40)]
+        [Display(Name = "Personel Soyadý")]
+
         public string persSurName { get; set; }
 
         [StringLength(32)]
         public string password { get; set; }
+
+        [ForeignKey("StockLocationModel")]
+        public int locationID { get; set; }
+        [Display(Name ="Lokasyon")]
+        public virtual StockLocationModel empLocation { get; set; }
 
         public string userName { get; set; }
 
@@ -26,5 +34,7 @@ namespace Order_And_Sales_Management_ver1.Models
         public bool userActive { get; set; }
 
         public int accessFailedCount { get; set; }
+
+        public bool recStatus { get; set; }
     }
 }

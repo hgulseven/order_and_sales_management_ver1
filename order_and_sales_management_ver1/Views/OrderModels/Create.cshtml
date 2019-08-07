@@ -1,0 +1,104 @@
+﻿@model Order_And_Sales_Management_ver1.Models.OrderModel
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>OrderModel</h4>
+<hr />
+<form asp-controller="Create" asp-action="Giris" method="get">
+    <div class="row">
+        <div class="col-md-2">
+            <label class="control-label">Ürün Adı</label>
+        </div>
+        <div class="col-md-6">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input asp-for="productName" id="product" class="form-control" />
+            <span asp-validation-for="productName" class="text-danger"></span>
+        </div>
+        <div class="col-md-4">
+            <input type="submit" id="getProducts" value="Filtrele" class="btn btn-primary" />
+        </div>
+    </div>
+</form>
+
+<table class="table table-striped table-curved table_data" id="products">
+    <thead class="table-head">
+        <tr>
+            @if (Model.products.Count > 0)
+            {
+                <th>
+                    @Html.DisplayName("Ürün Id")
+                </th>
+                <th>
+                    @Html.DisplayName("Ürün Adı")
+                </th>
+                <th></th>
+            }
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.products)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.productID)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ProductName)
+                </td>
+                <td>
+                    <input type="checkbox" id="selected" onclick="fnSelect()" />
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<form asp-action="Create">
+
+    <div class="row">
+        <div class="col-md-1">
+            <label asp-for="orderDate" class="control-label"></label>
+        </div>
+        <div class="col-md-1">
+            <input asp-for="orderDate" id="orderDate" class="form-control" readonly />
+        </div>
+        <div class="col-md-1">
+            <label asp-for="orderOwner_personelID" class="control-label"></label>
+        </div>
+        <div class="col-md-1">
+            <select asp-for="orderOwner_personelID" class="form-control" asp-items="ViewBag.personelID"></select>
+            <input type="text" id="empLocation" hidden />
+        </div>
+        <div class="col-md-2">
+            <label asp-for="orderLocationID" class="control-label"></label>
+        </div>
+        <div class="col-md-1">
+            <input asp-for="orderLocation.locationName" id="locationName" class="form-control" readonly />
+        </div>
+    </div>
+
+
+
+
+
+
+    <div class="col-md-4">
+    </div>
+    <div class="form-group">
+        <input type="submit" value="Create" class="btn btn-primary" />
+    </div>
+    </div>
+
+</form>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

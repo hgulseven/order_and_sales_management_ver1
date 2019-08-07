@@ -1,0 +1,58 @@
+﻿@model Order_And_Sales_Management_ver1.Models.EmployeesModel
+
+@{
+    ViewData["Title"] = "Delete";
+}
+
+    <div class="panel-info">
+        <h1>Kayıt Silme Ekranı</h1>
+        <h3>Kaydı Silmek İstediğinizden Emin misiniz?</h3>
+        <h4>Personel Tablosu</h4>
+    </div>
+<div class="alert alert-danger">
+    @Html.ValidationSummary(false)
+</div>
+
+
+<hr />
+
+<div>
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.persName)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.persName)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.persSurName)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.persSurName)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.password)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.password)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.empLocation)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.empLocation.locationName)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.userName)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.userName)
+        </dd>
+    </dl>
+
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="personelID" />
+        <input type="submit" value="Kaydı Sil" class="btn btn-danger" /> |
+        <a asp-action="Index">Liste Ekranına Geri Dönüş</a>
+    </form>
+</div>
