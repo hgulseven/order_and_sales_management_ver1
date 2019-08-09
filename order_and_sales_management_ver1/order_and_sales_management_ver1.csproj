@@ -6,7 +6,7 @@
     <AspNetCoreHostingModel>inprocess</AspNetCoreHostingModel>
     <ApplicationIcon />
     <OutputType>Exe</OutputType>
-    <StartupObject />
+    <StartupObject>order_and_sales_management_ver1.Program</StartupObject>
   </PropertyGroup>
 
   <ItemGroup>
