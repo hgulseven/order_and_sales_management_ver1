@@ -23,11 +23,11 @@ namespace Order_And_Sales_Management_ver1.Models
         public int personelID { get; set; }
         [Display(Name = "Ürün No")]
         public int productID { get; set; }
-        public int amount { get; set; }
+        public float amount { get; set; }
         [NotMapped]
         public float tutar { get; set; }
         public int typeOfCollection { get; set; }
-        public virtual EmployeesModel EmployeesModel { get; set; }
+        public virtual EmployeesModels EmployeesModels { get; set; }
         public virtual ProductModel ProductModel { get; set; }
     }
 }

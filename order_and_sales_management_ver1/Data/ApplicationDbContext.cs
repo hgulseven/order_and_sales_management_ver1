@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Order_And_Sales_Management_ver1.Models;
 using Microsoft.EntityFrameworkCore.Migrations;
+using order_and_sales_management_ver1.Models;
 
 namespace order_and_sales_management_ver1.Data
 {
@@ -20,8 +21,10 @@ namespace order_and_sales_management_ver1.Data
         public virtual DbSet<SalesModel> SalesModels { get; set; }
         public virtual DbSet<StockItem> StockItems { get; set; }
         public virtual DbSet<TeraziScreenMapping> TeraziScreenMappings { get; set; }
-        public DbSet<Order_And_Sales_Management_ver1.Models.EmployeesModel> EmployeesModel { get; set; }
+        public DbSet<Order_And_Sales_Management_ver1.Models.EmployeesModels> EmployeesModels { get; set; }
         public DbSet<Order_And_Sales_Management_ver1.Models.StockLocationModel> StockLocationModel { get; set; }
+        public DbSet<TeraziTable> TeraziTable { get; set; }
+        public DbSet<salesCounter> salesCounter { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -37,7 +40,7 @@ namespace order_and_sales_management_ver1.Data
             modelBuilder.Entity<TeraziScreenMapping>()
                 .HasKey(b => new { b.teraziID, b.productID });
             modelBuilder.Entity<OrderModel>()
-                                    .HasOne(typeof(EmployeesModel))
+                                    .HasOne(typeof(EmployeesModels))
                                     .WithMany()
                                     .HasForeignKey("orderOwner_personelID")
                                     .OnDelete(DeleteBehavior.Restrict);

@@ -19,10 +19,10 @@
         [Display(Name = "Sipariş Tarihi")]
         public DateTime orderDate { get; set; }
         public int recStatus { get; set; }  /* -1 : Order Deleted 1: Aktif order  2:Order Delivered */
-        [ForeignKey("EmployeesModel")]
+        [ForeignKey("EmployeesModels")]
         [Display(Name = "Sipariş Veren")]
         public int orderOwner_personelID { get; set; }
-        public virtual EmployeesModel orderOwnerEmployeeModel { get; set; }
+        public virtual EmployeesModels orderOwnerEmployeeModel { get; set; }
         public virtual ICollection<OrderDetailsModel> OrderDetailsModels { get; set; }
         [ForeignKey("StockLocationModel")]
         [Display(Name = "Sipariş Lokasyonu")]

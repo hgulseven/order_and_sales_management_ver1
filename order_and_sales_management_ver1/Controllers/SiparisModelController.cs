@@ -24,8 +24,8 @@ namespace order_and_sales_management_ver1.Controllers
         {
             SiparisModel siparis=new SiparisModel();
             siparis.orderDate = DateTime.Now;
-            ViewData["personelID"] = new SelectList(_context.EmployeesModel, nameof(SiparisModel.orderOwnerEmployeeModel.personelID), nameof(SiparisModel.orderOwnerEmployeeModel.persName));
-            EmployeesModel employees = _context.EmployeesModel.First();
+            ViewData["personelID"] = new SelectList(_context.EmployeesModels, nameof(SiparisModel.orderOwnerEmployeeModel.personelID), nameof(SiparisModel.orderOwnerEmployeeModel.persName));
+            EmployeesModels employees = _context.EmployeesModels.First();
             siparis.orderLocation = _context.StockLocationModel.FirstOrDefault(e => e.locationID == employees.locationID);
             if (!String.IsNullOrEmpty(productName))
             {
@@ -106,10 +106,10 @@ namespace order_and_sales_management_ver1.Controllers
 
         public StockLocationModel getLocation(int employeeID)
         {
-            EmployeesModel employee;
+            EmployeesModels employee;
             StockLocationModel stockLocationModel;
 
-            employee=_context.EmployeesModel.FirstOrDefault(e => e.personelID == employeeID);
+            employee=_context.EmployeesModels.FirstOrDefault(e => e.personelID == employeeID);
             stockLocationModel = _context.StockLocationModel.FirstOrDefault(e => e.locationID == employee.locationID);
             return stockLocationModel;
         }

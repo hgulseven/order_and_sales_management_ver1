@@ -10,8 +10,8 @@ using order_and_sales_management_ver1.Data;
 namespace order_and_sales_management_ver1.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20190808074958_recreatedb")]
-    partial class recreatedb
+    [Migration("20190809201137_salesModel")]
+    partial class salesModel
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -207,7 +207,7 @@ namespace order_and_sales_management_ver1.Migrations
                     b.Property<string>("persSurName")
                         .HasMaxLength(40);
 
-                    b.Property<bool>("recStatus");
+                    b.Property<int>("recStatus");
 
                     b.Property<bool>("userActive");
 
@@ -240,7 +240,7 @@ namespace order_and_sales_management_ver1.Migrations
 
                     b.Property<int>("productionLotID");
 
-                    b.Property<bool>("recStatus");
+                    b.Property<int>("recStatus");
 
                     b.HasKey("orderID", "orderLineNo");
 
@@ -263,7 +263,7 @@ namespace order_and_sales_management_ver1.Migrations
 
                     b.Property<int>("orderOwner_personelID");
 
-                    b.Property<bool>("recStatus");
+                    b.Property<int>("recStatus");
 
                     b.HasKey("orderID");
 
@@ -309,7 +309,7 @@ namespace order_and_sales_management_ver1.Migrations
 
                     b.Property<double>("productWholesalePrice");
 
-                    b.Property<bool>("recStatus");
+                    b.Property<int>("recStatus");
 
                     b.HasKey("productID");
 
@@ -324,7 +324,7 @@ namespace order_and_sales_management_ver1.Migrations
 
                     b.Property<int>("salesLineId");
 
-                    b.Property<int>("amount");
+                    b.Property<float>("amount");
 
                     b.Property<int>("personelID");
 
@@ -350,7 +350,7 @@ namespace order_and_sales_management_ver1.Migrations
                     b.Property<string>("productionLotID")
                         .HasMaxLength(10);
 
-                    b.Property<bool>("recStatus");
+                    b.Property<int>("recStatus");
 
                     b.Property<double>("stockAmount");
 
@@ -387,6 +387,29 @@ namespace order_and_sales_management_ver1.Migrations
                     b.HasAlternateKey("productID", "teraziID");
 
                     b.ToTable("TeraziScreenMapping");
+                });
+
+            modelBuilder.Entity("order_and_sales_management_ver1.Models.TeraziTable", b =>
+                {
+                    b.Property<int>("teraziID");
+
+                    b.Property<string>("TeraziName")
+                        .HasMaxLength(20);
+
+                    b.HasKey("teraziID");
+
+                    b.ToTable("TeraziTable");
+                });
+
+            modelBuilder.Entity("order_and_sales_management_ver1.Models.salesCounter", b =>
+                {
+                    b.Property<DateTime>("salesDate");
+
+                    b.Property<int>("counter");
+
+                    b.HasKey("salesDate");
+
+                    b.ToTable("salesCounter");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

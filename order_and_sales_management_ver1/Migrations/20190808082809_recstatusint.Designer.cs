@@ -186,7 +186,7 @@ namespace order_and_sales_management_ver1.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("Order_And_Sales_Management_ver1.Models.EmployeesModel", b =>
+            modelBuilder.Entity("Order_And_Sales_Management_ver1.Models.EmployeesModels", b =>
                 {
                     b.Property<int>("personelID")
                         .ValueGeneratedOnAdd()
@@ -219,7 +219,7 @@ namespace order_and_sales_management_ver1.Migrations
 
                     b.HasIndex("locationID");
 
-                    b.ToTable("EmployeesModel");
+                    b.ToTable("EmployeesModels");
                 });
 
             modelBuilder.Entity("Order_And_Sales_Management_ver1.Models.OrderDetailsModel", b =>
@@ -434,7 +434,7 @@ namespace order_and_sales_management_ver1.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("Order_And_Sales_Management_ver1.Models.EmployeesModel", b =>
+            modelBuilder.Entity("Order_And_Sales_Management_ver1.Models.EmployeesModels", b =>
                 {
                     b.HasOne("Order_And_Sales_Management_ver1.Models.StockLocationModel", "empLocation")
                         .WithMany()
@@ -462,11 +462,11 @@ namespace order_and_sales_management_ver1.Migrations
                         .HasForeignKey("orderLocationID")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("Order_And_Sales_Management_ver1.Models.EmployeesModel", "orderOwnerEmployeeModel")
+                    b.HasOne("Order_And_Sales_Management_ver1.Models.EmployeesModels", "orderOwnerEmployeeModel")
                         .WithMany()
                         .HasForeignKey("orderOwnerEmployeeModelpersonelID");
 
-                    b.HasOne("Order_And_Sales_Management_ver1.Models.EmployeesModel")
+                    b.HasOne("Order_And_Sales_Management_ver1.Models.EmployeesModels")
                         .WithMany()
                         .HasForeignKey("orderOwner_personelID")
                         .OnDelete(DeleteBehavior.Restrict);
@@ -482,7 +482,7 @@ namespace order_and_sales_management_ver1.Migrations
 
             modelBuilder.Entity("Order_And_Sales_Management_ver1.Models.SalesModel", b =>
                 {
-                    b.HasOne("Order_And_Sales_Management_ver1.Models.EmployeesModel", "EmployeesModel")
+                    b.HasOne("Order_And_Sales_Management_ver1.Models.EmployeesModels", "EmployeesModels")
                         .WithMany()
                         .HasForeignKey("personelID")
                         .OnDelete(DeleteBehavior.Cascade);

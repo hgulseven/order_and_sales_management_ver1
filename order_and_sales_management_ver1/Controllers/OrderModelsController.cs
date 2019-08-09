@@ -50,7 +50,7 @@ namespace order_and_sales_management_ver1.Controllers
             OrderModel orderModel = new OrderModel();
             orderModel.OrderDetailsModels = new List<OrderDetailsModel>();
             orderModel.orderDate = DateTime.Now;
-            ViewData["personelID"] = new SelectList(_context.EmployeesModel, nameof(EmployeesModel.personelID), nameof(EmployeesModel.persName));
+            ViewData["personelID"] = new SelectList(_context.EmployeesModels, nameof(EmployeesModels.personelID), nameof(EmployeesModels.persName));
             ViewData["locationID"] = new SelectList(_context.StockLocationModel, nameof(StockLocationModel.locationID), nameof(StockLocationModel.locationName));
             return View(orderModel);
         }

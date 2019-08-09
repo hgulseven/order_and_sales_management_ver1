@@ -18,10 +18,10 @@ namespace Order_And_Sales_Management_ver1.Models
         public DateTime orderDate { get; set; }
         
         public int recStatus { get; set; }
-        [ForeignKey("EmployeesModel")]
+        [ForeignKey("EmployeesModels")]
         [Display(Name = "Sipariþ Veren")]
         public int orderOwner_personelID { get; set; }
-        public virtual EmployeesModel orderOwnerEmployeeModel { get; set; }
+        public virtual EmployeesModels orderOwnerEmployeeModel { get; set; }
 
         public virtual ICollection<OrderDetailsModel> OrderDetailsModels { get; set; }
         [ForeignKey("StockLocationModel")]

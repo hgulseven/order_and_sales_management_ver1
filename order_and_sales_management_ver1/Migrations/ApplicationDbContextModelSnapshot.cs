@@ -184,7 +184,7 @@ namespace order_and_sales_management_ver1.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("Order_And_Sales_Management_ver1.Models.EmployeesModel", b =>
+            modelBuilder.Entity("Order_And_Sales_Management_ver1.Models.EmployeesModels", b =>
                 {
                     b.Property<int>("personelID")
                         .ValueGeneratedOnAdd()
@@ -217,7 +217,7 @@ namespace order_and_sales_management_ver1.Migrations
 
                     b.HasIndex("locationID");
 
-                    b.ToTable("EmployeesModel");
+                    b.ToTable("EmployeesModels");
                 });
 
             modelBuilder.Entity("Order_And_Sales_Management_ver1.Models.OrderDetailsModel", b =>
@@ -322,7 +322,7 @@ namespace order_and_sales_management_ver1.Migrations
 
                     b.Property<int>("salesLineId");
 
-                    b.Property<int>("amount");
+                    b.Property<float>("amount");
 
                     b.Property<int>("personelID");
 
@@ -387,6 +387,29 @@ namespace order_and_sales_management_ver1.Migrations
                     b.ToTable("TeraziScreenMapping");
                 });
 
+            modelBuilder.Entity("order_and_sales_management_ver1.Models.TeraziTable", b =>
+                {
+                    b.Property<int>("teraziID");
+
+                    b.Property<string>("TeraziName")
+                        .HasMaxLength(20);
+
+                    b.HasKey("teraziID");
+
+                    b.ToTable("TeraziTable");
+                });
+
+            modelBuilder.Entity("order_and_sales_management_ver1.Models.salesCounter", b =>
+                {
+                    b.Property<DateTime>("salesDate");
+
+                    b.Property<int>("counter");
+
+                    b.HasKey("salesDate");
+
+                    b.ToTable("salesCounter");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole")
@@ -432,7 +455,7 @@ namespace order_and_sales_management_ver1.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("Order_And_Sales_Management_ver1.Models.EmployeesModel", b =>
+            modelBuilder.Entity("Order_And_Sales_Management_ver1.Models.EmployeesModels", b =>
                 {
                     b.HasOne("Order_And_Sales_Management_ver1.Models.StockLocationModel", "empLocation")
                         .WithMany()
@@ -460,11 +483,11 @@ namespace order_and_sales_management_ver1.Migrations
                         .HasForeignKey("orderLocationID")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("Order_And_Sales_Management_ver1.Models.EmployeesModel", "orderOwnerEmployeeModel")
+                    b.HasOne("Order_And_Sales_Management_ver1.Models.EmployeesModels", "orderOwnerEmployeeModel")
                         .WithMany()
                         .HasForeignKey("orderOwnerEmployeeModelpersonelID");
 
-                    b.HasOne("Order_And_Sales_Management_ver1.Models.EmployeesModel")
+                    b.HasOne("Order_And_Sales_Management_ver1.Models.EmployeesModels")
                         .WithMany()
                         .HasForeignKey("orderOwner_personelID")
                         .OnDelete(DeleteBehavior.Restrict);
@@ -480,7 +503,7 @@ namespace order_and_sales_management_ver1.Migrations
 
             modelBuilder.Entity("Order_And_Sales_Management_ver1.Models.SalesModel", b =>
                 {
-                    b.HasOne("Order_And_Sales_Management_ver1.Models.EmployeesModel", "EmployeesModel")
+                    b.HasOne("Order_And_Sales_Management_ver1.Models.EmployeesModels", "EmployeesModels")
                         .WithMany()
                         .HasForeignKey("personelID")
                         .OnDelete(DeleteBehavior.Cascade);

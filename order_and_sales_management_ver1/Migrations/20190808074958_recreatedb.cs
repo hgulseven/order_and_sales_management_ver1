@@ -219,7 +219,7 @@ namespace order_and_sales_management_ver1.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "EmployeesModel",
+                name: "EmployeesModels",
                 columns: table => new
                 {
                     personelID = table.Column<int>(nullable: false)
@@ -237,9 +237,9 @@ namespace order_and_sales_management_ver1.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_EmployeesModel", x => x.personelID);
+                    table.PrimaryKey("PK_EmployeesModels", x => x.personelID);
                     table.ForeignKey(
-                        name: "FK_EmployeesModel_StockLocationModel_locationID",
+                        name: "FK_EmployeesModels_StockLocationModel_locationID",
                         column: x => x.locationID,
                         principalTable: "StockLocationModel",
                         principalColumn: "locationID",
@@ -296,15 +296,15 @@ namespace order_and_sales_management_ver1.Migrations
                         principalColumn: "locationID",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_OrderModel_EmployeesModel_orderOwnerEmployeeModelpersonelID",
+                        name: "FK_OrderModel_EmployeesModels_orderOwnerEmployeeModelpersonelID",
                         column: x => x.orderOwnerEmployeeModelpersonelID,
-                        principalTable: "EmployeesModel",
+                        principalTable: "EmployeesModels",
                         principalColumn: "personelID",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_OrderModel_EmployeesModel_orderOwner_personelID",
+                        name: "FK_OrderModel_EmployeesModels_orderOwner_personelID",
                         column: x => x.orderOwner_personelID,
-                        principalTable: "EmployeesModel",
+                        principalTable: "EmployeesModels",
                         principalColumn: "personelID",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -325,9 +325,9 @@ namespace order_and_sales_management_ver1.Migrations
                 {
                     table.PrimaryKey("PK_SalesModels", x => new { x.saleDate, x.salesID, x.salesLineId });
                     table.ForeignKey(
-                        name: "FK_SalesModels_EmployeesModel_personelID",
+                        name: "FK_SalesModels_EmployeesModels_personelID",
                         column: x => x.personelID,
-                        principalTable: "EmployeesModel",
+                        principalTable: "EmployeesModels",
                         principalColumn: "personelID",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
@@ -409,8 +409,8 @@ namespace order_and_sales_management_ver1.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_EmployeesModel_locationID",
-                table: "EmployeesModel",
+                name: "IX_EmployeesModels_locationID",
+                table: "EmployeesModels",
                 column: "locationID");
 
             migrationBuilder.CreateIndex(
@@ -494,7 +494,7 @@ namespace order_and_sales_management_ver1.Migrations
                 name: "ProductModels");
 
             migrationBuilder.DropTable(
-                name: "EmployeesModel");
+                name: "EmployeesModels");
 
             migrationBuilder.DropTable(
                 name: "StockLocationModel");

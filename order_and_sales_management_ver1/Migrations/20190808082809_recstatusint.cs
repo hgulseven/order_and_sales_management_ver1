@@ -32,7 +32,7 @@ namespace order_and_sales_management_ver1.Migrations
 
             migrationBuilder.AlterColumn<int>(
                 name: "recStatus",
-                table: "EmployeesModel",
+                table: "EmployeesModels",
                 nullable: false,
                 oldClrType: typeof(bool));
         }
@@ -65,7 +65,7 @@ namespace order_and_sales_management_ver1.Migrations
 
             migrationBuilder.AlterColumn<bool>(
                 name: "recStatus",
-                table: "EmployeesModel",
+                table: "EmployeesModels",
                 nullable: false,
                 oldClrType: typeof(int));
         }

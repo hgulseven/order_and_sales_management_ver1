@@ -39,7 +39,7 @@ namespace order_and_sales_management_ver1.Controllers
                 cnn.Open();
                 SqlCommand sqlCommand = cnn.CreateCommand();
                 sqlCommand.CommandText = "select  salesID,sum(amount*productRetailPrice) as tutar " +
-                                                                       "from SalesModels left outer join EmployeesModel  on (SalesModels.personelID = EmployeesModel.personelID) " +
+                                                                       "from SalesModels left outer join EmployeesModels  on (SalesModels.personelID = EmployeesModels.personelID) " +
                                                                        "left outer join ProductModels on(SalesModels.productID=ProductModels.productID) " +
                                                                        "where typeOfCollection = 0  group by salesID" ;
                 SqlDataReader reader = sqlCommand.ExecuteReader();

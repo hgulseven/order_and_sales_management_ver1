@@ -12,14 +12,18 @@
   <ItemGroup>
     <Compile Remove="Migrations\20190805160922_foreignkey2.cs" />
     <Compile Remove="Migrations\20190805160922_foreignkey2.Designer.cs" />
+    <Compile Remove="Migrations\20190809195449_emptabname.cs" />
+    <Compile Remove="Migrations\20190809195449_emptabname.Designer.cs" />
+    <Compile Remove="Migrations\20190809200251_salesCounter.cs" />
+    <Compile Remove="Migrations\20190809200251_salesCounter.Designer.cs" />
   </ItemGroup>
 
 
   <ItemGroup>
-    <PackageReference Include="FluentAssertions" Version="5.7.0" />
+    <PackageReference Include="FluentAssertions" Version="5.8.0" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
-    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.3" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.0.0-preview7-19378-04" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
   </ItemGroup>
 
