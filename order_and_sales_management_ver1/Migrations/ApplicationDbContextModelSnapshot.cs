@@ -205,7 +205,7 @@ namespace order_and_sales_management_ver1.Migrations
                     b.Property<string>("persSurName")
                         .HasMaxLength(40);
 
-                    b.Property<bool>("recStatus");
+                    b.Property<int>("recStatus");
 
                     b.Property<bool>("userActive");
 
@@ -226,8 +226,6 @@ namespace order_and_sales_management_ver1.Migrations
 
                     b.Property<int>("orderLineNo");
 
-                    b.Property<int?>("OrderModelorderID");
-
                     b.Property<string>("orderCritic");
 
                     b.Property<int>("orderDeliveryDate");
@@ -240,11 +238,9 @@ namespace order_and_sales_management_ver1.Migrations
 
                     b.Property<int>("productionLotID");
 
-                    b.Property<bool>("recStatus");
+                    b.Property<int>("recStatus");
 
                     b.HasKey("orderID", "orderLineNo");
-
-                    b.HasIndex("OrderModelorderID");
 
                     b.HasIndex("productID");
 
@@ -265,7 +261,7 @@ namespace order_and_sales_management_ver1.Migrations
 
                     b.Property<int>("orderOwner_personelID");
 
-                    b.Property<bool>("recStatus");
+                    b.Property<int>("recStatus");
 
                     b.HasKey("orderID");
 
@@ -311,7 +307,7 @@ namespace order_and_sales_management_ver1.Migrations
 
                     b.Property<double>("productWholesalePrice");
 
-                    b.Property<bool>("recStatus");
+                    b.Property<int>("recStatus");
 
                     b.HasKey("productID");
 
@@ -352,7 +348,7 @@ namespace order_and_sales_management_ver1.Migrations
                     b.Property<string>("productionLotID")
                         .HasMaxLength(10);
 
-                    b.Property<bool>("recStatus");
+                    b.Property<int>("recStatus");
 
                     b.Property<double>("stockAmount");
 
@@ -448,7 +444,8 @@ namespace order_and_sales_management_ver1.Migrations
                 {
                     b.HasOne("Order_And_Sales_Management_ver1.Models.OrderModel", "OrderModel")
                         .WithMany("OrderDetailsModels")
-                        .HasForeignKey("OrderModelorderID");
+                        .HasForeignKey("orderID")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("Order_And_Sales_Management_ver1.Models.ProductModel", "ProductModel")
                         .WithMany("OrderDetailsModels")

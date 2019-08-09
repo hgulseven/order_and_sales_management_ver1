@@ -67,7 +67,7 @@ namespace order_and_sales_management_ver1.Controllers
                             break;
                     }
                 }
-                siparis.recStatus = true;
+                siparis.recStatus = Program.Const_Active_Order;
                 jobjOrderDetails = JArray.Parse(jsonOrderDetails);
                 foreach (JObject jObj in jobjOrderDetails)
                 {
@@ -89,7 +89,7 @@ namespace order_and_sales_management_ver1.Controllers
                                 break;
                         }
                     }
-                    orderDetails.recStatus = true;
+                    orderDetails.recStatus = Program.Const_Active_Order;
                     siparis.OrderDetailsModels.Add(orderDetails);
                 }
                 _context.Add(siparis);
@@ -100,7 +100,7 @@ namespace order_and_sales_management_ver1.Controllers
 
         public bool StockItemExists(int prodID,  string lotID)
         {
-            int locID = 4;
+            int locID = Program.Const_Production_Location;
             return _context.StockItems.Any(e => e.productID == prodID && e.locationID == locID && e.productionLotID == lotID);
         }
 

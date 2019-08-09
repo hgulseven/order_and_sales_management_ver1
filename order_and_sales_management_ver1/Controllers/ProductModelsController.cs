@@ -21,7 +21,7 @@ namespace order_and_sales_management_ver1.Controllers
         // GET: ProductModels
         public async Task<IActionResult> Index()
         {
-            return View(await _context.ProductModels.Where(x => x.recStatus == true).ToListAsync());
+            return View(await _context.ProductModels.Where(x => x.recStatus == Program.Const_Record_Active).ToListAsync());
         }
 
         // GET: ProductModels/Details/5
@@ -33,7 +33,7 @@ namespace order_and_sales_management_ver1.Controllers
             }
 
             var productModel = await _context.ProductModels
-                .FirstOrDefaultAsync(m => m.productID == id && m.recStatus ==true);
+                .FirstOrDefaultAsync(m => m.productID == id && m.recStatus == Program.Const_Record_Active);
             if (productModel == null)
             {
                 return NotFound();
@@ -57,7 +57,7 @@ namespace order_and_sales_management_ver1.Controllers
         {
             if (ModelState.IsValid)
             {
-                productModel.recStatus = true;
+                productModel.recStatus = Program.Const_Record_Active;
                 _context.Add(productModel);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -97,7 +97,7 @@ namespace order_and_sales_management_ver1.Controllers
             {
                 try
                 {
-                    productModel.recStatus = true;
+                    productModel.recStatus = Program.Const_Record_Active;
                     _context.Update(productModel);
                     await _context.SaveChangesAsync();
                 }
@@ -141,7 +141,7 @@ namespace order_and_sales_management_ver1.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var productModel = await _context.ProductModels.FindAsync(id);
-            productModel.recStatus = false;
+            productModel.recStatus = Program.Const_Record_Deleted;
             _context.ProductModels.Update(productModel);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
@@ -149,7 +149,7 @@ namespace order_and_sales_management_ver1.Controllers
 
         private bool ProductModelExists(int id)
         {
-            return _context.ProductModels.Any(e => e.productID == id && e.recStatus==true);
+            return _context.ProductModels.Any(e => e.productID == id && e.recStatus== Program.Const_Record_Active);
         }
     }
 }

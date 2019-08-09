@@ -18,7 +18,7 @@
         public int orderID { get; set; }
         [Display(Name = "Sipariş Tarihi")]
         public DateTime orderDate { get; set; }
-        public bool recStatus { get; set; }
+        public int recStatus { get; set; }  /* -1 : Order Deleted 1: Aktif order  2:Order Delivered */
         [ForeignKey("EmployeesModel")]
         [Display(Name = "Sipariş Veren")]
         public int orderOwner_personelID { get; set; }

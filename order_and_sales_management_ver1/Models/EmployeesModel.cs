@@ -35,6 +35,6 @@ namespace Order_And_Sales_Management_ver1.Models
 
         public int accessFailedCount { get; set; }
 
-        public bool recStatus { get; set; }
+        public int recStatus { get; set; }
     }
 }

@@ -23,7 +23,7 @@ namespace Order_And_Sales_Management_ver1.Models
         public double productRetailPrice { get; set; }
         [Display(Name = "Toptan Satýþ Fiyatý")]
         public double productWholesalePrice { get; set; }
-        public bool recStatus { get; set; }
+        public int recStatus { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<OrderDetailsModel> OrderDetailsModels { get; set; }

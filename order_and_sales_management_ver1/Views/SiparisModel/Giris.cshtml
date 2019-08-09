@@ -171,10 +171,10 @@
                 var Newcell2 = NewRow.insertCell(1); 
                 var Newcell3 = NewRow.insertCell(2); 
                 var Newcell4 = NewRow.insertCell(3); 
-                Newcell1.innerHTML = (i + 1).toString();
+                Newcell1.innerHTML = (table.rows.length-2).toString();
                 Newcell2.innerHTML = row.cells[0].innerHTML.trim(); 
                 Newcell3.innerHTML = row.cells[1].innerHTML.trim(); 
-                Newcell4.innerHTML ='<input class="form-control" data-val="true" name="orderDetailModels.productAmount" id=productAmount'+(i + 1).toString()+' />';
+                Newcell4.innerHTML ='<input class="form-control" data-val="true" name="orderDetailModels.productAmount" id=productAmount'+(table.rows.length-2).toString()+' />';
                 checkBoxes[i].checked = false;
             }
         }

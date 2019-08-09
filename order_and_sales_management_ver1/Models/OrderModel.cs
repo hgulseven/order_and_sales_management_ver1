@@ -17,7 +17,7 @@ namespace Order_And_Sales_Management_ver1.Models
         [Display(Name ="Sipariþ Tarihi")]
         public DateTime orderDate { get; set; }
         
-        public bool recStatus { get; set; }
+        public int recStatus { get; set; }
         [ForeignKey("EmployeesModel")]
         [Display(Name = "Sipariþ Veren")]
         public int orderOwner_personelID { get; set; }

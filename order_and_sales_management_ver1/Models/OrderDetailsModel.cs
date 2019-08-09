@@ -7,6 +7,7 @@ namespace Order_And_Sales_Management_ver1.Models
     {
         [Key]
         [Column(Order = 0)]
+        [ForeignKey("OrderModel")]
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int orderID { get; set; }
 
@@ -31,6 +32,6 @@ namespace Order_And_Sales_Management_ver1.Models
 
         public virtual ProductModel ProductModel { get; set; }
 
-        public bool recStatus { get; set; }
+        public int recStatus { get; set; } /* -1 : Order Deleted 1: Aktif order  2:Order Delivered */
     }
 }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace Order_And_Sales_Management_ver1.Models
+namespace Gulseven_WEB_03.Models
 {
     public class UserHubModels
     {

@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace order_and_sales_management_ver1.Migrations
 {
-    public partial class Recreate : Migration
+    public partial class recreatedb : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -45,27 +45,6 @@ namespace order_and_sales_management_ver1.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "EmployeesModel",
-                columns: table => new
-                {
-                    personelID = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    persName = table.Column<string>(maxLength: 40, nullable: true),
-                    persSurName = table.Column<string>(maxLength: 40, nullable: true),
-                    password = table.Column<string>(maxLength: 32, nullable: true),
-                    userName = table.Column<string>(nullable: true),
-                    connectionId = table.Column<string>(nullable: true),
-                    userRole = table.Column<string>(nullable: true),
-                    userActive = table.Column<bool>(nullable: false),
-                    accessFailedCount = table.Column<int>(nullable: false),
-                    recStatus = table.Column<bool>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_EmployeesModel", x => x.personelID);
                 });
 
             migrationBuilder.CreateTable(
@@ -219,34 +198,6 @@ namespace order_and_sales_management_ver1.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "OrderModel",
-                columns: table => new
-                {
-                    orderID = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    orderDate = table.Column<DateTime>(nullable: false),
-                    recStatus = table.Column<bool>(nullable: false),
-                    orderOwnerEmployeeModelpersonelID = table.Column<int>(nullable: true),
-                    orderOwner_personelID = table.Column<int>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_OrderModel", x => x.orderID);
-                    table.ForeignKey(
-                        name: "FK_OrderModel_EmployeesModel_orderOwnerEmployeeModelpersonelID",
-                        column: x => x.orderOwnerEmployeeModelpersonelID,
-                        principalTable: "EmployeesModel",
-                        principalColumn: "personelID",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_OrderModel_EmployeesModel_orderOwner_personelID",
-                        column: x => x.orderOwner_personelID,
-                        principalTable: "EmployeesModel",
-                        principalColumn: "personelID",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "PackagedProductDetailsModels",
                 columns: table => new
                 {
@@ -265,6 +216,97 @@ namespace order_and_sales_management_ver1.Migrations
                         principalTable: "ProductModels",
                         principalColumn: "productID",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "EmployeesModel",
+                columns: table => new
+                {
+                    personelID = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    persName = table.Column<string>(maxLength: 40, nullable: true),
+                    persSurName = table.Column<string>(maxLength: 40, nullable: true),
+                    password = table.Column<string>(maxLength: 32, nullable: true),
+                    locationID = table.Column<int>(nullable: false),
+                    userName = table.Column<string>(nullable: true),
+                    connectionId = table.Column<string>(nullable: true),
+                    userRole = table.Column<string>(nullable: true),
+                    userActive = table.Column<bool>(nullable: false),
+                    accessFailedCount = table.Column<int>(nullable: false),
+                    recStatus = table.Column<bool>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_EmployeesModel", x => x.personelID);
+                    table.ForeignKey(
+                        name: "FK_EmployeesModel_StockLocationModel_locationID",
+                        column: x => x.locationID,
+                        principalTable: "StockLocationModel",
+                        principalColumn: "locationID",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "StockItems",
+                columns: table => new
+                {
+                    productID = table.Column<int>(nullable: false),
+                    locationID = table.Column<int>(nullable: false),
+                    productionLotID = table.Column<string>(maxLength: 10, nullable: false),
+                    stockAmount = table.Column<double>(nullable: false),
+                    recStatus = table.Column<bool>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_StockItems", x => new { x.productID, x.locationID, x.productionLotID });
+                    table.UniqueConstraint("AK_StockItems_locationID_productID_productionLotID", x => new { x.locationID, x.productID, x.productionLotID });
+                    table.ForeignKey(
+                        name: "FK_StockItems_StockLocationModel_locationID",
+                        column: x => x.locationID,
+                        principalTable: "StockLocationModel",
+                        principalColumn: "locationID",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_StockItems_ProductModels_productID",
+                        column: x => x.productID,
+                        principalTable: "ProductModels",
+                        principalColumn: "productID",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "OrderModel",
+                columns: table => new
+                {
+                    orderID = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    orderDate = table.Column<DateTime>(nullable: false),
+                    recStatus = table.Column<bool>(nullable: false),
+                    orderOwner_personelID = table.Column<int>(nullable: false),
+                    orderOwnerEmployeeModelpersonelID = table.Column<int>(nullable: true),
+                    orderLocationID = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_OrderModel", x => x.orderID);
+                    table.ForeignKey(
+                        name: "FK_OrderModel_StockLocationModel_orderLocationID",
+                        column: x => x.orderLocationID,
+                        principalTable: "StockLocationModel",
+                        principalColumn: "locationID",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_OrderModel_EmployeesModel_orderOwnerEmployeeModelpersonelID",
+                        column: x => x.orderOwnerEmployeeModelpersonelID,
+                        principalTable: "EmployeesModel",
+                        principalColumn: "personelID",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_OrderModel_EmployeesModel_orderOwner_personelID",
+                        column: x => x.orderOwner_personelID,
+                        principalTable: "EmployeesModel",
+                        principalColumn: "personelID",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -297,29 +339,6 @@ namespace order_and_sales_management_ver1.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "StockItems",
-                columns: table => new
-                {
-                    productID = table.Column<int>(nullable: false),
-                    locationID = table.Column<int>(nullable: false),
-                    productionLotID = table.Column<string>(maxLength: 10, nullable: false),
-                    stockAmount = table.Column<double>(nullable: false),
-                    StockLocationModellocationID = table.Column<int>(nullable: true),
-                    recStatus = table.Column<bool>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_StockItems", x => new { x.productID, x.locationID });
-                    table.UniqueConstraint("AK_StockItems_locationID_productID_productionLotID", x => new { x.locationID, x.productID, x.productionLotID });
-                    table.ForeignKey(
-                        name: "FK_StockItems_StockLocationModel_StockLocationModellocationID",
-                        column: x => x.StockLocationModellocationID,
-                        principalTable: "StockLocationModel",
-                        principalColumn: "locationID",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "OrderDetailsModels",
                 columns: table => new
                 {
@@ -331,18 +350,17 @@ namespace order_and_sales_management_ver1.Migrations
                     productionLotID = table.Column<int>(nullable: false),
                     productQualityChecker = table.Column<int>(nullable: false),
                     orderCritic = table.Column<string>(nullable: true),
-                    OrderModelorderID = table.Column<int>(nullable: true),
                     recStatus = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_OrderDetailsModels", x => new { x.orderID, x.orderLineNo });
                     table.ForeignKey(
-                        name: "FK_OrderDetailsModels_OrderModel_OrderModelorderID",
-                        column: x => x.OrderModelorderID,
+                        name: "FK_OrderDetailsModels_OrderModel_orderID",
+                        column: x => x.orderID,
                         principalTable: "OrderModel",
                         principalColumn: "orderID",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_OrderDetailsModels_ProductModels_productID",
                         column: x => x.productID,
@@ -391,14 +409,19 @@ namespace order_and_sales_management_ver1.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_OrderDetailsModels_OrderModelorderID",
-                table: "OrderDetailsModels",
-                column: "OrderModelorderID");
+                name: "IX_EmployeesModel_locationID",
+                table: "EmployeesModel",
+                column: "locationID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_OrderDetailsModels_productID",
                 table: "OrderDetailsModels",
                 column: "productID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_OrderModel_orderLocationID",
+                table: "OrderModel",
+                column: "orderLocationID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_OrderModel_orderOwnerEmployeeModelpersonelID",
@@ -424,11 +447,6 @@ namespace order_and_sales_management_ver1.Migrations
                 name: "IX_SalesModels_productID",
                 table: "SalesModels",
                 column: "productID");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_StockItems_StockLocationModellocationID",
-                table: "StockItems",
-                column: "StockLocationModellocationID");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -476,10 +494,10 @@ namespace order_and_sales_management_ver1.Migrations
                 name: "ProductModels");
 
             migrationBuilder.DropTable(
-                name: "StockLocationModel");
+                name: "EmployeesModel");
 
             migrationBuilder.DropTable(
-                name: "EmployeesModel");
+                name: "StockLocationModel");
         }
     }
 }

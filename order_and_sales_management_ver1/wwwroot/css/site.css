@@ -79,15 +79,21 @@ body {
     }
 
         .mynav_navbar a {
-            align-content:end;
             font-size: 24px;
             color: white;
             text-align: left;
             padding: 14px 16px;
             text-decoration: none;
             background-color: inherit;
+            vertical-align: top;
+            display: inline-block;
         }
-
+    .navbar-header {
+        display:inline-block;
+        vertical-align:top;
+        margin-left:20px;
+        margin-top:10px;
+    }
     .mynav_dropdown {
         float: left;
         overflow: hidden;
@@ -185,3 +191,12 @@ div.pager {
             background: #e6f1fb;
             color: #216aaf;
         }
+.logo {
+    display: inline-block;
+    vertical-align: middle;
+    width: 150px;
+    height: 103px;
+    margin-left:35%;
+    margin-top: 5px; /* if you want it vertically middle of the navbar. */
+    margin-bottom:5px;
+}

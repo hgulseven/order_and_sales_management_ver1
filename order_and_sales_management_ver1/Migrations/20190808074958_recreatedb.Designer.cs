@@ -10,8 +10,8 @@ using order_and_sales_management_ver1.Data;
 namespace order_and_sales_management_ver1.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20190805181849_foreignkey5")]
-    partial class foreignkey5
+    [Migration("20190808074958_recreatedb")]
+    partial class recreatedb
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -196,6 +196,8 @@ namespace order_and_sales_management_ver1.Migrations
 
                     b.Property<string>("connectionId");
 
+                    b.Property<int>("locationID");
+
                     b.Property<string>("password")
                         .HasMaxLength(32);
 
@@ -215,6 +217,8 @@ namespace order_and_sales_management_ver1.Migrations
 
                     b.HasKey("personelID");
 
+                    b.HasIndex("locationID");
+
                     b.ToTable("EmployeesModel");
                 });
 
@@ -223,8 +227,6 @@ namespace order_and_sales_management_ver1.Migrations
                     b.Property<int>("orderID");
 
                     b.Property<int>("orderLineNo");
-
-                    b.Property<int?>("OrderModelorderID");
 
                     b.Property<string>("orderCritic");
 
@@ -242,8 +244,6 @@ namespace order_and_sales_management_ver1.Migrations
 
                     b.HasKey("orderID", "orderLineNo");
 
-                    b.HasIndex("OrderModelorderID");
-
                     b.HasIndex("productID");
 
                     b.ToTable("OrderDetailsModels");
@@ -257,6 +257,8 @@ namespace order_and_sales_management_ver1.Migrations
 
                     b.Property<DateTime>("orderDate");
 
+                    b.Property<int>("orderLocationID");
+
                     b.Property<int?>("orderOwnerEmployeeModelpersonelID");
 
                     b.Property<int>("orderOwner_personelID");
@@ -264,6 +266,8 @@ namespace order_and_sales_management_ver1.Migrations
                     b.Property<bool>("recStatus");
 
                     b.HasKey("orderID");
+
+                    b.HasIndex("orderLocationID");
 
                     b.HasIndex("orderOwnerEmployeeModelpersonelID");
 
@@ -430,11 +434,20 @@ namespace order_and_sales_management_ver1.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
+            modelBuilder.Entity("Order_And_Sales_Management_ver1.Models.EmployeesModel", b =>
+                {
+                    b.HasOne("Order_And_Sales_Management_ver1.Models.StockLocationModel", "empLocation")
+                        .WithMany()
+                        .HasForeignKey("locationID")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
             modelBuilder.Entity("Order_And_Sales_Management_ver1.Models.OrderDetailsModel", b =>
                 {
                     b.HasOne("Order_And_Sales_Management_ver1.Models.OrderModel", "OrderModel")
                         .WithMany("OrderDetailsModels")
-                        .HasForeignKey("OrderModelorderID");
+                        .HasForeignKey("orderID")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("Order_And_Sales_Management_ver1.Models.ProductModel", "ProductModel")
                         .WithMany("OrderDetailsModels")
@@ -444,6 +457,11 @@ namespace order_and_sales_management_ver1.Migrations
 
             modelBuilder.Entity("Order_And_Sales_Management_ver1.Models.OrderModel", b =>
                 {
+                    b.HasOne("Order_And_Sales_Management_ver1.Models.StockLocationModel", "orderLocation")
+                        .WithMany()
+                        .HasForeignKey("orderLocationID")
+                        .OnDelete(DeleteBehavior.Cascade);
+
                     b.HasOne("Order_And_Sales_Management_ver1.Models.EmployeesModel", "orderOwnerEmployeeModel")
                         .WithMany()
                         .HasForeignKey("orderOwnerEmployeeModelpersonelID");

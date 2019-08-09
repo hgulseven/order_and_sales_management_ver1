@@ -41,8 +41,8 @@ namespace order_and_sales_management_ver1.Controllers
                 stockItem = new StockItem();
                 stockItem.productID = uretimGiris.productID;
                 stockItem.productionLotID = uretimGiris.productionLotID;
-                stockItem.locationID = 4;
-                stockItem.recStatus = true;
+                stockItem.locationID = Program.Const_Production_Location;
+                stockItem.recStatus = Program.Const_Record_Active;
                 stockItem.stockAmount = uretimGiris.stockAmount;
                 if (action == "update")
                 {
@@ -76,7 +76,7 @@ namespace order_and_sales_management_ver1.Controllers
 
         public bool StockItemExists(int prodID,  string lotID)
         {
-            int locID = 4;
+            int locID = Program.Const_Production_Location;
             return _context.StockItems.Any(e => e.productID == prodID && e.locationID == locID && e.productionLotID == lotID);
         }
 
