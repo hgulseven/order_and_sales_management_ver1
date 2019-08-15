@@ -29,12 +29,17 @@ namespace order_and_sales_management_ver1
             CreateWebHostBuilder(args).Build().Run();
 
         }
+        public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
+    WebHost.CreateDefaultBuilder(args)
+        .UseStartup<Startup>();
 
+        /*ç
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
                 .UseStartup<Startup>()
                 .UseIISIntegration()
                 .UseKestrel()
                 .UseContentRoot(Directory.GetCurrentDirectory());
+*/
     }
 }

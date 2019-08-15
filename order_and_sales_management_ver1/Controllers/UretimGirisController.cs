@@ -1,10 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
+using System.Drawing.Drawing2D;
+using System.Drawing.Imaging;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using order_and_sales_management_ver1.Data;
 using Order_And_Sales_Management_ver1.Models;
+using Spire.Barcode;
 
 namespace order_and_sales_management_ver1.Controllers
 {
@@ -44,6 +48,28 @@ namespace order_and_sales_management_ver1.Controllers
                 stockItem.locationID = Program.Const_Production_Location;
                 stockItem.recStatus = Program.Const_Record_Active;
                 stockItem.stockAmount = uretimGiris.stockAmount;
+                BarcodeSettings barcodeSettings = new BarcodeSettings();
+                barcodeSettings.Data = "01"+uretimGiris.productionLotID.Replace("-", string.Empty) + (uretimGiris.stockAmount * 1000).ToString();
+                barcodeSettings.AutoResize = true;
+                barcodeSettings.ShowText = true;
+                barcodeSettings.Type = BarCodeType.EAN128;
+                BarCodeGenerator barcode = new BarCodeGenerator(barcodeSettings);
+                Image lotIDBarcode = barcode.GenerateImage();
+                barcodeSettings.Data = "027622100989189";
+                barcodeSettings.AutoResize = true;
+                barcodeSettings.ShowText = true;
+                barcodeSettings.Type = BarCodeType.EAN128;
+                barcode = new BarCodeGenerator(barcodeSettings);
+                Image productBarcode = barcode.GenerateImage();
+                var target = new Bitmap(lotIDBarcode, lotIDBarcode.Width, lotIDBarcode.Height);
+                var graphics = Graphics.FromImage(target);
+                graphics.CompositingMode = CompositingMode.SourceOver; // this is the default, but just to be clear
+
+                graphics.DrawImage(lotIDBarcode, 0, 0);
+                graphics.DrawImage(productBarcode, 200, lotIDBarcode.Height+10);
+                target.Save("filename.png", ImageFormat.Png);
+
+
                 if (action == "update")
                 {
                    try
