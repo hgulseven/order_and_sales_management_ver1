@@ -24,6 +24,8 @@ namespace Order_And_Sales_Management_ver1.Models
         [Display(Name = "Ürün No")]
         public int productID { get; set; }
         public float amount { get; set; }
+        public float paidAmount { get; set; }
+
         [NotMapped]
         public float tutar { get; set; }
         public int typeOfCollection { get; set; }

@@ -36,9 +36,10 @@ namespace order_and_sales_management_ver1.Controllers
             cnn = dbInterface.connect();
             try
             {
+
                 cnn.Open();
                 SqlCommand sqlCommand = cnn.CreateCommand();
-                sqlCommand.CommandText = "select  salesID,sum(amount*productRetailPrice) as tutar " +
+                sqlCommand.CommandText = "select  salesID,sum(amount*productRetailPrice) as tutar,max(paidAmount) as paidTutar " +
                                                                        "from SalesModels left outer join EmployeesModels  on (SalesModels.personelID = EmployeesModels.personelID) " +
                                                                        "left outer join ProductModels on(SalesModels.productID=ProductModels.productID) " +
                                                                        "where typeOfCollection = 0  group by salesID" ;
@@ -51,6 +52,8 @@ namespace order_and_sales_management_ver1.Controllers
                     displaySale.salesID = reader["salesID"].ToString();
                     float.TryParse(reader["tutar"].ToString(), out floatVal);
                     displaySale.tutar = floatVal.ToString("N2");
+                    float.TryParse(reader["paidTutar"].ToString(), out floatVal);
+                    displaySale.paidTutar = floatVal.ToString("N2"); 
                     displaySales.Add(displaySale);
                     i = i + 1;
                 }
@@ -125,7 +128,7 @@ namespace order_and_sales_management_ver1.Controllers
         }
 
 
-        public ActionResult Tahsilat(string salesID,string typeOfCollection)
+        public ActionResult Tahsilat(string salesID, string typeOfCollection)
         {
             SqlConnection cnn;
             string modelError = "";
@@ -137,7 +140,8 @@ namespace order_and_sales_management_ver1.Controllers
                 cnn.Open();
                 SqlCommand sqlCommand = cnn.CreateCommand();
                 sqlCommand.CommandText = "Update SalesModels set typeOfCollection=@typeOfCollection " +
-                                                                       "where typeOfCollection = 0  and salesID=@salesID";   /* Date eklenmeli */
+                                                                       "where typeOfCollection = 0  and salesID=@salesID and saleDate = @saleDate";   /* Date eklenmeli */
+                sqlCommand.Parameters.AddWithValue("@saleDate", DateTime.Now.ToString("yyyy-MM-dd"));
                 sqlCommand.Parameters.AddWithValue("@typeOfCollection", typeOfCollection);
                 sqlCommand.Parameters.AddWithValue("@salesID", salesID);
                 sqlCommand.ExecuteNonQuery();
@@ -152,7 +156,39 @@ namespace order_and_sales_management_ver1.Controllers
             return RedirectToAction("Index","DisplaySales",new { error = modelError});
 
         }
-    
+
+        public void updatePaidAmount(string salesID, string paidAmount)
+        {
+            SqlConnection cnn;
+            string modelError = "";
+            DbInterface dbInterface = new DbInterface();
+            cnn = dbInterface.connect();
+
+            try
+            {
+                cnn.Open();
+                SqlCommand sqlCommand = cnn.CreateCommand();
+                sqlCommand.CommandText = "Update SalesModels set paidAmount=@paidTutar " +
+                                                                       "where typeOfCollection = 0  and salesID=@salesID and saleDate=@salesDate";   /* Date eklenmeli */
+                sqlCommand.Parameters.AddWithValue("@salesDate", DateTime.Now.ToString("yyyy-MM-dd"));
+                sqlCommand.Parameters.AddWithValue("@typeOfCollection", 0);
+                int intSalesID = 0;
+                int.TryParse(salesID, out intSalesID);
+                sqlCommand.Parameters.AddWithValue("@salesID", intSalesID);
+                float floatPaidTutar = 0; ;
+                float.TryParse(paidAmount, out floatPaidTutar);
+                sqlCommand.Parameters.AddWithValue("@paidTutar", floatPaidTutar);
+                sqlCommand.ExecuteNonQuery();
+                sqlCommand.Dispose();
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError("VeriTabaniGuncelleme", "Veri tabanı Güncelleme Hatası");
+                modelError = "Veri tabanı Güncelleme Hatası";
+            }
+            if (cnn != null) cnn.Close();
+        }
+
     }
 
    

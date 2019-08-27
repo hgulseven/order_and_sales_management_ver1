@@ -7,6 +7,7 @@
     <ApplicationIcon />
     <OutputType>Exe</OutputType>
     <StartupObject>order_and_sales_management_ver1.Program</StartupObject>
+    <NoWin32Manifest>true</NoWin32Manifest>
   </PropertyGroup>
 
   <ItemGroup>

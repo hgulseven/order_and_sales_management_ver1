@@ -18,6 +18,9 @@ namespace Order_And_Sales_Management_ver1.Models
         public string employee { get; set; }
         [Display(Name = "Tutar")]
         public string tutar { get; set; }
+        [Display(Name = "Tahsil Edilen")]
+        public string paidTutar { get; set; }
+
     }
 
     [NotMapped]
