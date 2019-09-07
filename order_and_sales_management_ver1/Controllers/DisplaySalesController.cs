@@ -52,7 +52,6 @@ namespace order_and_sales_management_ver1.Controllers
                     displaySale.salesID = reader["salesID"].ToString();
                     float.TryParse(reader["tutar"].ToString(), out floatVal);
                     displaySale.tutar = floatVal.ToString("N2");
-                    float.TryParse(reader["paidTutar"].ToString(), out floatVal);
                     displaySale.paidTutar = floatVal.ToString("N2"); 
                     displaySales.Add(displaySale);
                     i = i + 1;
