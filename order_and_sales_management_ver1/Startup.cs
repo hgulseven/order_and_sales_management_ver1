@@ -11,9 +11,28 @@ using Microsoft.Extensions.DependencyInjection;
 using order_and_sales_management_ver1.Hubs;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Server.IIS;
+using System.Globalization;
+using Microsoft.AspNetCore.Localization;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace order_and_sales_management_ver1
 {
+    public class CustomerCultureProvider : RequestCultureProvider
+    {
+        public override async Task<ProviderCultureResult> DetermineProviderCultureResult(HttpContext httpContext)
+        {
+            //Go away and do a bunch of work to find out what culture we should do. 
+            await Task.Yield();
+
+            //Return a provider culture result. 
+            return new ProviderCultureResult("tr-TR");
+
+            //In the event I can't work out what culture I should use. Return null. 
+            //Code will fall to other providers in the list OR use the default. 
+            //return null;
+        }
+    }
     public class Startup
     {
         public Startup(IConfiguration configuration)
@@ -26,6 +45,14 @@ namespace order_and_sales_management_ver1
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.Configure<RequestLocalizationOptions>(options =>
+            {
+                options.DefaultRequestCulture = new Microsoft.AspNetCore.Localization.RequestCulture("tr-TR");
+                options.SupportedCultures = new List<CultureInfo> { new CultureInfo("en-US"), new CultureInfo("tr-TR") };
+                options.RequestCultureProviders.Clear();
+                options.RequestCultureProviders.Add(new CustomerCultureProvider());
+            });
+
             Program.Connection_String = Configuration.GetConnectionString("DefaultConnection");
 
             services.AddAuthentication(IISServerDefaults.AuthenticationScheme);
@@ -50,6 +77,24 @@ namespace order_and_sales_management_ver1
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
+
+            var cultureInfo = new CultureInfo("tr-TR");
+            cultureInfo.NumberFormat.NumberDecimalSeparator = ",";
+            cultureInfo.NumberFormat.CurrencyDecimalSeparator = ",";
+            CultureInfo.DefaultThreadCurrentCulture = cultureInfo;
+            CultureInfo.DefaultThreadCurrentUICulture = cultureInfo;
+            app.UseRequestLocalization(new RequestLocalizationOptions
+            {
+                DefaultRequestCulture = new RequestCulture(cultureInfo),
+                SupportedCultures = new List<CultureInfo>
+                                                         {
+                                                                cultureInfo,
+                                                          },
+                SupportedUICultures = new List<CultureInfo>
+                                                        {
+                                                            cultureInfo,
+                                                        }
+            });
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

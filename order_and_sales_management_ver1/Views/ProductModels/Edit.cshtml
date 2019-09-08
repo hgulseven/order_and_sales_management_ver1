@@ -3,11 +3,11 @@
 @{
     ViewData["Title"] = "Düzenle";
 }
-    <div class="panel-info">
-        <h1>Kayıt Düzenleme Ekranı</h1>
+<div class="panel-info">
+    <h1>Kayıt Düzenleme Ekranı</h1>
 
-        <h4>Ürün Tablosu</h4>
-    </div>
+    <h4>Ürün Tablosu</h4>
+</div>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -26,12 +26,12 @@
             </div>
             <div class="form-group">
                 <label asp-for="productRetailPrice" class="control-label"></label>
-                <input asp-for="productRetailPrice"  asp-format="{0:C}"  class="form-control" />
+                <input asp-for="productRetailPrice" asp-format="{0:C}" class="form-control" />
                 <span asp-validation-for="productRetailPrice" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="productWholesalePrice" class="control-label"></label>
-                <input asp-for="productWholesalePrice"  asp-format="{0:C}"  class="form-control" />
+                <input asp-for="productWholesalePrice"  class="form-control" />
                 <span asp-validation-for="productWholesalePrice" class="text-danger"></span>
             </div>
             <div class="form-group">

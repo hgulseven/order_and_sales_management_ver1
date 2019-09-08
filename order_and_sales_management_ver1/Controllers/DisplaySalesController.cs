@@ -168,7 +168,7 @@ namespace order_and_sales_management_ver1.Controllers
                 cnn.Open();
                 SqlCommand sqlCommand = cnn.CreateCommand();
                 sqlCommand.CommandText = "Update SalesModels set paidAmount=@paidTutar " +
-                                                                       "where typeOfCollection = 0  and salesID=@salesID and saleDate=@salesDate";   /* Date eklenmeli */
+                                                                       "where salesID=@salesID and saleDate=@salesDate";   /* Date eklenmeli */
                 sqlCommand.Parameters.AddWithValue("@salesDate", DateTime.Now.ToString("yyyy-MM-dd"));
                 sqlCommand.Parameters.AddWithValue("@typeOfCollection", 0);
                 int intSalesID = 0;

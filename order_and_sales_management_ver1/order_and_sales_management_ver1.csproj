@@ -17,6 +17,8 @@
     <Compile Remove="Migrations\20190809195449_emptabname.Designer.cs" />
     <Compile Remove="Migrations\20190809200251_salesCounter.cs" />
     <Compile Remove="Migrations\20190809200251_salesCounter.Designer.cs" />
+    <Compile Remove="Migrations\20190907083856_ff.cs" />
+    <Compile Remove="Migrations\20190907083856_ff.Designer.cs" />
   </ItemGroup>
 
 
@@ -24,9 +26,13 @@
     <PackageReference Include="FluentAssertions" Version="5.8.0" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
-    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.0.0-preview7-19378-04" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration" Version="2.2.3" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Core" Version="2.2.3" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.3" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Utils" Version="2.2.3" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
     <PackageReference Include="Spire.Barcode" Version="3.5.0" />
+    <PackageReference Include="System.Globalization" Version="4.3.0" />
   </ItemGroup>
 
 

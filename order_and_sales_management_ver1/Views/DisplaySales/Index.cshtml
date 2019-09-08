@@ -49,19 +49,19 @@
         @Html.DisplayFor(modelItem => item.tutar)
     </td>
     <td style="text-align:right">
-        @Html.TextBoxFor(modelItem => item.paidTutar, new { Id = "paidTutar" + @item.salesID,  @onblur = "getValue(this);" });
+        @Html.TextBoxFor(modelItem => item.paidTutar, new { Id = "paidTutar" + @item.salesID});
     </td>
     <td width="75">
         <input id="clickMe" class="btn btn-primary btn-lg btn-block" type="button" value="Detaylar" style="font-size:12px" onclick="addTable(@item.rowID, @item.salesID);" />
     </td>
     <td width="75">
-        @Html.ActionLink("Nakit", "Tahsilat", "DisplaySales", new { @salesID = item.salesID, @typeOfCollection = 1 }, new { @class = "btn btn-danger  btn-lg btn-block", @style = "font-size:12px" })
+        @Html.ActionLink("Nakit", "Tahsilat", "DisplaySales", new { @salesID = item.salesID, @typeOfCollection = 1 }, new { @class = "btn btn-danger  btn-lg btn-block", @style = "font-size:12px" , @onclick="getValue2(this)"})
     </td>
     <td width="120">
-        @Html.ActionLink("Kredi Kartı", "Tahsilat", "DisplaySales", new { salesID = item.salesID, typeOfCollection = 2 }, new { @class = "btn btn-danger btn-lg btn-block", @style = "font-size:12px" })
+        @Html.ActionLink("Kredi Kartı", "Tahsilat", "DisplaySales", new { salesID = item.salesID, typeOfCollection = 2 }, new { @class = "btn btn-danger btn-lg btn-block", @style = "font-size:12px" , @onclick="getValue2(this)"})
     </td>
     <td width="75">
-        @Html.ActionLink("Diğer", "Tahsilat", "DisplaySales", new { salesID = item.salesID, typeOfCollection = 3 }, new { @class = "btn btn-danger btn-lg btn-block", @style = "font-size:12px" })
+        @Html.ActionLink("Diğer", "Tahsilat", "DisplaySales", new { salesID = item.salesID, typeOfCollection = 3 }, new { @class = "btn btn-danger btn-lg btn-block", @style = "font-size:12px" , @onclick="getValue2(this)"})
     </td>
 
 </tr>
@@ -172,8 +172,20 @@
                 }
         function getValue(Id) {
             var curRow = Id.parentNode.parentNode;
-            var salesID=curRow.cells.item(0).innerHTML;
+            var salesID = curRow.cells.item(0).innerHTML;
             var val = Id.value;
+            $.ajax({
+                type: 'GET',
+                url: '@Url.Action("updatePaidAmount", "DisplaySales")',
+                data: { "salesID": salesID, "paidAmount": val },
+                success: function (data) {
+                }
+            });
+        }
+        function getValue2(Id) {
+            var curRow = Id.parentNode.parentNode;
+            var salesID = curRow.cells.item(0).innerHTML;
+            var val=document.getElementById("paidTutar"+curRow.rowIndex.toString()).value;
             $.ajax({
                 type: 'GET',
                 url: '@Url.Action("updatePaidAmount", "DisplaySales")',

@@ -2,6 +2,7 @@ namespace Order_And_Sales_Management_ver1.Models
 {
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
+    using System.ComponentModel.DataAnnotations.Schema;
 
     public partial class ProductModel
     {
@@ -19,10 +20,10 @@ namespace Order_And_Sales_Management_ver1.Models
         public string ProductName { get; set; }
         [Display(Name = "Ürün Barkodu")]
         public string productBarcodeID { get; set; }
-        [Display(Name = "Perakende Satýþ Fiyatý"), DataType(DataType.Currency)]
-        public double productRetailPrice { get; set; }
-        [Display(Name = "Toptan Satýþ Fiyatý"), DataType(DataType.Currency)]
-        public double productWholesalePrice { get; set; }
+        [Display(Name = "Perakende Satýþ Fiyatý"), DataType(DataType.Currency), Column(TypeName = "money")]
+        public decimal productRetailPrice { get; set; }
+        [Display(Name = "Toptan Satýþ Fiyatý"), DataType(DataType.Currency), Column(TypeName = "money"), DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:C}")]
+        public decimal productWholesalePrice { get; set; }
         public int recStatus { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
