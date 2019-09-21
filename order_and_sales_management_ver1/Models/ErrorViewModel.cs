@@ -1,6 +1,6 @@
 using System;
 
-namespace order_and_sales_management_ver1.Models
+namespace Order_And_Sales_Management_ver1.Models
 {
     public class ErrorViewModel
     {

@@ -49,7 +49,7 @@
         @Html.DisplayFor(modelItem => item.tutar)
     </td>
     <td style="text-align:right">
-        @Html.TextBoxFor(modelItem => item.paidTutar, new { Id = "paidTutar" + @item.salesID});
+        @Html.TextBoxFor(modelItem => item.paidTutar, new { Id = "paidTutar" + @item.salesID})
     </td>
     <td width="75">
         <input id="clickMe" class="btn btn-primary btn-lg btn-block" type="button" value="Detaylar" style="font-size:12px" onclick="addTable(@item.rowID, @item.salesID);" />
@@ -185,7 +185,7 @@
         function getValue2(Id) {
             var curRow = Id.parentNode.parentNode;
             var salesID = curRow.cells.item(0).innerHTML;
-            var val=document.getElementById("paidTutar"+curRow.rowIndex.toString()).value;
+            var val=document.getElementById("paidTutar"+SalesID.toString().trim()).value;
             $.ajax({
                 type: 'GET',
                 url: '@Url.Action("updatePaidAmount", "DisplaySales")',

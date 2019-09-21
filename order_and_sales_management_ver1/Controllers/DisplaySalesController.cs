@@ -6,20 +6,21 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Order_And_Sales_Management_ver1.Models;
-using order_and_sales_management_ver1.Data;
-using System.Data.SqlClient;
+using Order_And_Sales_Management_ver1.Data;
 using Newtonsoft.Json;
+using MySql.Data.MySqlClient;
 
-namespace order_and_sales_management_ver1.Controllers
+
+namespace Order_And_Sales_Management_ver1.Controllers
 {
     public class DbInterface
     {
-     //   private string connectionString = "Data Source=GULSEVENSRV\\SQLEXPRESS;Initial Catalog=GULSEVEN;User ID=sa;Password=QAZwsx135";
+     //   private string connectionString = "Data Source=GULSEVENSRV\\MySqlEXPRESS;Initial Catalog=GULSEVEN;User ID=sa;Password=QAZwsx135";
 
-        public SqlConnection connect()
+        public MySqlConnection connect()
         {
-            SqlConnection cnn;
-            cnn = new SqlConnection(Program.Connection_String);
+            MySqlConnection cnn;
+            cnn = new MySqlConnection(Program.Connection_String);
             return (cnn);
         }
 
@@ -30,7 +31,7 @@ namespace order_and_sales_management_ver1.Controllers
         {
             List<DisplaySales> displaySales = new List<DisplaySales>();
             float floatVal = 0;
-            SqlConnection cnn;
+            MySqlConnection cnn;
 
             DbInterface dbInterface = new DbInterface();
             cnn = dbInterface.connect();
@@ -38,12 +39,12 @@ namespace order_and_sales_management_ver1.Controllers
             {
 
                 cnn.Open();
-                SqlCommand sqlCommand = cnn.CreateCommand();
-                sqlCommand.CommandText = "select  salesID,sum(amount*productRetailPrice) as tutar,max(paidAmount) as paidTutar " +
+                MySqlCommand mySqlCommand = cnn.CreateCommand();
+                mySqlCommand.CommandText = "select  salesID,sum(amount*productRetailPrice) as tutar,max(paidAmount) as paidTutar " +
                                                                        "from SalesModels left outer join EmployeesModels  on (SalesModels.personelID = EmployeesModels.personelID) " +
                                                                        "left outer join ProductModels on(SalesModels.productID=ProductModels.productID) " +
                                                                        "where typeOfCollection = 0  group by salesID" ;
-                SqlDataReader reader = sqlCommand.ExecuteReader();
+                MySqlDataReader reader = mySqlCommand.ExecuteReader();
                 int i = 1;
                 while (reader.Read())
                 {
@@ -57,7 +58,7 @@ namespace order_and_sales_management_ver1.Controllers
                     i = i + 1;
                 }
                 reader.Close();
-                sqlCommand.Dispose();
+                mySqlCommand.Dispose();
             }
             catch (Exception ex)
             {
@@ -72,7 +73,7 @@ namespace order_and_sales_management_ver1.Controllers
             List<DisplaySalesDetail> salesDetails= new List<DisplaySalesDetail>();
             float floatVal = 0;
 
-            SqlConnection cnn;
+            MySqlConnection cnn;
 
             DbInterface dbInterface = new DbInterface();
             cnn = dbInterface.connect();
@@ -80,14 +81,14 @@ namespace order_and_sales_management_ver1.Controllers
             try
             {
                 cnn.Open();
-                SqlCommand sqlCommand = cnn.CreateCommand();
-                sqlCommand.CommandText = "select SalesModels.personelID,salesLineID,CONCAT(persName,' ',persSurname) as employee, productName, amount, (amount*productRetailPrice) as tutar " +
+                MySqlCommand mySqlCommand = cnn.CreateCommand();
+                mySqlCommand.CommandText = "select SalesModels.personelID,salesLineID,CONCAT(persName,' ',persSurname) as employee, productName, amount, (amount*productRetailPrice) as tutar " +
                                                                        "from SalesModels left outer join EmployeesModels  on (SalesModels.personelID = EmployeesModels.personelID) " +
                                                                        "left outer join ProductModels on(SalesModels.productID=ProductModels.productID) " +
                                                                        "where typeOfCollection = 0  and SalesModels.salesID=@salesID "+
                                                                        "order by salesLineID" ;
-                sqlCommand.Parameters.AddWithValue("@salesID", salesID);
-                SqlDataReader reader = sqlCommand.ExecuteReader();
+                mySqlCommand.Parameters.AddWithValue("@salesID", salesID);
+                MySqlDataReader reader = mySqlCommand.ExecuteReader();
                 while (reader.Read())
                 {
                     DisplaySalesDetail salesDetail = new DisplaySalesDetail();
@@ -102,7 +103,7 @@ namespace order_and_sales_management_ver1.Controllers
                     salesDetails.Add(salesDetail);
                 }
                 reader.Close();
-                sqlCommand.Dispose();
+                mySqlCommand.Dispose();
             }
             catch (Exception ex)
             {
@@ -129,7 +130,7 @@ namespace order_and_sales_management_ver1.Controllers
 
         public ActionResult Tahsilat(string salesID, string typeOfCollection)
         {
-            SqlConnection cnn;
+            MySqlConnection cnn;
             string modelError = "";
             DbInterface dbInterface = new DbInterface();
             cnn = dbInterface.connect();
@@ -137,14 +138,14 @@ namespace order_and_sales_management_ver1.Controllers
             try
             {
                 cnn.Open();
-                SqlCommand sqlCommand = cnn.CreateCommand();
-                sqlCommand.CommandText = "Update SalesModels set typeOfCollection=@typeOfCollection " +
+                MySqlCommand mySqlCommand = cnn.CreateCommand();
+                mySqlCommand.CommandText = "Update SalesModels set typeOfCollection=@typeOfCollection " +
                                                                        "where typeOfCollection = 0  and salesID=@salesID and saleDate = @saleDate";   /* Date eklenmeli */
-                sqlCommand.Parameters.AddWithValue("@saleDate", DateTime.Now.ToString("yyyy-MM-dd"));
-                sqlCommand.Parameters.AddWithValue("@typeOfCollection", typeOfCollection);
-                sqlCommand.Parameters.AddWithValue("@salesID", salesID);
-                sqlCommand.ExecuteNonQuery();
-                sqlCommand.Dispose();
+                mySqlCommand.Parameters.AddWithValue("@saleDate", DateTime.Now.ToString("yyyy-MM-dd"));
+                mySqlCommand.Parameters.AddWithValue("@typeOfCollection", typeOfCollection);
+                mySqlCommand.Parameters.AddWithValue("@salesID", salesID);
+                mySqlCommand.ExecuteNonQuery();
+                mySqlCommand.Dispose();
             }
             catch (Exception ex)
             {
@@ -158,7 +159,7 @@ namespace order_and_sales_management_ver1.Controllers
 
         public void updatePaidAmount(string salesID, string paidAmount)
         {
-            SqlConnection cnn;
+            MySqlConnection cnn;
             string modelError = "";
             DbInterface dbInterface = new DbInterface();
             cnn = dbInterface.connect();
@@ -166,19 +167,19 @@ namespace order_and_sales_management_ver1.Controllers
             try
             {
                 cnn.Open();
-                SqlCommand sqlCommand = cnn.CreateCommand();
-                sqlCommand.CommandText = "Update SalesModels set paidAmount=@paidTutar " +
+                MySqlCommand mySqlCommand = cnn.CreateCommand();
+                mySqlCommand.CommandText = "Update SalesModels set paidAmount=@paidTutar " +
                                                                        "where salesID=@salesID and saleDate=@salesDate";   /* Date eklenmeli */
-                sqlCommand.Parameters.AddWithValue("@salesDate", DateTime.Now.ToString("yyyy-MM-dd"));
-                sqlCommand.Parameters.AddWithValue("@typeOfCollection", 0);
+                mySqlCommand.Parameters.AddWithValue("@salesDate", DateTime.Now.ToString("yyyy-MM-dd"));
+                mySqlCommand.Parameters.AddWithValue("@typeOfCollection", 0);
                 int intSalesID = 0;
                 int.TryParse(salesID, out intSalesID);
-                sqlCommand.Parameters.AddWithValue("@salesID", intSalesID);
+                mySqlCommand.Parameters.AddWithValue("@salesID", intSalesID);
                 float floatPaidTutar = 0; ;
                 float.TryParse(paidAmount, out floatPaidTutar);
-                sqlCommand.Parameters.AddWithValue("@paidTutar", floatPaidTutar);
-                sqlCommand.ExecuteNonQuery();
-                sqlCommand.Dispose();
+                mySqlCommand.Parameters.AddWithValue("@paidTutar", floatPaidTutar);
+                mySqlCommand.ExecuteNonQuery();
+                mySqlCommand.Dispose();
             }
             catch (Exception ex)
             {

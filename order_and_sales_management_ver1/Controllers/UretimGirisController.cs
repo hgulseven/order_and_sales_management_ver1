@@ -6,11 +6,11 @@ using System.Drawing.Imaging;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using order_and_sales_management_ver1.Data;
+using Order_And_Sales_Management_ver1.Data;
 using Order_And_Sales_Management_ver1.Models;
 using Spire.Barcode;
 
-namespace order_and_sales_management_ver1.Controllers
+namespace Order_And_Sales_Management_ver1.Controllers
 {
     public class UretimGirisController : Controller
     {

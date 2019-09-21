@@ -5,9 +5,8 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Order_And_Sales_Management_ver1.Models;
 using Microsoft.EntityFrameworkCore.Migrations;
-using order_and_sales_management_ver1.Models;
 
-namespace order_and_sales_management_ver1.Data
+namespace Order_And_Sales_Management_ver1.Data
 {
     public class ApplicationDbContext : IdentityDbContext
     {

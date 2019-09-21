@@ -5,10 +5,10 @@ using Microsoft.AspNetCore.Identity.UI;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using order_and_sales_management_ver1.Data;
+using Order_And_Sales_Management_ver1.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using order_and_sales_management_ver1.Hubs;
+using Order_And_Sales_Management_ver1.Hubs;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Server.IIS;
 using System.Globalization;
@@ -16,7 +16,7 @@ using Microsoft.AspNetCore.Localization;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace order_and_sales_management_ver1
+namespace Order_And_Sales_Management_ver1
 {
     public class CustomerCultureProvider : RequestCultureProvider
     {
@@ -65,7 +65,7 @@ namespace order_and_sales_management_ver1
             });
 
             services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(
+                options.UseMySql(
                     Configuration.GetConnectionString("DefaultConnection")));
             services.AddDefaultIdentity<IdentityUser>()
                 .AddDefaultUI(UIFramework.Bootstrap4)
@@ -125,7 +125,6 @@ namespace order_and_sales_management_ver1
                 routes.MapHub<RefreshSignalHub>("/RefreshSignalHub");
             });
 
-            app.UseAuthentication();
 
         }
     }

@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace order_and_sales_management_ver1.Migrations
 {
-    public partial class recreatedb : Migration
+    public partial class mySQLcreate : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -52,12 +52,12 @@ namespace order_and_sales_management_ver1.Migrations
                 columns: table => new
                 {
                     productID = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     ProductName = table.Column<string>(nullable: true),
                     productBarcodeID = table.Column<string>(nullable: true),
-                    productRetailPrice = table.Column<double>(nullable: false),
-                    productWholesalePrice = table.Column<double>(nullable: false),
-                    recStatus = table.Column<bool>(nullable: false)
+                    productRetailPrice = table.Column<decimal>(nullable: false),
+                    productWholesalePrice = table.Column<decimal>(nullable: false),
+                    recStatus = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -65,11 +65,23 @@ namespace order_and_sales_management_ver1.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "salesCounter",
+                columns: table => new
+                {
+                    salesDate = table.Column<DateTime>(nullable: false),
+                    counter = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_salesCounter", x => x.salesDate);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "StockLocationModel",
                 columns: table => new
                 {
                     locationID = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     locationName = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
@@ -92,11 +104,23 @@ namespace order_and_sales_management_ver1.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "TeraziTable",
+                columns: table => new
+                {
+                    teraziID = table.Column<int>(nullable: false),
+                    TeraziName = table.Column<string>(maxLength: 20, nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TeraziTable", x => x.teraziID);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "AspNetRoleClaims",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     RoleId = table.Column<string>(nullable: false),
                     ClaimType = table.Column<string>(nullable: true),
                     ClaimValue = table.Column<string>(nullable: true)
@@ -117,7 +141,7 @@ namespace order_and_sales_management_ver1.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     UserId = table.Column<string>(nullable: false),
                     ClaimType = table.Column<string>(nullable: true),
                     ClaimValue = table.Column<string>(nullable: true)
@@ -209,7 +233,7 @@ namespace order_and_sales_management_ver1.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_PackagedProductDetailsModels", x => new { x.PackedProductID, x.PackagedProductLineNo });
-                    table.UniqueConstraint("AK_PackagedProductDetailsModels_PackagedProductLineNo_PackedProductID", x => new { x.PackagedProductLineNo, x.PackedProductID });
+                    table.UniqueConstraint("AK_PackagedProductDetailsModels_PackagedProductLineNo_PackedPro~", x => new { x.PackagedProductLineNo, x.PackedProductID });
                     table.ForeignKey(
                         name: "FK_PackagedProductDetailsModels_ProductModels_ProductID",
                         column: x => x.ProductID,
@@ -223,7 +247,7 @@ namespace order_and_sales_management_ver1.Migrations
                 columns: table => new
                 {
                     personelID = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     persName = table.Column<string>(maxLength: 40, nullable: true),
                     persSurName = table.Column<string>(maxLength: 40, nullable: true),
                     password = table.Column<string>(maxLength: 32, nullable: true),
@@ -233,7 +257,7 @@ namespace order_and_sales_management_ver1.Migrations
                     userRole = table.Column<string>(nullable: true),
                     userActive = table.Column<bool>(nullable: false),
                     accessFailedCount = table.Column<int>(nullable: false),
-                    recStatus = table.Column<bool>(nullable: false)
+                    recStatus = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -254,7 +278,7 @@ namespace order_and_sales_management_ver1.Migrations
                     locationID = table.Column<int>(nullable: false),
                     productionLotID = table.Column<string>(maxLength: 10, nullable: false),
                     stockAmount = table.Column<double>(nullable: false),
-                    recStatus = table.Column<bool>(nullable: false)
+                    recStatus = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -279,9 +303,9 @@ namespace order_and_sales_management_ver1.Migrations
                 columns: table => new
                 {
                     orderID = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     orderDate = table.Column<DateTime>(nullable: false),
-                    recStatus = table.Column<bool>(nullable: false),
+                    recStatus = table.Column<int>(nullable: false),
                     orderOwner_personelID = table.Column<int>(nullable: false),
                     orderOwnerEmployeeModelpersonelID = table.Column<int>(nullable: true),
                     orderLocationID = table.Column<int>(nullable: false)
@@ -318,7 +342,8 @@ namespace order_and_sales_management_ver1.Migrations
                     salesLineId = table.Column<int>(nullable: false),
                     personelID = table.Column<int>(nullable: false),
                     productID = table.Column<int>(nullable: false),
-                    amount = table.Column<int>(nullable: false),
+                    amount = table.Column<float>(nullable: false),
+                    paidAmount = table.Column<float>(nullable: false),
                     typeOfCollection = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
@@ -350,7 +375,7 @@ namespace order_and_sales_management_ver1.Migrations
                     productionLotID = table.Column<int>(nullable: false),
                     productQualityChecker = table.Column<int>(nullable: false),
                     orderCritic = table.Column<string>(nullable: true),
-                    recStatus = table.Column<bool>(nullable: false)
+                    recStatus = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -378,8 +403,7 @@ namespace order_and_sales_management_ver1.Migrations
                 name: "RoleNameIndex",
                 table: "AspNetRoles",
                 column: "NormalizedName",
-                unique: true,
-                filter: "[NormalizedName] IS NOT NULL");
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetUserClaims_UserId",
@@ -405,8 +429,7 @@ namespace order_and_sales_management_ver1.Migrations
                 name: "UserNameIndex",
                 table: "AspNetUsers",
                 column: "NormalizedUserName",
-                unique: true,
-                filter: "[NormalizedUserName] IS NOT NULL");
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_EmployeesModels_locationID",
@@ -473,6 +496,9 @@ namespace order_and_sales_management_ver1.Migrations
                 name: "PackagedProductDetailsModels");
 
             migrationBuilder.DropTable(
+                name: "salesCounter");
+
+            migrationBuilder.DropTable(
                 name: "SalesModels");
 
             migrationBuilder.DropTable(
@@ -480,6 +506,9 @@ namespace order_and_sales_management_ver1.Migrations
 
             migrationBuilder.DropTable(
                 name: "TeraziScreenMapping");
+
+            migrationBuilder.DropTable(
+                name: "TeraziTable");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");

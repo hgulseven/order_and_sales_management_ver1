@@ -2,24 +2,22 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using order_and_sales_management_ver1.Data;
+using Order_And_Sales_Management_ver1.Data;
 
 namespace order_and_sales_management_ver1.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20190809194739_terazitableadded3")]
-    partial class terazitableadded3
+    [Migration("20190911191435_check")]
+    partial class check
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "2.2.6-servicing-10079")
-                .HasAnnotation("Relational:MaxIdentifierLength", 128)
-                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
@@ -39,8 +37,7 @@ namespace order_and_sales_management_ver1.Migrations
 
                     b.HasIndex("NormalizedName")
                         .IsUnique()
-                        .HasName("RoleNameIndex")
-                        .HasFilter("[NormalizedName] IS NOT NULL");
+                        .HasName("RoleNameIndex");
 
                     b.ToTable("AspNetRoles");
                 });
@@ -48,8 +45,7 @@ namespace order_and_sales_management_ver1.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .ValueGeneratedOnAdd();
 
                     b.Property<string>("ClaimType");
 
@@ -110,8 +106,7 @@ namespace order_and_sales_management_ver1.Migrations
 
                     b.HasIndex("NormalizedUserName")
                         .IsUnique()
-                        .HasName("UserNameIndex")
-                        .HasFilter("[NormalizedUserName] IS NOT NULL");
+                        .HasName("UserNameIndex");
 
                     b.ToTable("AspNetUsers");
                 });
@@ -119,8 +114,7 @@ namespace order_and_sales_management_ver1.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .ValueGeneratedOnAdd();
 
                     b.Property<string>("ClaimType");
 
@@ -189,8 +183,7 @@ namespace order_and_sales_management_ver1.Migrations
             modelBuilder.Entity("Order_And_Sales_Management_ver1.Models.EmployeesModels", b =>
                 {
                     b.Property<int>("personelID")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .ValueGeneratedOnAdd();
 
                     b.Property<int>("accessFailedCount");
 
@@ -252,8 +245,7 @@ namespace order_and_sales_management_ver1.Migrations
             modelBuilder.Entity("Order_And_Sales_Management_ver1.Models.OrderModel", b =>
                 {
                     b.Property<int>("orderID")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .ValueGeneratedOnAdd();
 
                     b.Property<DateTime>("orderDate");
 
@@ -298,16 +290,15 @@ namespace order_and_sales_management_ver1.Migrations
             modelBuilder.Entity("Order_And_Sales_Management_ver1.Models.ProductModel", b =>
                 {
                     b.Property<int>("productID")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .ValueGeneratedOnAdd();
 
                     b.Property<string>("ProductName");
 
                     b.Property<string>("productBarcodeID");
 
-                    b.Property<double>("productRetailPrice");
+                    b.Property<decimal>("productRetailPrice");
 
-                    b.Property<double>("productWholesalePrice");
+                    b.Property<decimal>("productWholesalePrice");
 
                     b.Property<int>("recStatus");
 
@@ -324,7 +315,9 @@ namespace order_and_sales_management_ver1.Migrations
 
                     b.Property<int>("salesLineId");
 
-                    b.Property<int>("amount");
+                    b.Property<float>("amount");
+
+                    b.Property<float>("paidAmount");
 
                     b.Property<int>("personelID");
 
@@ -364,8 +357,7 @@ namespace order_and_sales_management_ver1.Migrations
             modelBuilder.Entity("Order_And_Sales_Management_ver1.Models.StockLocationModel", b =>
                 {
                     b.Property<int>("locationID")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .ValueGeneratedOnAdd();
 
                     b.Property<string>("locationName");
 
@@ -389,7 +381,7 @@ namespace order_and_sales_management_ver1.Migrations
                     b.ToTable("TeraziScreenMapping");
                 });
 
-            modelBuilder.Entity("order_and_sales_management_ver1.Models.TeraziTable", b =>
+            modelBuilder.Entity("Order_And_Sales_Management_ver1.Models.TeraziTable", b =>
                 {
                     b.Property<int>("teraziID");
 
@@ -399,6 +391,17 @@ namespace order_and_sales_management_ver1.Migrations
                     b.HasKey("teraziID");
 
                     b.ToTable("TeraziTable");
+                });
+
+            modelBuilder.Entity("Order_And_Sales_Management_ver1.Models.salesCounter", b =>
+                {
+                    b.Property<DateTime>("salesDate");
+
+                    b.Property<int>("counter");
+
+                    b.HasKey("salesDate");
+
+                    b.ToTable("salesCounter");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

@@ -7,9 +7,8 @@ using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Configuration;
 
-namespace order_and_sales_management_ver1
+namespace Order_And_Sales_Management_ver1
 {
     public class Program
     {

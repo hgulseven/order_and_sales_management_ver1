@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.SignalR;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
-using order_and_sales_management_ver1.Hubs;
+using Order_And_Sales_Management_ver1.Hubs;
 
-namespace order_and_sales_management_ver1
+namespace Order_And_Sales_Management_ver1
 {
     [Route("api/[controller]")]
     [ApiController]

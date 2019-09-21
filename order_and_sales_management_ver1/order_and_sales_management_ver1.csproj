@@ -2,11 +2,11 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.2</TargetFramework>
-    <UserSecretsId>aspnet-order_and_sales_management_ver1-0A2F06CF-2612-44E3-AD45-4D75254332A7</UserSecretsId>
+    <UserSecretsId>aspnet-Order_And_Sales_Management_ver1-0A2F06CF-2612-44E3-AD45-4D75254332A7</UserSecretsId>
     <AspNetCoreHostingModel>inprocess</AspNetCoreHostingModel>
     <ApplicationIcon />
     <OutputType>Exe</OutputType>
-    <StartupObject>order_and_sales_management_ver1.Program</StartupObject>
+    <StartupObject>Order_And_Sales_Management_ver1.Program</StartupObject>
     <NoWin32Manifest>true</NoWin32Manifest>
   </PropertyGroup>
 
@@ -19,6 +19,10 @@
     <Compile Remove="Migrations\20190809200251_salesCounter.Designer.cs" />
     <Compile Remove="Migrations\20190907083856_ff.cs" />
     <Compile Remove="Migrations\20190907083856_ff.Designer.cs" />
+    <Compile Remove="Migrations\20190911184250_recreatedb.cs" />
+    <Compile Remove="Migrations\20190911184250_recreatedb.Designer.cs" />
+    <Compile Remove="Migrations\20190911194436_autoincrement.cs" />
+    <Compile Remove="Migrations\20190911194436_autoincrement.Designer.cs" />
   </ItemGroup>
 
 
@@ -31,6 +35,8 @@
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.3" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Utils" Version="2.2.3" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
+    <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="2.2.0" />
+    <PackageReference Include="Pomelo.EntityFrameworkCore.MySql.Design" Version="1.1.2" />
     <PackageReference Include="Spire.Barcode" Version="3.5.0" />
     <PackageReference Include="System.Globalization" Version="4.3.0" />
   </ItemGroup>
