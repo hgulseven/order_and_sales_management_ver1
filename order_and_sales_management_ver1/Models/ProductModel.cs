@@ -19,9 +19,9 @@ namespace Order_And_Sales_Management_ver1.Models
         public string ProductName { get; set; }
         [Display(Name = "Ürün Barkodu")]
         public string productBarcodeID { get; set; }
-        [Display(Name = "Perakende Satýþ Fiyatý"), DataType(DataType.Currency)]
+        [Display(Name = "Perakende Satýþ Fiyatý")]
         public decimal productRetailPrice { get; set; }
-        [Display(Name = "Toptan Satýþ Fiyatý"), DataType(DataType.Currency),  DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:C}")]
+        [Display(Name = "Toptan Satýþ Fiyatý")]
         public decimal productWholesalePrice { get; set; }
         public int recStatus { get; set; }
 
