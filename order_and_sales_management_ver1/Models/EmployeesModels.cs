@@ -20,10 +20,10 @@ namespace Order_And_Sales_Management_ver1.Models
         [StringLength(32)]
         public string password { get; set; }
 
-        [ForeignKey("StockLocationModel")]
+        [ForeignKey("stocklocationmodel")]
         public int locationID { get; set; }
         [Display(Name ="Lokasyon")]
-        public virtual StockLocationModel empLocation { get; set; }
+        public virtual stocklocationmodel empLocation { get; set; }
 
         public string userName { get; set; }
 

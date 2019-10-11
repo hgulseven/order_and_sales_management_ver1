@@ -15,6 +15,8 @@ using System.Globalization;
 using Microsoft.AspNetCore.Localization;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.HttpOverrides;
+using System.Net;
 
 namespace Order_And_Sales_Management_ver1
 {
@@ -45,6 +47,11 @@ namespace Order_And_Sales_Management_ver1
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.Configure<ForwardedHeadersOptions>(options =>
+            {
+                options.KnownProxies.Add(IPAddress.Parse("192.168.1.45"));
+            });
+
             services.Configure<RequestLocalizationOptions>(options =>
             {
                 options.DefaultRequestCulture = new Microsoft.AspNetCore.Localization.RequestCulture("tr-TR");
@@ -106,6 +113,11 @@ namespace Order_And_Sales_Management_ver1
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+
+            app.UseForwardedHeaders(new ForwardedHeadersOptions
+            {
+                ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
+            });
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();

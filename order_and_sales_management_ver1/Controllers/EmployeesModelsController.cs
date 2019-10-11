@@ -10,23 +10,23 @@ using Order_And_Sales_Management_ver1.Data;
 
 namespace Order_And_Sales_Management_ver1.Controllers
 {
-    public class EmployeesModelssController : Controller
+    public class EmployeesModelsController : Controller
     {
         private readonly ApplicationDbContext _context;
 
-        public EmployeesModelssController(ApplicationDbContext context)
+        public  EmployeesModelsController(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        // GET: EmployeesModelss
+        // GET: employeesmodels
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.EmployeesModels.Include(e => e.empLocation);
+            var applicationDbContext = _context.employeesmodels.Include(e => e.empLocation);
             return View(await applicationDbContext.ToListAsync());
         }
 
-        // GET: EmployeesModelss/Details/5
+        // GET: employeesmodels/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -34,42 +34,42 @@ namespace Order_And_Sales_Management_ver1.Controllers
                 return NotFound();
             }
 
-            var EmployeesModels = await _context.EmployeesModels
+            var employeesmodels = await _context.employeesmodels
                 .Include(e => e.empLocation)
                 .FirstOrDefaultAsync(m => m.personelID == id);
-            if (EmployeesModels == null)
+            if (employeesmodels == null)
             {
                 return NotFound();
             }
 
-            return View(EmployeesModels);
+            return View(employeesmodels);
         }
 
-        // GET: EmployeesModelss/Create
+        // GET: employeesmodels/Create
         public IActionResult Create()
         {
-            ViewData["locationID"] = new SelectList(_context.StockLocationModel, nameof(StockLocationModel.locationID), nameof(StockLocationModel.locationName));
+            ViewData["locationID"] = new SelectList(_context.stocklocationmodel, nameof(stocklocationmodel.locationID), nameof(stocklocationmodel.locationName));
             return View();
         }
 
-        // POST: EmployeesModelss/Create
+        // POST: employeesmodels/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("personelID,persName,persSurName,password,locationID,userName,connectionId,userRole,userActive,accessFailedCount,recStatus")] EmployeesModels EmployeesModels)
+        public async Task<IActionResult> Create([Bind("personelID,persName,persSurName,password,locationID,userName,connectionId,userRole,userActive,accessFailedCount,recStatus")] EmployeesModels employeesmodels)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(EmployeesModels);
+                _context.Add(employeesmodels);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["locationID"] = new SelectList(_context.StockLocationModel, nameof(StockLocationModel.locationID), nameof(StockLocationModel.locationName));
-            return View(EmployeesModels);
+            ViewData["locationID"] = new SelectList(_context.stocklocationmodel, nameof(stocklocationmodel.locationID), nameof(stocklocationmodel.locationName));
+            return View(employeesmodels);
         }
 
-        // GET: EmployeesModelss/Edit/5
+        // GET: employeesmodels/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -77,23 +77,23 @@ namespace Order_And_Sales_Management_ver1.Controllers
                 return NotFound();
             }
 
-            var EmployeesModels = await _context.EmployeesModels.FindAsync(id);
-            if (EmployeesModels == null)
+            var employeesmodels = await _context.employeesmodels.FindAsync(id);
+            if (employeesmodels == null)
             {
                 return NotFound();
             }
-            ViewData["locationID"] = new SelectList(_context.StockLocationModel, nameof(StockLocationModel.locationID), nameof(StockLocationModel.locationName));
-            return View(EmployeesModels);
+            ViewData["locationID"] = new SelectList(_context.stocklocationmodel, nameof(stocklocationmodel.locationID), nameof(stocklocationmodel.locationName));
+            return View(employeesmodels);
         }
 
-        // POST: EmployeesModelss/Edit/5
+        // POST: employeesmodels/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("personelID,persName,persSurName,password,locationID,userName,connectionId,userRole,userActive,accessFailedCount,recStatus")] EmployeesModels EmployeesModels)
+        public async Task<IActionResult> Edit(int id, [Bind("personelID,persName,persSurName,password,locationID,userName,connectionId,userRole,userActive,accessFailedCount,recStatus")] EmployeesModels employeesmodels)
         {
-            if (id != EmployeesModels.personelID)
+            if (id != employeesmodels.personelID)
             {
                 return NotFound();
             }
@@ -102,12 +102,12 @@ namespace Order_And_Sales_Management_ver1.Controllers
             {
                 try
                 {
-                    _context.Update(EmployeesModels);
+                    _context.Update(employeesmodels);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!EmployeesModelsExists(EmployeesModels.personelID))
+                    if (!employeesmodelsExists(employeesmodels.personelID))
                     {
                         return NotFound();
                     }
@@ -118,11 +118,11 @@ namespace Order_And_Sales_Management_ver1.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["locationID"] = new SelectList(_context.StockLocationModel, nameof(StockLocationModel.locationID), nameof(StockLocationModel.locationName));
-            return View(EmployeesModels);
+            ViewData["locationID"] = new SelectList(_context.stocklocationmodel, nameof(stocklocationmodel.locationID), nameof(stocklocationmodel.locationName));
+            return View(employeesmodels);
         }
 
-        // GET: EmployeesModelss/Delete/5
+        // GET: employeesmodels/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -130,31 +130,31 @@ namespace Order_And_Sales_Management_ver1.Controllers
                 return NotFound();
             }
 
-            var EmployeesModels = await _context.EmployeesModels
+            var employeesmodels = await _context.employeesmodels
                 .Include(e => e.empLocation)
                 .FirstOrDefaultAsync(m => m.personelID == id);
-            if (EmployeesModels == null)
+            if (employeesmodels == null)
             {
                 return NotFound();
             }
 
-            return View(EmployeesModels);
+            return View(employeesmodels);
         }
 
-        // POST: EmployeesModelss/Delete/5
+        // POST: employeesmodels/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var EmployeesModels = await _context.EmployeesModels.FindAsync(id);
-            _context.EmployeesModels.Remove(EmployeesModels);
+            var employeesmodels = await _context.employeesmodels.FindAsync(id);
+            _context.employeesmodels.Remove(employeesmodels);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool EmployeesModelsExists(int id)
+        private bool employeesmodelsExists(int id)
         {
-            return _context.EmployeesModels.Any(e => e.personelID == id);
+            return _context.employeesmodels.Any(e => e.personelID == id);
         }
     }
 }

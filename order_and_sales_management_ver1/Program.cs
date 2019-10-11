@@ -10,6 +10,33 @@ using Microsoft.Extensions.Logging;
 
 namespace Order_And_Sales_Management_ver1
 {
+    public class logger
+    {
+        public void write_to_log(string functionName, string err)
+        {
+            StreamWriter logWriter=null;
+
+            FileInfo logFile = new FileInfo("error_log.txt");
+            if (logFile.Exists)
+            {
+                if (logFile.Length > 250)
+                {
+                    logFile.Replace("error_log_old.txt", null, false);
+                    logWriter = logFile.CreateText();
+                } else
+                {
+                    logWriter=logFile.AppendText();
+                }
+            } else
+            {
+                logWriter = logFile.CreateText();
+                logFile.CopyTo("error_log_old.txt");
+            }
+            String logLine=string.Format("{0:27} Function : {1,-25}  Err: {2,-255}\n", DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss.fffff"), functionName, err);
+            logWriter.Write(logLine);
+            logWriter.Close();
+        }
+    }
     public class Program
     {
         public const int Const_Production_Location = 1;

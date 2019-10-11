@@ -212,7 +212,7 @@ namespace order_and_sales_management_ver1.Migrations
 
                     b.HasIndex("locationID");
 
-                    b.ToTable("EmployeesModels");
+                    b.ToTable("employeesmodels");
                 });
 
             modelBuilder.Entity("Order_And_Sales_Management_ver1.Models.OrderDetailsModel", b =>
@@ -239,7 +239,7 @@ namespace order_and_sales_management_ver1.Migrations
 
                     b.HasIndex("productID");
 
-                    b.ToTable("OrderDetailsModels");
+                    b.ToTable("orderdetailsmodels");
                 });
 
             modelBuilder.Entity("Order_And_Sales_Management_ver1.Models.OrderModel", b =>
@@ -284,7 +284,7 @@ namespace order_and_sales_management_ver1.Migrations
 
                     b.HasIndex("ProductID");
 
-                    b.ToTable("PackagedProductDetailsModels");
+                    b.ToTable("packagedproductdetailsmodels");
                 });
 
             modelBuilder.Entity("Order_And_Sales_Management_ver1.Models.ProductModel", b =>
@@ -304,7 +304,7 @@ namespace order_and_sales_management_ver1.Migrations
 
                     b.HasKey("productID");
 
-                    b.ToTable("ProductModels");
+                    b.ToTable("productmodels");
                 });
 
             modelBuilder.Entity("Order_And_Sales_Management_ver1.Models.SalesModel", b =>
@@ -331,7 +331,7 @@ namespace order_and_sales_management_ver1.Migrations
 
                     b.HasIndex("productID");
 
-                    b.ToTable("SalesModels");
+                    b.ToTable("salesmodels");
                 });
 
             modelBuilder.Entity("Order_And_Sales_Management_ver1.Models.StockItem", b =>
@@ -351,10 +351,10 @@ namespace order_and_sales_management_ver1.Migrations
 
                     b.HasAlternateKey("locationID", "productID", "productionLotID");
 
-                    b.ToTable("StockItems");
+                    b.ToTable("stockitems");
                 });
 
-            modelBuilder.Entity("Order_And_Sales_Management_ver1.Models.StockLocationModel", b =>
+            modelBuilder.Entity("Order_And_Sales_Management_ver1.Models.stocklocationmodel", b =>
                 {
                     b.Property<int>("locationID")
                         .ValueGeneratedOnAdd();
@@ -363,7 +363,7 @@ namespace order_and_sales_management_ver1.Migrations
 
                     b.HasKey("locationID");
 
-                    b.ToTable("StockLocationModel");
+                    b.ToTable("stocklocationmodel");
                 });
 
             modelBuilder.Entity("Order_And_Sales_Management_ver1.Models.TeraziScreenMapping", b =>
@@ -381,7 +381,7 @@ namespace order_and_sales_management_ver1.Migrations
                     b.ToTable("TeraziScreenMapping");
                 });
 
-            modelBuilder.Entity("Order_And_Sales_Management_ver1.Models.TeraziTable", b =>
+            modelBuilder.Entity("Order_And_Sales_Management_ver1.Models.terazitable", b =>
                 {
                     b.Property<int>("teraziID");
 
@@ -390,10 +390,10 @@ namespace order_and_sales_management_ver1.Migrations
 
                     b.HasKey("teraziID");
 
-                    b.ToTable("TeraziTable");
+                    b.ToTable("terazitable");
                 });
 
-            modelBuilder.Entity("Order_And_Sales_Management_ver1.Models.salesCounter", b =>
+            modelBuilder.Entity("Order_And_Sales_Management_ver1.Models.salescounter", b =>
                 {
                     b.Property<DateTime>("salesDate");
 
@@ -401,7 +401,7 @@ namespace order_and_sales_management_ver1.Migrations
 
                     b.HasKey("salesDate");
 
-                    b.ToTable("salesCounter");
+                    b.ToTable("salescounter");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -451,7 +451,7 @@ namespace order_and_sales_management_ver1.Migrations
 
             modelBuilder.Entity("Order_And_Sales_Management_ver1.Models.EmployeesModels", b =>
                 {
-                    b.HasOne("Order_And_Sales_Management_ver1.Models.StockLocationModel", "empLocation")
+                    b.HasOne("Order_And_Sales_Management_ver1.Models.stocklocationmodel", "empLocation")
                         .WithMany()
                         .HasForeignKey("locationID")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -460,19 +460,19 @@ namespace order_and_sales_management_ver1.Migrations
             modelBuilder.Entity("Order_And_Sales_Management_ver1.Models.OrderDetailsModel", b =>
                 {
                     b.HasOne("Order_And_Sales_Management_ver1.Models.OrderModel", "OrderModel")
-                        .WithMany("OrderDetailsModels")
+                        .WithMany("orderdetailsmodels")
                         .HasForeignKey("orderID")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("Order_And_Sales_Management_ver1.Models.ProductModel", "ProductModel")
-                        .WithMany("OrderDetailsModels")
+                        .WithMany("orderdetailsmodels")
                         .HasForeignKey("productID")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("Order_And_Sales_Management_ver1.Models.OrderModel", b =>
                 {
-                    b.HasOne("Order_And_Sales_Management_ver1.Models.StockLocationModel", "orderLocation")
+                    b.HasOne("Order_And_Sales_Management_ver1.Models.stocklocationmodel", "orderLocation")
                         .WithMany()
                         .HasForeignKey("orderLocationID")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -490,27 +490,27 @@ namespace order_and_sales_management_ver1.Migrations
             modelBuilder.Entity("Order_And_Sales_Management_ver1.Models.PackagedProductDetailsModel", b =>
                 {
                     b.HasOne("Order_And_Sales_Management_ver1.Models.ProductModel", "ProductModel")
-                        .WithMany("PackagedProductDetailsModels")
+                        .WithMany("packagedproductdetailsmodels")
                         .HasForeignKey("ProductID")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("Order_And_Sales_Management_ver1.Models.SalesModel", b =>
                 {
-                    b.HasOne("Order_And_Sales_Management_ver1.Models.EmployeesModels", "EmployeesModels")
+                    b.HasOne("Order_And_Sales_Management_ver1.Models.EmployeesModels", "employeesmodels")
                         .WithMany()
                         .HasForeignKey("personelID")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("Order_And_Sales_Management_ver1.Models.ProductModel", "ProductModel")
-                        .WithMany("SalesModels")
+                        .WithMany("salesmodels")
                         .HasForeignKey("productID")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("Order_And_Sales_Management_ver1.Models.StockItem", b =>
                 {
-                    b.HasOne("Order_And_Sales_Management_ver1.Models.StockLocationModel", "StockLocationModel")
+                    b.HasOne("Order_And_Sales_Management_ver1.Models.stocklocationmodel", "stocklocationmodel")
                         .WithMany()
                         .HasForeignKey("locationID")
                         .OnDelete(DeleteBehavior.Cascade);

@@ -24,12 +24,12 @@ namespace Order_And_Sales_Management_ver1.Controllers
         {
             SiparisModel siparis=new SiparisModel();
             siparis.orderDate = DateTime.Now;
-            ViewData["personelID"] = new SelectList(_context.EmployeesModels, nameof(SiparisModel.orderOwnerEmployeeModel.personelID), nameof(SiparisModel.orderOwnerEmployeeModel.persName));
-            EmployeesModels employees = _context.EmployeesModels.First();
-            siparis.orderLocation = _context.StockLocationModel.FirstOrDefault(e => e.locationID == employees.locationID);
+            ViewData["personelID"] = new SelectList(_context.employeesmodels, nameof(SiparisModel.orderOwnerEmployeeModel.personelID), nameof(SiparisModel.orderOwnerEmployeeModel.persName));
+            EmployeesModels employees = _context.employeesmodels.First();
+            siparis.orderLocation = _context.stocklocationmodel.FirstOrDefault(e => e.locationID == employees.locationID);
             if (!String.IsNullOrEmpty(productName))
             {
-                siparis.products = _context.ProductModels.Where(x => x.ProductName.Contains(productName)).ToList();
+                siparis.products = _context.productmodels.Where(x => x.ProductName.Contains(productName)).ToList();
             }
             else
             {
@@ -45,7 +45,7 @@ namespace Order_And_Sales_Management_ver1.Controllers
             JArray jobjOrderDetails;
             OrderModel siparis=new OrderModel();
 
-            siparis.OrderDetailsModels = new List<OrderDetailsModel>();
+            siparis.orderdetailsmodels = new List<OrderDetailsModel>();
 
             if (ModelState.IsValid)
             {
@@ -90,7 +90,7 @@ namespace Order_And_Sales_Management_ver1.Controllers
                         }
                     }
                     orderDetails.recStatus = Program.Const_Active_Order;
-                    siparis.OrderDetailsModels.Add(orderDetails);
+                    siparis.orderdetailsmodels.Add(orderDetails);
                 }
                 _context.Add(siparis);
                 _context.SaveChanges();
@@ -101,17 +101,17 @@ namespace Order_And_Sales_Management_ver1.Controllers
         public bool StockItemExists(int prodID,  string lotID)
         {
             int locID = Program.Const_Production_Location;
-            return _context.StockItems.Any(e => e.productID == prodID && e.locationID == locID && e.productionLotID == lotID);
+            return _context.stockitems.Any(e => e.productID == prodID && e.locationID == locID && e.productionLotID == lotID);
         }
 
-        public StockLocationModel getLocation(int employeeID)
+        public stocklocationmodel getLocation(int employeeID)
         {
             EmployeesModels employee;
-            StockLocationModel stockLocationModel;
+            stocklocationmodel stocklocationmodel;
 
-            employee=_context.EmployeesModels.FirstOrDefault(e => e.personelID == employeeID);
-            stockLocationModel = _context.StockLocationModel.FirstOrDefault(e => e.locationID == employee.locationID);
-            return stockLocationModel;
+            employee=_context.employeesmodels.FirstOrDefault(e => e.personelID == employeeID);
+            stocklocationmodel = _context.stocklocationmodel.FirstOrDefault(e => e.locationID == employee.locationID);
+            return stocklocationmodel;
         }
 
         public SiparisModel getProducts(string productName)
@@ -119,7 +119,7 @@ namespace Order_And_Sales_Management_ver1.Controllers
             SiparisModel siparis = new SiparisModel();
             if (!String.IsNullOrEmpty(productName))
             {
-                siparis.products = _context.ProductModels.Where(x => x.ProductName.Contains(productName)).ToList();
+                siparis.products = _context.productmodels.Where(x => x.ProductName.Contains(productName)).ToList();
             }
             else
             {

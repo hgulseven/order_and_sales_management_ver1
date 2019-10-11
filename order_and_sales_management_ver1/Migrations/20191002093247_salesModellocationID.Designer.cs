@@ -9,8 +9,8 @@ using Order_And_Sales_Management_ver1.Data;
 namespace order_and_sales_management_ver1.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20190911185539_mySQLcreate")]
-    partial class mySQLcreate
+    [Migration("20191002093247_salesModellocationID")]
+    partial class salesModellocationID
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -316,6 +316,8 @@ namespace order_and_sales_management_ver1.Migrations
                     b.Property<int>("salesLineId");
 
                     b.Property<float>("amount");
+
+                    b.Property<int>("locationID");
 
                     b.Property<float>("paidAmount");
 

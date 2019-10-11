@@ -1,10 +1,22 @@
 ﻿/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
 for details on configuring this project to bundle and minify static web assets. */
 
-a.navbar-brand {
-  white-space: normal;
-  text-align: left;
-  word-break: break-all;
+.dropdown-menu {
+    background-color: #870c0c;
+}
+navbar-toggle:hover {
+    background-color: white;
+}
+html {
+    -webkit-tap-highlight-color: white;
+}
+a:hover {
+    background-color:white;
+}
+    a .navbar-brand {
+    white-space: normal;
+    text-align: left;
+    word-break: break-all;
 }
 
 /* Sticky footer styles

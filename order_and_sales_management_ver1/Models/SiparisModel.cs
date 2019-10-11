@@ -10,24 +10,24 @@
     {
         public SiparisModel()
         {
-            OrderDetailsModels = new HashSet<OrderDetailsModel>();
+            orderdetailsmodels = new HashSet<OrderDetailsModel>();
         }
 
         [Key]
-        [ForeignKey("OrderDetailsModels")]
+        [ForeignKey("orderdetailsmodels")]
         public int orderID { get; set; }
         [Display(Name = "Sipariş Tarihi")]
         public DateTime orderDate { get; set; }
         public int recStatus { get; set; }  /* -1 : Order Deleted 1: Aktif order  2:Order Delivered */
-        [ForeignKey("EmployeesModels")]
+        [ForeignKey("employeesmodels")]
         [Display(Name = "Sipariş Veren")]
         public int orderOwner_personelID { get; set; }
         public virtual EmployeesModels orderOwnerEmployeeModel { get; set; }
-        public virtual ICollection<OrderDetailsModel> OrderDetailsModels { get; set; }
-        [ForeignKey("StockLocationModel")]
+        public virtual ICollection<OrderDetailsModel> orderdetailsmodels { get; set; }
+        [ForeignKey("stocklocationmodel")]
         [Display(Name = "Sipariş Lokasyonu")]
         public int orderLocationID { get; set; }
-        public virtual StockLocationModel orderLocation { get; set; }
+        public virtual stocklocationmodel orderLocation { get; set; }
         [Display(Name = "Ürün Adı")]
         public string productName { get; set; }
         public int productID { get; set; }

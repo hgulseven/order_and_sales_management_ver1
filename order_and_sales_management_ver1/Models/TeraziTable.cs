@@ -8,7 +8,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Order_And_Sales_Management_ver1.Models
 {
-    public class TeraziTable
+    public class terazitable
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.None)]

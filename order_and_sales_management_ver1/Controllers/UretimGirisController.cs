@@ -26,7 +26,7 @@ namespace Order_And_Sales_Management_ver1.Controllers
             UretimGiris uretimGiris=new UretimGiris();
             if (!String.IsNullOrEmpty(productName))
             {
-                uretimGiris.products = _context.ProductModels.Where(x => x.ProductName.Contains(productName)).ToList();
+                uretimGiris.products = _context.productmodels.Where(x => x.ProductName.Contains(productName)).ToList();
             }
             else
             {
@@ -103,7 +103,7 @@ namespace Order_And_Sales_Management_ver1.Controllers
         public bool StockItemExists(int prodID,  string lotID)
         {
             int locID = Program.Const_Production_Location;
-            return _context.StockItems.Any(e => e.productID == prodID && e.locationID == locID && e.productionLotID == lotID);
+            return _context.stockitems.Any(e => e.productID == prodID && e.locationID == locID && e.productionLotID == lotID);
         }
 
     }

@@ -48,7 +48,7 @@ namespace order_and_sales_management_ver1.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "ProductModels",
+                name: "productmodels",
                 columns: table => new
                 {
                     productID = table.Column<int>(nullable: false)
@@ -61,11 +61,11 @@ namespace order_and_sales_management_ver1.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ProductModels", x => x.productID);
+                    table.PrimaryKey("PK_productmodels", x => x.productID);
                 });
 
             migrationBuilder.CreateTable(
-                name: "salesCounter",
+                name: "salescounter",
                 columns: table => new
                 {
                     salesDate = table.Column<DateTime>(nullable: false),
@@ -73,11 +73,11 @@ namespace order_and_sales_management_ver1.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_salesCounter", x => x.salesDate);
+                    table.PrimaryKey("PK_salescounter", x => x.salesDate);
                 });
 
             migrationBuilder.CreateTable(
-                name: "StockLocationModel",
+                name: "stocklocationmodel",
                 columns: table => new
                 {
                     locationID = table.Column<int>(nullable: false)
@@ -86,7 +86,7 @@ namespace order_and_sales_management_ver1.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_StockLocationModel", x => x.locationID);
+                    table.PrimaryKey("PK_stocklocationmodel", x => x.locationID);
                 });
 
             migrationBuilder.CreateTable(
@@ -104,7 +104,7 @@ namespace order_and_sales_management_ver1.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "TeraziTable",
+                name: "terazitable",
                 columns: table => new
                 {
                     teraziID = table.Column<int>(nullable: false),
@@ -112,7 +112,7 @@ namespace order_and_sales_management_ver1.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_TeraziTable", x => x.teraziID);
+                    table.PrimaryKey("PK_terazitable", x => x.teraziID);
                 });
 
             migrationBuilder.CreateTable(
@@ -222,7 +222,7 @@ namespace order_and_sales_management_ver1.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "PackagedProductDetailsModels",
+                name: "packagedproductdetailsmodels",
                 columns: table => new
                 {
                     PackedProductID = table.Column<int>(nullable: false),
@@ -232,18 +232,18 @@ namespace order_and_sales_management_ver1.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_PackagedProductDetailsModels", x => new { x.PackedProductID, x.PackagedProductLineNo });
-                    table.UniqueConstraint("AK_PackagedProductDetailsModels_PackagedProductLineNo_PackedPro~", x => new { x.PackagedProductLineNo, x.PackedProductID });
+                    table.PrimaryKey("PK_packagedproductdetailsmodels", x => new { x.PackedProductID, x.PackagedProductLineNo });
+                    table.UniqueConstraint("AK_packagedproductdetailsmodels_PackagedProductLineNo_PackedPro~", x => new { x.PackagedProductLineNo, x.PackedProductID });
                     table.ForeignKey(
-                        name: "FK_PackagedProductDetailsModels_ProductModels_ProductID",
+                        name: "FK_packagedproductdetailsmodels_productmodels_ProductID",
                         column: x => x.ProductID,
-                        principalTable: "ProductModels",
+                        principalTable: "productmodels",
                         principalColumn: "productID",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "EmployeesModels",
+                name: "employeesmodels",
                 columns: table => new
                 {
                     personelID = table.Column<int>(nullable: false)
@@ -261,17 +261,17 @@ namespace order_and_sales_management_ver1.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_EmployeesModels", x => x.personelID);
+                    table.PrimaryKey("PK_employeesmodels", x => x.personelID);
                     table.ForeignKey(
-                        name: "FK_EmployeesModels_StockLocationModel_locationID",
+                        name: "FK_employeesmodels_stocklocationmodel_locationID",
                         column: x => x.locationID,
-                        principalTable: "StockLocationModel",
+                        principalTable: "stocklocationmodel",
                         principalColumn: "locationID",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "StockItems",
+                name: "stockitems",
                 columns: table => new
                 {
                     productID = table.Column<int>(nullable: false),
@@ -282,18 +282,18 @@ namespace order_and_sales_management_ver1.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_StockItems", x => new { x.productID, x.locationID, x.productionLotID });
-                    table.UniqueConstraint("AK_StockItems_locationID_productID_productionLotID", x => new { x.locationID, x.productID, x.productionLotID });
+                    table.PrimaryKey("PK_stockitems", x => new { x.productID, x.locationID, x.productionLotID });
+                    table.UniqueConstraint("AK_stockitems_locationID_productID_productionLotID", x => new { x.locationID, x.productID, x.productionLotID });
                     table.ForeignKey(
-                        name: "FK_StockItems_StockLocationModel_locationID",
+                        name: "FK_stockitems_stocklocationmodel_locationID",
                         column: x => x.locationID,
-                        principalTable: "StockLocationModel",
+                        principalTable: "stocklocationmodel",
                         principalColumn: "locationID",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_StockItems_ProductModels_productID",
+                        name: "FK_stockitems_productmodels_productID",
                         column: x => x.productID,
-                        principalTable: "ProductModels",
+                        principalTable: "productmodels",
                         principalColumn: "productID",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -314,27 +314,27 @@ namespace order_and_sales_management_ver1.Migrations
                 {
                     table.PrimaryKey("PK_OrderModel", x => x.orderID);
                     table.ForeignKey(
-                        name: "FK_OrderModel_StockLocationModel_orderLocationID",
+                        name: "FK_OrderModel_stocklocationmodel_orderLocationID",
                         column: x => x.orderLocationID,
-                        principalTable: "StockLocationModel",
+                        principalTable: "stocklocationmodel",
                         principalColumn: "locationID",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_OrderModel_EmployeesModels_orderOwnerEmployeeModelpersonelID",
+                        name: "FK_OrderModel_employeesmodels_orderOwnerEmployeeModelpersonelID",
                         column: x => x.orderOwnerEmployeeModelpersonelID,
-                        principalTable: "EmployeesModels",
+                        principalTable: "employeesmodels",
                         principalColumn: "personelID",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_OrderModel_EmployeesModels_orderOwner_personelID",
+                        name: "FK_OrderModel_employeesmodels_orderOwner_personelID",
                         column: x => x.orderOwner_personelID,
-                        principalTable: "EmployeesModels",
+                        principalTable: "employeesmodels",
                         principalColumn: "personelID",
                         onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
-                name: "SalesModels",
+                name: "salesmodels",
                 columns: table => new
                 {
                     saleDate = table.Column<DateTime>(nullable: false),
@@ -348,23 +348,23 @@ namespace order_and_sales_management_ver1.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_SalesModels", x => new { x.saleDate, x.salesID, x.salesLineId });
+                    table.PrimaryKey("PK_salesmodels", x => new { x.saleDate, x.salesID, x.salesLineId });
                     table.ForeignKey(
-                        name: "FK_SalesModels_EmployeesModels_personelID",
+                        name: "FK_salesmodels_employeesmodels_personelID",
                         column: x => x.personelID,
-                        principalTable: "EmployeesModels",
+                        principalTable: "employeesmodels",
                         principalColumn: "personelID",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_SalesModels_ProductModels_productID",
+                        name: "FK_salesmodels_productmodels_productID",
                         column: x => x.productID,
-                        principalTable: "ProductModels",
+                        principalTable: "productmodels",
                         principalColumn: "productID",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "OrderDetailsModels",
+                name: "orderdetailsmodels",
                 columns: table => new
                 {
                     orderID = table.Column<int>(nullable: false),
@@ -379,17 +379,17 @@ namespace order_and_sales_management_ver1.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_OrderDetailsModels", x => new { x.orderID, x.orderLineNo });
+                    table.PrimaryKey("PK_orderdetailsmodels", x => new { x.orderID, x.orderLineNo });
                     table.ForeignKey(
-                        name: "FK_OrderDetailsModels_OrderModel_orderID",
+                        name: "FK_orderdetailsmodels_OrderModel_orderID",
                         column: x => x.orderID,
                         principalTable: "OrderModel",
                         principalColumn: "orderID",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_OrderDetailsModels_ProductModels_productID",
+                        name: "FK_orderdetailsmodels_productmodels_productID",
                         column: x => x.productID,
-                        principalTable: "ProductModels",
+                        principalTable: "productmodels",
                         principalColumn: "productID",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -432,13 +432,13 @@ namespace order_and_sales_management_ver1.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_EmployeesModels_locationID",
-                table: "EmployeesModels",
+                name: "IX_employeesmodels_locationID",
+                table: "employeesmodels",
                 column: "locationID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_OrderDetailsModels_productID",
-                table: "OrderDetailsModels",
+                name: "IX_orderdetailsmodels_productID",
+                table: "orderdetailsmodels",
                 column: "productID");
 
             migrationBuilder.CreateIndex(
@@ -457,18 +457,18 @@ namespace order_and_sales_management_ver1.Migrations
                 column: "orderOwner_personelID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_PackagedProductDetailsModels_ProductID",
-                table: "PackagedProductDetailsModels",
+                name: "IX_packagedproductdetailsmodels_ProductID",
+                table: "packagedproductdetailsmodels",
                 column: "ProductID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_SalesModels_personelID",
-                table: "SalesModels",
+                name: "IX_salesmodels_personelID",
+                table: "salesmodels",
                 column: "personelID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_SalesModels_productID",
-                table: "SalesModels",
+                name: "IX_salesmodels_productID",
+                table: "salesmodels",
                 column: "productID");
         }
 
@@ -490,25 +490,25 @@ namespace order_and_sales_management_ver1.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "OrderDetailsModels");
+                name: "orderdetailsmodels");
 
             migrationBuilder.DropTable(
-                name: "PackagedProductDetailsModels");
+                name: "packagedproductdetailsmodels");
 
             migrationBuilder.DropTable(
-                name: "salesCounter");
+                name: "salescounter");
 
             migrationBuilder.DropTable(
-                name: "SalesModels");
+                name: "salesmodels");
 
             migrationBuilder.DropTable(
-                name: "StockItems");
+                name: "stockitems");
 
             migrationBuilder.DropTable(
                 name: "TeraziScreenMapping");
 
             migrationBuilder.DropTable(
-                name: "TeraziTable");
+                name: "terazitable");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
@@ -520,13 +520,13 @@ namespace order_and_sales_management_ver1.Migrations
                 name: "OrderModel");
 
             migrationBuilder.DropTable(
-                name: "ProductModels");
+                name: "productmodels");
 
             migrationBuilder.DropTable(
-                name: "EmployeesModels");
+                name: "employeesmodels");
 
             migrationBuilder.DropTable(
-                name: "StockLocationModel");
+                name: "stocklocationmodel");
         }
     }
 }

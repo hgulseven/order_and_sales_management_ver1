@@ -29,7 +29,8 @@ namespace Order_And_Sales_Management_ver1.Models
         [NotMapped]
         public float tutar { get; set; }
         public int typeOfCollection { get; set; }
-        public virtual EmployeesModels EmployeesModels { get; set; }
+        public int locationID { get; set; }
+        public virtual EmployeesModels employeesmodels { get; set; }
         public virtual ProductModel ProductModel { get; set; }
     }
 }

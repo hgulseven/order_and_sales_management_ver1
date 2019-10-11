@@ -22,7 +22,7 @@ namespace Order_And_Sales_Management_ver1.Controllers
         // GET: OrderModels
         public async Task<IActionResult> Index()
         {
-            var applicationDBContext = _context.OrderModel.Include(s => s.orderOwnerEmployeeModel).Include(b => b.OrderDetailsModels).Include(k=>k.orderLocation);
+            var applicationDBContext = _context.OrderModel.Include(s => s.orderOwnerEmployeeModel).Include(b => b.orderdetailsmodels).Include(k=>k.orderLocation);
             return View(await applicationDBContext.ToListAsync());
         }
 
@@ -48,10 +48,10 @@ namespace Order_And_Sales_Management_ver1.Controllers
         public IActionResult Create()
         {
             OrderModel orderModel = new OrderModel();
-            orderModel.OrderDetailsModels = new List<OrderDetailsModel>();
+            orderModel.orderdetailsmodels = new List<OrderDetailsModel>();
             orderModel.orderDate = DateTime.Now;
-            ViewData["personelID"] = new SelectList(_context.EmployeesModels, nameof(EmployeesModels.personelID), nameof(EmployeesModels.persName));
-            ViewData["locationID"] = new SelectList(_context.StockLocationModel, nameof(StockLocationModel.locationID), nameof(StockLocationModel.locationName));
+            ViewData["personelID"] = new SelectList(_context.employeesmodels, nameof(EmployeesModels.personelID), nameof(EmployeesModels.persName));
+            ViewData["locationID"] = new SelectList(_context.stocklocationmodel, nameof(stocklocationmodel.locationID), nameof(stocklocationmodel.locationName));
             return View(orderModel);
         }
 

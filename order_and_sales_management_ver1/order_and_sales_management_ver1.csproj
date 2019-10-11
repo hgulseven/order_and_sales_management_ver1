@@ -15,8 +15,8 @@
     <Compile Remove="Migrations\20190805160922_foreignkey2.Designer.cs" />
     <Compile Remove="Migrations\20190809195449_emptabname.cs" />
     <Compile Remove="Migrations\20190809195449_emptabname.Designer.cs" />
-    <Compile Remove="Migrations\20190809200251_salesCounter.cs" />
-    <Compile Remove="Migrations\20190809200251_salesCounter.Designer.cs" />
+    <Compile Remove="Migrations\20190809200251_salescounter.cs" />
+    <Compile Remove="Migrations\20190809200251_salescounter.Designer.cs" />
     <Compile Remove="Migrations\20190907083856_ff.cs" />
     <Compile Remove="Migrations\20190907083856_ff.Designer.cs" />
     <Compile Remove="Migrations\20190911184250_recreatedb.cs" />

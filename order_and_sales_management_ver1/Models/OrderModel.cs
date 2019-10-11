@@ -9,7 +9,7 @@ namespace Order_And_Sales_Management_ver1.Models
     {
         public OrderModel()
         {
-            OrderDetailsModels = new HashSet<OrderDetailsModel>();
+            orderdetailsmodels = new HashSet<OrderDetailsModel>();
         }
 
         [Key]
@@ -18,16 +18,16 @@ namespace Order_And_Sales_Management_ver1.Models
         public DateTime orderDate { get; set; }
         
         public int recStatus { get; set; }
-        [ForeignKey("EmployeesModels")]
+        [ForeignKey("employeesmodels")]
         [Display(Name = "Sipariþ Veren")]
         public int orderOwner_personelID { get; set; }
         public virtual EmployeesModels orderOwnerEmployeeModel { get; set; }
 
-        public virtual ICollection<OrderDetailsModel> OrderDetailsModels { get; set; }
-        [ForeignKey("StockLocationModel")]
+        public virtual ICollection<OrderDetailsModel> orderdetailsmodels { get; set; }
+        [ForeignKey("stocklocationmodel")]
         [Display(Name = "Sipariþ Lokasyonu")]
         public int orderLocationID { get; set; }
-        public virtual StockLocationModel orderLocation { get; set; }
+        public virtual stocklocationmodel orderLocation { get; set; }
 
     }
 }

@@ -9,22 +9,22 @@ using Order_And_Sales_Management_ver1.Data;
 
 namespace Order_And_Sales_Management_ver1.Controllers
 {
-    public class ProductModelsController : Controller
+    public class productmodelsController : Controller
     {
         private readonly ApplicationDbContext _context;
 
-        public ProductModelsController(ApplicationDbContext context)
+        public productmodelsController(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        // GET: ProductModels
+        // GET: productmodels
         public async Task<IActionResult> Index()
         {
-            return View(await _context.ProductModels.Where(x => x.recStatus == Program.Const_Record_Active).ToListAsync());
+            return View(await _context.productmodels.Where(x => x.recStatus == Program.Const_Record_Active).ToListAsync());
         }
 
-        // GET: ProductModels/Details/5
+        // GET: productmodels/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -32,7 +32,7 @@ namespace Order_And_Sales_Management_ver1.Controllers
                 return NotFound();
             }
 
-            var productModel = await _context.ProductModels
+            var productModel = await _context.productmodels
                 .FirstOrDefaultAsync(m => m.productID == id && m.recStatus == Program.Const_Record_Active);
             if (productModel == null)
             {
@@ -42,13 +42,13 @@ namespace Order_And_Sales_Management_ver1.Controllers
             return View(productModel);
         }
 
-        // GET: ProductModels/Create
+        // GET: productmodels/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: ProductModels/Create
+        // POST: productmodels/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
@@ -65,7 +65,7 @@ namespace Order_And_Sales_Management_ver1.Controllers
             return View(productModel);
         }
 
-        // GET: ProductModels/Edit/5
+        // GET: productmodels/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -73,7 +73,7 @@ namespace Order_And_Sales_Management_ver1.Controllers
                 return NotFound();
             }
 
-            var productModel = await _context.ProductModels.FindAsync(id);
+            var productModel = await _context.productmodels.FindAsync(id);
             if (productModel == null)
             {
                 return NotFound();
@@ -81,7 +81,7 @@ namespace Order_And_Sales_Management_ver1.Controllers
             return View(productModel);
         }
 
-        // POST: ProductModels/Edit/5
+        // POST: productmodels/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
@@ -117,7 +117,7 @@ namespace Order_And_Sales_Management_ver1.Controllers
             return View(productModel);
         }
 
-        // GET: ProductModels/Delete/5
+        // GET: productmodels/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -125,7 +125,7 @@ namespace Order_And_Sales_Management_ver1.Controllers
                 return NotFound();
             }
 
-            var productModel = await _context.ProductModels
+            var productModel = await _context.productmodels
                 .FirstOrDefaultAsync(m => m.productID == id);
             if (productModel == null)
             {
@@ -135,21 +135,21 @@ namespace Order_And_Sales_Management_ver1.Controllers
             return View(productModel);
         }
 
-        // POST: ProductModels/Delete/5
+        // POST: productmodels/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var productModel = await _context.ProductModels.FindAsync(id);
+            var productModel = await _context.productmodels.FindAsync(id);
             productModel.recStatus = Program.Const_Record_Deleted;
-            _context.ProductModels.Update(productModel);
+            _context.productmodels.Update(productModel);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool ProductModelExists(int id)
         {
-            return _context.ProductModels.Any(e => e.productID == id && e.recStatus== Program.Const_Record_Active);
+            return _context.productmodels.Any(e => e.productID == id && e.recStatus== Program.Const_Record_Active);
         }
     }
 }

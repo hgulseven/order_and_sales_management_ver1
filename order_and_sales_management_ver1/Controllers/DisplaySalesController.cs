@@ -9,7 +9,7 @@ using Order_And_Sales_Management_ver1.Models;
 using Order_And_Sales_Management_ver1.Data;
 using Newtonsoft.Json;
 using MySql.Data.MySqlClient;
-
+using System.Threading;
 
 namespace Order_And_Sales_Management_ver1.Controllers
 {
@@ -19,7 +19,7 @@ namespace Order_And_Sales_Management_ver1.Controllers
     public class DbInterface
     {
 
-     //   private string connectionString = "Data Source=GULSEVENSRV\\MySqlEXPRESS;Initial Catalog=GULSEVEN;User ID=sa;Password=QAZwsx135";
+        //   private string connectionString = "Data Source=GULSEVENSRV\\MySqlEXPRESS;Initial Catalog=GULSEVEN;User ID=sa;Password=QAZwsx135";
 
         public MySqlConnection connect()
         {
@@ -29,31 +29,49 @@ namespace Order_And_Sales_Management_ver1.Controllers
         }
 
     }
-    public class DisplaySalesController : Controller    {
+    public class DisplaySalesController : Controller
+    {
 
         public const string SelectLastCustomerWhoDidPayment = "select max(salesID) as salesID from salesmodels where typeOfCollection>0 and saleDate = @saleDate "; /* Get maximum sales id which is paid on given date */
         public const string UpdateLastCustomerAsNotPaid = "update salesmodels set typeOfCollection = 0 where saleDate=@saleDate and salesID=@salesID";
-        public const string SelectCustomersWhichSentToCashier =  "select  salesID,sum(amount*productRetailPrice) as tutar,max(paidAmount) as paidTutar " +
-                                                                                                                    "from SalesModels left outer join EmployeesModels  on (SalesModels.personelID = EmployeesModels.personelID) " +
-                                                                                                                    "left outer join ProductModels on(SalesModels.productID=ProductModels.productID) " +
-                                                                                                                    "where typeOfCollection = 0  and saleDate=@saleDate group by salesID";
+        public const string SelectCustomersWhichSentToCashier = "select  salesID,sum(amount*productRetailPrice) as tutar,max(paidAmount) as paidTutar " +
+                                                                                                                    "from salesmodels left outer join employeesmodels  on (salesmodels.personelID = employeesmodels.personelID) " +
+                                                                                                                    "left outer join productmodels on(salesmodels.productID=productmodels.productID) " +
+                                                                                                                    "where typeOfCollection = 0  and and locationID=@locationID and saleDate=@saleDate group by salesID";
 
-        public const string SelectSalesDetail =     "select SalesModels.personelID,salesLineID,CONCAT(persName,' ',persSurname) as employee, productName, amount, (amount*productRetailPrice) as tutar " +
-                                                                                    "from SalesModels left outer join EmployeesModels  on (SalesModels.personelID = EmployeesModels.personelID) " +
-                                                                                    "left outer join ProductModels on(SalesModels.productID=ProductModels.productID) " +
-                                                                                    "where typeOfCollection = 0  and SalesModels.salesID=@salesID "+
+        public const string SelectSalesDetail = "select salesmodels.personelID,salesLineID,CONCAT(persName,' ',persSurname) as employee, productName, amount, (amount*productRetailPrice) as tutar " +
+                                                                                    "from salesmodels left outer join employeesmodels  on (salesmodels.personelID = employeesmodels.personelID) " +
+                                                                                    "left outer join productmodels on(salesmodels.productID=productmodels.productID) " +
+                                                                                    "where typeOfCollection = 0  and salesmodels.salesID=@salesID " +
                                                                                     "order by salesLineID";
-        public const string UpdateSalesAsPaid = "Update SalesModels set typeOfCollection=@typeOfCollection " +
+        public const string UpdateSalesAsPaid = "Update salesmodels set typeOfCollection=@typeOfCollection " +
                                                                                    "where typeOfCollection = 0  and salesID=@salesID and saleDate = @saleDate";
 
-        public const string UpdatePaidAmount = "Update SalesModels set paidAmount=@paidTutar " +
-                                                                                    "where salesID=@salesID and saleDate=@salesDate";   
+        public const string UpdatePaidAmount = "Update salesmodels set paidAmount=@paidTutar " +
+                                                                                    "where salesID=@salesID and saleDate=@salesDate";
+        public const string EndOFDayReport = "select sum(round(paidAmount,2)) as totalPaidAmount, " +
+                                                                                           "sum(round(amount* productmodels.productRetailPrice,2)) as totalCalculatedAmount," +
+                                                                                            "case salesmodels.typeOfCollection " +
+                                                                                                        "when 1 then 'Nakit'  " +
+                                                                                                        "when 2 then 'Kredi Kartı' " +
+                                                                                                        "when 3 then 'Diğer' " +
+                                                                                                        "else 'Bilinmeyen' " +
+                                                                                            "end as salesType " +
+                                                                                "from salesmodels " +
+                                                                                "left outer join " +
+                                                                                "productmodels " +
+                                                                                "on salesmodels.productID = productmodels.productID " +
+                                                                                "where saleDate =@saleDate  " +
+                                                                                "group by salesType";
+
 
         public List<DisplaySales> GetDisplaySales()
         {
             List<DisplaySales> displaySales = new List<DisplaySales>();
             float floatVal = 0;
             MySqlConnection cnn;
+
+            var username = HttpContext.Request.Cookies;
 
             DbInterface dbInterface = new DbInterface();
             cnn = dbInterface.connect();
@@ -64,6 +82,7 @@ namespace Order_And_Sales_Management_ver1.Controllers
                 MySqlCommand mySqlCommand = cnn.CreateCommand();
                 mySqlCommand.CommandText = SelectCustomersWhichSentToCashier;
                 mySqlCommand.Parameters.AddWithValue("@saleDate", DateTime.Now.ToString("yyyy-MM-dd"));
+//                 mySqlCommand.Parameters.AddWithValue("@locationID",);
                 MySqlDataReader reader = mySqlCommand.ExecuteReader();
                 int i = 1;
                 while (reader.Read())
@@ -90,7 +109,10 @@ namespace Order_And_Sales_Management_ver1.Controllers
             }
             catch (Exception ex)
             {
-                 ModelState.AddModelError("VeriTabani", "Veri Tabanı Erişim Hatası");
+                ModelState.AddModelError("VeriTabani", "Veri Tabanı Erişim Hatası");
+                logger log = new logger();
+                log.write_to_log("GetDisplaySales", ex.ToString());
+
             }
             if (cnn != null) cnn.Close();
             return (displaySales);
@@ -98,7 +120,7 @@ namespace Order_And_Sales_Management_ver1.Controllers
 
         public string GetSalesDetail(string salesID)
         {
-            List<DisplaySalesDetail> salesDetails= new List<DisplaySalesDetail>();
+            List<DisplaySalesDetail> salesDetails = new List<DisplaySalesDetail>();
             float floatVal = 0;
 
             MySqlConnection cnn;
@@ -116,14 +138,14 @@ namespace Order_And_Sales_Management_ver1.Controllers
                 while (reader.Read())
                 {
                     DisplaySalesDetail salesDetail = new DisplaySalesDetail();
-                    salesDetail.personelID= reader["personelID"].ToString();
-                    salesDetail.employee= reader["employee"].ToString();
+                    salesDetail.personelID = reader["personelID"].ToString();
+                    salesDetail.employee = reader["employee"].ToString();
                     salesDetail.salesLineId = reader["salesLineID"].ToString();
-                    salesDetail.productName= reader["productName"].ToString();
+                    salesDetail.productName = reader["productName"].ToString();
                     float.TryParse(reader["tutar"].ToString(), out floatVal);
                     salesDetail.tutar = floatVal.ToString("N2");
                     float.TryParse(reader["amount"].ToString(), out floatVal);
-                    salesDetail.amount= floatVal.ToString("N3");
+                    salesDetail.amount = floatVal.ToString("N3");
                     salesDetails.Add(salesDetail);
                 }
                 reader.Close();
@@ -132,6 +154,9 @@ namespace Order_And_Sales_Management_ver1.Controllers
             catch (Exception ex)
             {
                 ModelState.AddModelError("VeriTabani", "Veri Tabanı Erişim Hatası");
+                logger log = new logger();
+                log.write_to_log("GetSalesDetail", ex.ToString());
+
             }
             if (cnn != null) cnn.Close();
             string jsonstr = JsonConvert.SerializeObject(salesDetails);
@@ -139,9 +164,9 @@ namespace Order_And_Sales_Management_ver1.Controllers
         }
 
         // GET: DisplaySales
-         public ActionResult Index(string error)
+        public ActionResult Index(string error)
         {
-            if (error !="" && error != null)
+            if (error != "" && error != null)
             {
                 ModelState.AddModelError("error", error);
             }
@@ -174,9 +199,12 @@ namespace Order_And_Sales_Management_ver1.Controllers
             {
                 ModelState.AddModelError("VeriTabaniGuncelleme", "Veri tabanı Güncelleme Hatası");
                 modelError = "Veri tabanı Güncelleme Hatası";
+                logger log = new logger();
+                log.write_to_log("Tahsilat", ex.ToString());
+
             }
             if (cnn != null) cnn.Close();
-            return RedirectToAction("Index","DisplaySales",new { error = modelError});
+            return RedirectToAction("Index", "DisplaySales", new { error = modelError });
 
         }
 
@@ -184,7 +212,7 @@ namespace Order_And_Sales_Management_ver1.Controllers
         {
             MySqlConnection cnn;
             string modelError = "";
-            string salesID="0";
+            string salesID = "0";
             DbInterface dbInterface = new DbInterface();
             cnn = dbInterface.connect();
 
@@ -212,6 +240,9 @@ namespace Order_And_Sales_Management_ver1.Controllers
             {
                 ModelState.AddModelError("VeriTabaniGuncelleme", "Veri tabanı Güncelleme Hatası");
                 modelError = "Veri tabanı Güncelleme Hatası";
+                logger log = new logger();
+                log.write_to_log("UpdateLastCustomerAsNotPaid", ex.ToString());
+
             }
             if (cnn != null) cnn.Close();
             return RedirectToAction("Index", "DisplaySales", new { error = modelError });
@@ -226,6 +257,7 @@ namespace Order_And_Sales_Management_ver1.Controllers
 
             try
             {
+                Thread.Sleep(10);
                 cnn.Open();
                 MySqlCommand mySqlCommand = cnn.CreateCommand();
                 mySqlCommand.CommandText = UpdatePaidAmount;
@@ -234,20 +266,32 @@ namespace Order_And_Sales_Management_ver1.Controllers
                 int intSalesID = 0;
                 int.TryParse(salesID, out intSalesID);
                 mySqlCommand.Parameters.AddWithValue("@salesID", intSalesID);
-                float floatPaidTutar = 0; ;
-                float.TryParse(paidAmount, out floatPaidTutar);
-                mySqlCommand.Parameters.AddWithValue("@paidTutar", floatPaidTutar);
-                mySqlCommand.ExecuteNonQuery();
-                mySqlCommand.Dispose();
+                float floatPaidTutar = 0;
+                logger log = new logger();
+                log.write_to_log("UpdatePaidAmount", salesID + " " + paidAmount);
+                if (float.TryParse(paidAmount, out floatPaidTutar))
+                {
+                    mySqlCommand.Parameters.AddWithValue("@paidTutar", floatPaidTutar);
+                    mySqlCommand.ExecuteNonQuery();
+                    mySqlCommand.Dispose();
+                }
+                else
+                {
+                    log = new logger();
+                    log.write_to_log("updatePaidAmount", "float conversion error");
+                }
             }
             catch (Exception ex)
             {
                 ModelState.AddModelError("VeriTabaniGuncelleme", "Veri tabanı Güncelleme Hatası");
                 modelError = "Veri tabanı Güncelleme Hatası";
+                logger log = new logger();
+                log.write_to_log("updatePaidAmount", ex.ToString());
+
             }
             if (cnn != null) cnn.Close();
         }
 
     }
-   
+
 }

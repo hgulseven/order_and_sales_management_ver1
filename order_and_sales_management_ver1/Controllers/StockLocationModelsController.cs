@@ -10,22 +10,22 @@ using Order_And_Sales_Management_ver1.Data;
 
 namespace Order_And_Sales_Management_ver1.Controllers
 {
-    public class StockLocationModelsController : Controller
+    public class stocklocationmodelsController : Controller
     {
         private readonly ApplicationDbContext _context;
 
-        public StockLocationModelsController(ApplicationDbContext context)
+        public stocklocationmodelsController(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        // GET: StockLocationModels
+        // GET: stocklocationmodels
         public async Task<IActionResult> Index()
         {
-            return View(await _context.StockLocationModel.ToListAsync());
+            return View(await _context.stocklocationmodel.ToListAsync());
         }
 
-        // GET: StockLocationModels/Details/5
+        // GET: stocklocationmodels/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -33,39 +33,39 @@ namespace Order_And_Sales_Management_ver1.Controllers
                 return NotFound();
             }
 
-            var stockLocationModel = await _context.StockLocationModel
+            var stocklocationmodel = await _context.stocklocationmodel
                 .FirstOrDefaultAsync(m => m.locationID == id);
-            if (stockLocationModel == null)
+            if (stocklocationmodel == null)
             {
                 return NotFound();
             }
 
-            return View(stockLocationModel);
+            return View(stocklocationmodel);
         }
 
-        // GET: StockLocationModels/Create
+        // GET: stocklocationmodels/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: StockLocationModels/Create
+        // POST: stocklocationmodels/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("locationID,locationName")] StockLocationModel stockLocationModel)
+        public async Task<IActionResult> Create([Bind("locationID,locationName")] stocklocationmodel stocklocationmodel)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(stockLocationModel);
+                _context.Add(stocklocationmodel);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(stockLocationModel);
+            return View(stocklocationmodel);
         }
 
-        // GET: StockLocationModels/Edit/5
+        // GET: stocklocationmodels/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -73,22 +73,22 @@ namespace Order_And_Sales_Management_ver1.Controllers
                 return NotFound();
             }
 
-            var stockLocationModel = await _context.StockLocationModel.FindAsync(id);
-            if (stockLocationModel == null)
+            var stocklocationmodel = await _context.stocklocationmodel.FindAsync(id);
+            if (stocklocationmodel == null)
             {
                 return NotFound();
             }
-            return View(stockLocationModel);
+            return View(stocklocationmodel);
         }
 
-        // POST: StockLocationModels/Edit/5
+        // POST: stocklocationmodels/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("locationID,locationName")] StockLocationModel stockLocationModel)
+        public async Task<IActionResult> Edit(int id, [Bind("locationID,locationName")] stocklocationmodel stocklocationmodel)
         {
-            if (id != stockLocationModel.locationID)
+            if (id != stocklocationmodel.locationID)
             {
                 return NotFound();
             }
@@ -97,12 +97,12 @@ namespace Order_And_Sales_Management_ver1.Controllers
             {
                 try
                 {
-                    _context.Update(stockLocationModel);
+                    _context.Update(stocklocationmodel);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!StockLocationModelExists(stockLocationModel.locationID))
+                    if (!stocklocationmodelExists(stocklocationmodel.locationID))
                     {
                         return NotFound();
                     }
@@ -113,10 +113,10 @@ namespace Order_And_Sales_Management_ver1.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(stockLocationModel);
+            return View(stocklocationmodel);
         }
 
-        // GET: StockLocationModels/Delete/5
+        // GET: stocklocationmodels/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -124,30 +124,30 @@ namespace Order_And_Sales_Management_ver1.Controllers
                 return NotFound();
             }
 
-            var stockLocationModel = await _context.StockLocationModel
+            var stocklocationmodel = await _context.stocklocationmodel
                 .FirstOrDefaultAsync(m => m.locationID == id);
-            if (stockLocationModel == null)
+            if (stocklocationmodel == null)
             {
                 return NotFound();
             }
 
-            return View(stockLocationModel);
+            return View(stocklocationmodel);
         }
 
-        // POST: StockLocationModels/Delete/5
+        // POST: stocklocationmodels/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var stockLocationModel = await _context.StockLocationModel.FindAsync(id);
-            _context.StockLocationModel.Remove(stockLocationModel);
+            var stocklocationmodel = await _context.stocklocationmodel.FindAsync(id);
+            _context.stocklocationmodel.Remove(stocklocationmodel);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool StockLocationModelExists(int id)
+        private bool stocklocationmodelExists(int id)
         {
-            return _context.StockLocationModel.Any(e => e.locationID == id);
+            return _context.stocklocationmodel.Any(e => e.locationID == id);
         }
     }
 }

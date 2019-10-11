@@ -14,16 +14,16 @@ namespace Order_And_Sales_Management_ver1.Data
             : base(options)
         {
         }
-        public virtual DbSet<ProductModel> ProductModels { get; set; }
-        public virtual DbSet<OrderDetailsModel> OrderDetailsModels { get; set; }
-        public virtual DbSet<PackagedProductDetailsModel> PackagedProductDetailsModels { get; set; }
-        public virtual DbSet<SalesModel> SalesModels { get; set; }
-        public virtual DbSet<StockItem> StockItems { get; set; }
-        public virtual DbSet<TeraziScreenMapping> TeraziScreenMappings { get; set; }
-        public DbSet<Order_And_Sales_Management_ver1.Models.EmployeesModels> EmployeesModels { get; set; }
-        public DbSet<Order_And_Sales_Management_ver1.Models.StockLocationModel> StockLocationModel { get; set; }
-        public DbSet<TeraziTable> TeraziTable { get; set; }
-        public DbSet<salesCounter> salesCounter { get; set; }
+        public virtual DbSet<ProductModel> productmodels { get; set; }
+        public virtual DbSet<OrderDetailsModel> orderdetailsmodels { get; set; }
+        public virtual DbSet<PackagedProductDetailsModel> packagedproductdetailsmodels { get; set; }
+        public virtual DbSet<SalesModel> salesmodels { get; set; }
+        public virtual DbSet<StockItem> stockitems { get; set; }
+        public virtual DbSet<TeraziScreenMapping> teraziscreenmappings { get; set; }
+        public DbSet<Order_And_Sales_Management_ver1.Models.EmployeesModels> employeesmodels { get; set; }
+        public DbSet<Order_And_Sales_Management_ver1.Models.stocklocationmodel> stocklocationmodel { get; set; }
+        public DbSet<terazitable> terazitable { get; set; }
+        public DbSet<salescounter> salescounter { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);

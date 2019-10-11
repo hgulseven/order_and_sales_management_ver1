@@ -10,23 +10,23 @@ using Order_And_Sales_Management_ver1.Data;
 
 namespace Order_And_Sales_Management_ver1.Controllers
 {
-    public class StockItemsController : Controller
+    public class stockitemsController : Controller
     {
         private readonly ApplicationDbContext _context;
 
-        public StockItemsController(ApplicationDbContext context)
+        public stockitemsController(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        // GET: StockItems
+        // GET: stockitems
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.StockItems.Include(s => s.StockLocationModel).Include(s => s.product);
+            var applicationDbContext = _context.stockitems.Include(s => s.stocklocationmodel).Include(s => s.product);
             return View(await applicationDbContext.ToListAsync());
         }
 
-        // GET: StockItems/Details/5
+        // GET: stockitems/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -34,8 +34,8 @@ namespace Order_And_Sales_Management_ver1.Controllers
                 return NotFound();
             }
 
-            var stockItem = await _context.StockItems
-                .Include(s => s.StockLocationModel)
+            var stockItem = await _context.stockitems
+                .Include(s => s.stocklocationmodel)
                 .Include(s => s.product)
                 .FirstOrDefaultAsync(m => m.productID == id);
             if (stockItem == null)
@@ -46,15 +46,15 @@ namespace Order_And_Sales_Management_ver1.Controllers
             return View(stockItem);
         }
 
-        // GET: StockItems/Create
+        // GET: stockitems/Create
         public IActionResult Create()
         {
-            ViewData["locationName"] = new SelectList(_context.StockLocationModel, nameof(StockLocationModel.locationID),nameof(StockLocationModel.locationName));
-            ViewData["productName"] = new SelectList(_context.ProductModels, nameof(ProductModel.productID), nameof(ProductModel.ProductName));
+            ViewData["locationName"] = new SelectList(_context.stocklocationmodel, nameof(stocklocationmodel.locationID),nameof(stocklocationmodel.locationName));
+            ViewData["productName"] = new SelectList(_context.productmodels, nameof(ProductModel.productID), nameof(ProductModel.ProductName));
             return View();
         }
 
-        // POST: StockItems/Create
+        // POST: stockitems/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
@@ -67,12 +67,12 @@ namespace Order_And_Sales_Management_ver1.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["locationName"] = new SelectList(_context.StockLocationModel, nameof(StockLocationModel.locationID), nameof(StockLocationModel.locationName));
-            ViewData["productName"] = new SelectList(_context.ProductModels, nameof(ProductModel.productID), nameof(ProductModel.ProductName));
+            ViewData["locationName"] = new SelectList(_context.stocklocationmodel, nameof(stocklocationmodel.locationID), nameof(stocklocationmodel.locationName));
+            ViewData["productName"] = new SelectList(_context.productmodels, nameof(ProductModel.productID), nameof(ProductModel.ProductName));
             return View(stockItem);
         }
 
-        // GET: StockItems/Edit/5
+        // GET: stockitems/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -80,17 +80,17 @@ namespace Order_And_Sales_Management_ver1.Controllers
                 return NotFound();
             }
 
-            var stockItem = await _context.StockItems.FindAsync(id);
+            var stockItem = await _context.stockitems.FindAsync(id);
             if (stockItem == null)
             {
                 return NotFound();
             }
-            ViewData["locationID"] = new SelectList(_context.StockLocationModel, "locationID", "locationID", stockItem.locationID);
-            ViewData["productID"] = new SelectList(_context.ProductModels, "productID", "productID", stockItem.productID);
+            ViewData["locationID"] = new SelectList(_context.stocklocationmodel, "locationID", "locationID", stockItem.locationID);
+            ViewData["productID"] = new SelectList(_context.productmodels, "productID", "productID", stockItem.productID);
             return View(stockItem);
         }
 
-        // POST: StockItems/Edit/5
+        // POST: stockitems/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
@@ -122,12 +122,12 @@ namespace Order_And_Sales_Management_ver1.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["locationID"] = new SelectList(_context.StockLocationModel, "locationID", "locationID", stockItem.locationID);
-            ViewData["productID"] = new SelectList(_context.ProductModels, "productID", "productID", stockItem.productID);
+            ViewData["locationID"] = new SelectList(_context.stocklocationmodel, "locationID", "locationID", stockItem.locationID);
+            ViewData["productID"] = new SelectList(_context.productmodels, "productID", "productID", stockItem.productID);
             return View(stockItem);
         }
 
-        // GET: StockItems/Delete/5
+        // GET: stockitems/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -135,8 +135,8 @@ namespace Order_And_Sales_Management_ver1.Controllers
                 return NotFound();
             }
 
-            var stockItem = await _context.StockItems
-                .Include(s => s.StockLocationModel)
+            var stockItem = await _context.stockitems
+                .Include(s => s.stocklocationmodel)
                 .Include(s => s.product)
                 .FirstOrDefaultAsync(m => m.productID == id);
             if (stockItem == null)
@@ -147,20 +147,20 @@ namespace Order_And_Sales_Management_ver1.Controllers
             return View(stockItem);
         }
 
-        // POST: StockItems/Delete/5
+        // POST: stockitems/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var stockItem = await _context.StockItems.FindAsync(id);
-            _context.StockItems.Remove(stockItem);
+            var stockItem = await _context.stockitems.FindAsync(id);
+            _context.stockitems.Remove(stockItem);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool StockItemExists(int id)
         {
-            return _context.StockItems.Any(e => e.productID == id);
+            return _context.stockitems.Any(e => e.productID == id);
         }
     }
 }

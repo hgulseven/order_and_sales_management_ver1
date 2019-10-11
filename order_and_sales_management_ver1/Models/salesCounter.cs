@@ -8,7 +8,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Order_And_Sales_Management_ver1.Models
 {
-    public class salesCounter
+    public class salescounter
     {
         [Key]
         public DateTime salesDate { get; set; }
