@@ -37,14 +37,14 @@ namespace Order_And_Sales_Management_ver1.Controllers
         public const string SelectCustomersWhichSentToCashier = "select  salesID,sum(amount*productRetailPrice) as tutar,max(paidAmount) as paidTutar " +
                                                                                                                     "from salesmodels left outer join employeesmodels  on (salesmodels.personelID = employeesmodels.personelID) " +
                                                                                                                     "left outer join productmodels on(salesmodels.productID=productmodels.productID) " +
-                                                                                                                    "where typeOfCollection = 0  and and locationID=@locationID and saleDate=@saleDate group by salesID";
+                                                                                                                    "where typeOfCollection = 0  and salesmodels.locationID=@locationID and saleDate=@saleDate group by salesID";
 
         public const string SelectSalesDetail = "select salesmodels.personelID,salesLineID,CONCAT(persName,' ',persSurname) as employee, productName, amount, (amount*productRetailPrice) as tutar " +
                                                                                     "from salesmodels left outer join employeesmodels  on (salesmodels.personelID = employeesmodels.personelID) " +
                                                                                     "left outer join productmodels on(salesmodels.productID=productmodels.productID) " +
                                                                                     "where typeOfCollection = 0  and salesmodels.salesID=@salesID " +
                                                                                     "order by salesLineID";
-        public const string UpdateSalesAsPaid = "Update salesmodels set typeOfCollection=@typeOfCollection " +
+        public const string UpdateSalesAsPaid = "Update salesmodels set typeOfCollection=@typeOfCollection, saleTime=@saleTime " +
                                                                                    "where typeOfCollection = 0  and salesID=@salesID and saleDate = @saleDate";
 
         public const string UpdatePaidAmount = "Update salesmodels set paidAmount=@paidTutar " +
@@ -71,50 +71,53 @@ namespace Order_And_Sales_Management_ver1.Controllers
             float floatVal = 0;
             MySqlConnection cnn;
 
-            var username = HttpContext.Request.Cookies;
-
-            DbInterface dbInterface = new DbInterface();
-            cnn = dbInterface.connect();
-            try
+            if (User.Identity.IsAuthenticated)
             {
-
-                cnn.Open();
-                MySqlCommand mySqlCommand = cnn.CreateCommand();
-                mySqlCommand.CommandText = SelectCustomersWhichSentToCashier;
-                mySqlCommand.Parameters.AddWithValue("@saleDate", DateTime.Now.ToString("yyyy-MM-dd"));
-//                 mySqlCommand.Parameters.AddWithValue("@locationID",);
-                MySqlDataReader reader = mySqlCommand.ExecuteReader();
-                int i = 1;
-                while (reader.Read())
+                DbInterface dbInterface = new DbInterface();
+                cnn = dbInterface.connect();
+                try
                 {
-                    DisplaySales displaySale = new DisplaySales();
-                    displaySale.rowID = i.ToString();
-                    displaySale.salesID = reader["salesID"].ToString();
-                    float.TryParse(reader["tutar"].ToString(), out floatVal);
-                    displaySale.tutar = floatVal.ToString("N2");
-                    float.TryParse(reader["paidTutar"].ToString(), out floatVal);
-                    if (floatVal == 0)
-                    {
-                        displaySale.paidTutar = displaySale.tutar;
-                    }
-                    else
-                    {
-                        displaySale.paidTutar = floatVal.ToString("N2");
-                    }
-                    displaySales.Add(displaySale);
-                    i = i + 1;
-                }
-                reader.Close();
-                mySqlCommand.Dispose();
-            }
-            catch (Exception ex)
-            {
-                ModelState.AddModelError("VeriTabani", "Veri Tabanı Erişim Hatası");
-                logger log = new logger();
-                log.write_to_log("GetDisplaySales", ex.ToString());
 
+                    cnn.Open();
+                    MySqlCommand mySqlCommand = cnn.CreateCommand();
+                    mySqlCommand.CommandText = SelectCustomersWhichSentToCashier;
+                    mySqlCommand.Parameters.AddWithValue("@saleDate", DateTime.Now.ToString("yyyy-MM-dd"));
+                    var location = HttpContext.User.Claims.Where(c => c.Type == "location").FirstOrDefault().Value.ToString();
+                    mySqlCommand.Parameters.AddWithValue("@locationID", location);
+                    MySqlDataReader reader = mySqlCommand.ExecuteReader();
+                    int i = 1;
+                    while (reader.Read())
+                    {
+                        DisplaySales displaySale = new DisplaySales();
+                        displaySale.rowID = i.ToString();
+                        displaySale.salesID = reader["salesID"].ToString();
+                        float.TryParse(reader["tutar"].ToString(), out floatVal);
+                        displaySale.tutar = floatVal.ToString("N2");
+                        float.TryParse(reader["paidTutar"].ToString(), out floatVal);
+                        if (floatVal == 0)
+                        {
+                            displaySale.paidTutar = displaySale.tutar;
+                        }
+                        else
+                        {
+                            displaySale.paidTutar = floatVal.ToString("N2");
+                        }
+                        displaySales.Add(displaySale);
+                        i = i + 1;
+                    }
+                    reader.Close();
+                    mySqlCommand.Dispose();
+                }
+                catch (Exception ex)
+                {
+                    ModelState.AddModelError("VeriTabani", "Veri Tabanı Erişim Hatası");
+                    logger log = new logger();
+                    log.write_to_log("GetDisplaySales", ex.ToString());
+
+                }
+                if (cnn != null) cnn.Close();
+                return (displaySales);
             }
-            if (cnn != null) cnn.Close();
             return (displaySales);
         }
 
@@ -166,11 +169,18 @@ namespace Order_And_Sales_Management_ver1.Controllers
         // GET: DisplaySales
         public ActionResult Index(string error)
         {
-            if (error != "" && error != null)
+            if (User.Identity.IsAuthenticated)
             {
-                ModelState.AddModelError("error", error);
+                if (error != "" && error != null)
+                {
+                    ModelState.AddModelError("error", error);
+                }
+                return View(GetDisplaySales());
+            } else
+            {
+                ModelState.AddModelError("error", "Sisteme giriş yapmalısınız. Lütfen sisteme giriş sayfasına gidiniz.");
+                return View(GetDisplaySales());
             }
-            return View(GetDisplaySales());
         }
         public void refresh()
         {
@@ -190,6 +200,7 @@ namespace Order_And_Sales_Management_ver1.Controllers
                 MySqlCommand mySqlCommand = cnn.CreateCommand();
                 mySqlCommand.CommandText = UpdateSalesAsPaid;
                 mySqlCommand.Parameters.AddWithValue("@saleDate", DateTime.Now.ToString("yyyy-MM-dd"));
+                mySqlCommand.Parameters.AddWithValue("@saleTime", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.ffffff"));
                 mySqlCommand.Parameters.AddWithValue("@typeOfCollection", typeOfCollection);
                 mySqlCommand.Parameters.AddWithValue("@salesID", salesID);
                 mySqlCommand.ExecuteNonQuery();

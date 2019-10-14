@@ -4,23 +4,23 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace order_and_sales_management_ver1.Migrations
 {
-    public partial class mySQLcreate : Migration
+    public partial class salesmodel : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "AspNetRoles",
-                columns: table => new
-                {
-                    Id = table.Column<string>(nullable: false),
-                    Name = table.Column<string>(maxLength: 256, nullable: true),
-                    NormalizedName = table.Column<string>(maxLength: 256, nullable: true),
-                    ConcurrencyStamp = table.Column<string>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_AspNetRoles", x => x.Id);
-                });
+                            name: "AspNetRoles",
+                            columns: table => new
+                            {
+                                Id = table.Column<string>(nullable: false),
+                                Name = table.Column<string>(maxLength: 256, nullable: true),
+                                NormalizedName = table.Column<string>(maxLength: 256, nullable: true),
+                                ConcurrencyStamp = table.Column<string>(nullable: true)
+                            },
+                            constraints: table =>
+                            {
+                                table.PrimaryKey("PK_AspNetRoles", x => x.Id);
+                            });
 
             migrationBuilder.CreateTable(
                 name: "AspNetUsers",
@@ -344,7 +344,8 @@ namespace order_and_sales_management_ver1.Migrations
                     productID = table.Column<int>(nullable: false),
                     amount = table.Column<float>(nullable: false),
                     paidAmount = table.Column<float>(nullable: false),
-                    typeOfCollection = table.Column<int>(nullable: false)
+                    typeOfCollection = table.Column<int>(nullable: false),
+                    locationID = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -475,7 +476,7 @@ namespace order_and_sales_management_ver1.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "AspNetRoleClaims");
+    name: "AspNetRoleClaims");
 
             migrationBuilder.DropTable(
                 name: "AspNetUserClaims");
@@ -527,6 +528,7 @@ namespace order_and_sales_management_ver1.Migrations
 
             migrationBuilder.DropTable(
                 name: "stocklocationmodel");
+
         }
     }
 }

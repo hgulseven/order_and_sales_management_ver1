@@ -323,6 +323,8 @@ namespace order_and_sales_management_ver1.Migrations
 
                     b.Property<int>("productID");
 
+                    b.Property<DateTime>("saleTime");
+
                     b.Property<int>("typeOfCollection");
 
                     b.HasKey("saleDate", "salesID", "salesLineId");
@@ -354,18 +356,6 @@ namespace order_and_sales_management_ver1.Migrations
                     b.ToTable("stockitems");
                 });
 
-            modelBuilder.Entity("Order_And_Sales_Management_ver1.Models.stocklocationmodel", b =>
-                {
-                    b.Property<int>("locationID")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("locationName");
-
-                    b.HasKey("locationID");
-
-                    b.ToTable("stocklocationmodel");
-                });
-
             modelBuilder.Entity("Order_And_Sales_Management_ver1.Models.TeraziScreenMapping", b =>
                 {
                     b.Property<int>("teraziID");
@@ -381,6 +371,29 @@ namespace order_and_sales_management_ver1.Migrations
                     b.ToTable("TeraziScreenMapping");
                 });
 
+            modelBuilder.Entity("Order_And_Sales_Management_ver1.Models.salescounter", b =>
+                {
+                    b.Property<DateTime>("salesDate");
+
+                    b.Property<int>("counter");
+
+                    b.HasKey("salesDate");
+
+                    b.ToTable("salescounter");
+                });
+
+            modelBuilder.Entity("Order_And_Sales_Management_ver1.Models.stocklocationmodel", b =>
+                {
+                    b.Property<int>("locationID")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("locationName");
+
+                    b.HasKey("locationID");
+
+                    b.ToTable("stocklocationmodel");
+                });
+
             modelBuilder.Entity("Order_And_Sales_Management_ver1.Models.terazitable", b =>
                 {
                     b.Property<int>("teraziID");
@@ -391,17 +404,6 @@ namespace order_and_sales_management_ver1.Migrations
                     b.HasKey("teraziID");
 
                     b.ToTable("terazitable");
-                });
-
-            modelBuilder.Entity("Order_And_Sales_Management_ver1.Models.salescounter", b =>
-                {
-                    b.Property<DateTime>("salesDate");
-
-                    b.Property<int>("counter");
-
-                    b.HasKey("salesDate");
-
-                    b.ToTable("salescounter");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

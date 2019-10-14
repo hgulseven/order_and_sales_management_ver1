@@ -10,6 +10,7 @@ namespace Order_And_Sales_Management_ver1.Models
         [Column(Order = 0)]
         public DateTime saleDate { get; set; }
 
+        public DateTime saleTime { get; set; }
         [Key]
         [Column(Order = 1)]
         [Display(Name = "Satýþ No")]
