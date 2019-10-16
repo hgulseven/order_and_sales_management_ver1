@@ -181,7 +181,33 @@
             return PaidTutar;
          }
 
-        function getValue2(Id) {
+	function getValue2(Id) {
+           var xmlhttp = new XMLHttpRequest();
+           var curRow = Id.parentNode.parentNode;
+           var salesID = curRow.cells.item(0).innerHTML;
+           var val=document.getElementById("paidTutar"+salesID.toString().trim()).value;
+           xmlhttp.onreadystatechange = function() {
+             if (xmlhttp.readyState == XMLHttpRequest.DONE) {   // XMLHttpRequest.DONE == 4
+               if (xmlhttp.status == 200) 
+               {
+               }
+               else if (xmlhttp.status == 400) 
+                    {
+                        alert('There was an error 400');
+                    }
+                    else 
+                    {
+                        alert('something else other than 200 was returned');
+                    }
+               }
+         };
+
+         xmlhttp.open("GET","/DisplaySales/updatePaidAmount?salesID="+salesID+"&paidAmount="+val , false);
+         xmlhttp.send();
+       }
+	
+
+        function getValueold2(Id) {
             var curRow = Id.parentNode.parentNode;
             var salesID = curRow.cells.item(0).innerHTML;
             var val=document.getElementById("paidTutar"+salesID.toString().trim()).value;
