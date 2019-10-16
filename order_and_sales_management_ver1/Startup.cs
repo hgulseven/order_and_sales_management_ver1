@@ -122,7 +122,6 @@ namespace Order_And_Sales_Management_ver1
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
-
             app.UseAuthentication();
 
             app.UseMvc(routes =>
