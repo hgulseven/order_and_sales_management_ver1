@@ -32,8 +32,8 @@ namespace Order_And_Sales_Management_ver1.Controllers
     public class DisplaySalesController : Controller
     {
 
-        public const string SelectLastCustomerWhoDidPayment = "select max(salesID) as salesID from salesmodels where typeOfCollection>0 and saleDate = @saleDate "; /* Get maximum sales id which is paid on given date */
-        public const string UpdateLastCustomerAsNotPaid = "update salesmodels set typeOfCollection = 0 where saleDate=@saleDate and salesID=@salesID";
+        public const string SelectLastCustomerWhoDidPayment = "select max(salesID) as salesID from salesmodels where typeOfCollection>0 and saleDate = @saleDate and locationID=@locationID"; /* Get maximum sales id which is paid on given date */
+        public const string UpdateLastCustomerAsNotPaid = "update salesmodels set typeOfCollection = 0 where saleDate=@saleDate and salesID=@salesID and locationID=@locationID";
         public const string SelectCustomersWhichSentToCashier = "select  salesID,sum(amount*productRetailPrice) as tutar,max(paidAmount) as paidTutar " +
                                                                                                                     "from salesmodels left outer join employeesmodels  on (salesmodels.personelID = employeesmodels.personelID) " +
                                                                                                                     "left outer join productmodels on(salesmodels.productID=productmodels.productID) " +
@@ -42,13 +42,13 @@ namespace Order_And_Sales_Management_ver1.Controllers
         public const string SelectSalesDetail = "select salesmodels.personelID,salesLineID,CONCAT(persName,' ',persSurname) as employee, productName, amount, (amount*productRetailPrice) as tutar " +
                                                                                     "from salesmodels left outer join employeesmodels  on (salesmodels.personelID = employeesmodels.personelID) " +
                                                                                     "left outer join productmodels on(salesmodels.productID=productmodels.productID) " +
-                                                                                    "where typeOfCollection = 0  and salesmodels.salesID=@salesID " +
+                                                                                    "where typeOfCollection = 0  and salesmodels.salesID=@salesID  and salesmodels.locationID=@locationID " +
                                                                                     "order by salesLineID";
         public const string UpdateSalesAsPaid = "Update salesmodels set typeOfCollection=@typeOfCollection, saleTime=@saleTime " +
-                                                                                   "where typeOfCollection = 0  and salesID=@salesID and saleDate = @saleDate";
+                                                                                   "where typeOfCollection = 0  and salesID=@salesID and saleDate = @saleDate and locationID=@locationID";
 
         public const string UpdatePaidAmount = "Update salesmodels set paidAmount=@paidTutar " +
-                                                                                    "where salesID=@salesID and saleDate=@salesDate";
+                                                                                    "where salesID=@salesID and saleDate=@salesDate and locationID=@locationID";
         public const string EndOFDayReport = "select sum(round(paidAmount,2)) as totalPaidAmount, " +
                                                                                            "sum(round(amount* productmodels.productRetailPrice,2)) as totalCalculatedAmount," +
                                                                                             "case salesmodels.typeOfCollection " +
@@ -137,6 +137,9 @@ namespace Order_And_Sales_Management_ver1.Controllers
                 MySqlCommand mySqlCommand = cnn.CreateCommand();
                 mySqlCommand.CommandText = SelectSalesDetail;
                 mySqlCommand.Parameters.AddWithValue("@salesID", salesID);
+                var location = HttpContext.User.Claims.Where(c => c.Type == "location").FirstOrDefault().Value.ToString();
+                mySqlCommand.Parameters.AddWithValue("@locationID",location);
+
                 MySqlDataReader reader = mySqlCommand.ExecuteReader();
                 while (reader.Read())
                 {
@@ -203,6 +206,8 @@ namespace Order_And_Sales_Management_ver1.Controllers
                 mySqlCommand.Parameters.AddWithValue("@saleTime", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.ffffff"));
                 mySqlCommand.Parameters.AddWithValue("@typeOfCollection", typeOfCollection);
                 mySqlCommand.Parameters.AddWithValue("@salesID", salesID);
+                var location = HttpContext.User.Claims.Where(c => c.Type == "location").FirstOrDefault().Value.ToString();
+                mySqlCommand.Parameters.AddWithValue("@locationID", location);
                 mySqlCommand.ExecuteNonQuery();
                 mySqlCommand.Dispose();
             }
@@ -233,6 +238,8 @@ namespace Order_And_Sales_Management_ver1.Controllers
                 MySqlCommand mySqlCommand = cnn.CreateCommand();
                 mySqlCommand.CommandText = SelectLastCustomerWhoDidPayment;
                 mySqlCommand.Parameters.AddWithValue("@saleDate", DateTime.Now.ToString("yyyy-MM-dd"));
+                var location = HttpContext.User.Claims.Where(c => c.Type == "location").FirstOrDefault().Value.ToString();
+                mySqlCommand.Parameters.AddWithValue("@locationID", location);
                 MySqlDataReader reader = mySqlCommand.ExecuteReader();
                 while (reader.Read())
                 {
@@ -244,6 +251,8 @@ namespace Order_And_Sales_Management_ver1.Controllers
                 mySqlCommand.CommandText = UpdateLastCustomerAsNotPaid;
                 mySqlCommand.Parameters.AddWithValue("@saleDate", DateTime.Now.ToString("yyyy-MM-dd"));
                 mySqlCommand.Parameters.AddWithValue("@salesID", salesID);
+                mySqlCommand.Parameters.AddWithValue("@locationID", location);
+
                 mySqlCommand.ExecuteNonQuery();
                 mySqlCommand.Dispose();
             }
@@ -274,6 +283,8 @@ namespace Order_And_Sales_Management_ver1.Controllers
                 mySqlCommand.CommandText = UpdatePaidAmount;
                 mySqlCommand.Parameters.AddWithValue("@salesDate", DateTime.Now.ToString("yyyy-MM-dd"));
                 mySqlCommand.Parameters.AddWithValue("@typeOfCollection", 0);
+                var location = HttpContext.User.Claims.Where(c => c.Type == "location").FirstOrDefault().Value.ToString();
+                mySqlCommand.Parameters.AddWithValue("@locationID", location);
                 int intSalesID = 0;
                 int.TryParse(salesID, out intSalesID);
                 mySqlCommand.Parameters.AddWithValue("@salesID", intSalesID);

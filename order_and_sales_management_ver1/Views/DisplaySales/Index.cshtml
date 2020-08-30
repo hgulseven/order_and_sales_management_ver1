@@ -26,6 +26,9 @@
                     @Html.DisplayNameFor(DisplaySales => DisplaySales.tutar)
                 </th>
                 <th style="text-align:right">
+                    @Html.DisplayNameFor(DisplaySales => DisplaySales.indirimOranı)
+                </th>
+                <th style="text-align:right">
                     @Html.DisplayNameFor(DisplaySales => DisplaySales.paidTutar)
                 </th>
                 <th>
@@ -41,30 +44,33 @@
         </thead>
         @foreach (var item in Model)
         {
-            <tr id=@item.rowID style="border-bottom: 1px solid #cdd0d4;">
-                <td>
-                    @Html.DisplayFor(modelItem => item.salesID)
-                </td>
-                <td style="text-align:right">
-                    @Html.DisplayFor(modelItem => item.tutar)
-                </td>
-                <td style="text-align:right">
-                    @Html.TextBoxFor(modelItem => item.paidTutar, new { Id = "paidTutar" + @item.salesID })
-                </td>
-                <td width="75">
-                    <input id="clickMe" class="btn btn-primary btn-lg btn-block" type="button" value="Detaylar" style="font-size:12px" onclick="addTable(@item.rowID, @item.salesID);" />
-                </td>
-                <td width="75">
-                    @Html.ActionLink("Nakit", "Tahsilat", "DisplaySales", new { salesID = item.salesID, typeOfCollection = 1 }, new { @class = "btn btn-danger  btn-lg btn-block", @style = "font-size:12px", @onclick = "getValue2(this)" })
-                </td>
-                <td width="120">
-                    @Html.ActionLink("Kredi Kartı", "Tahsilat", "DisplaySales", new { salesID = item.salesID,typeOfCollection = 2 }, new { @class = "btn btn-danger btn-lg btn-block", @style = "font-size:12px", @onclick = "getValue2(this)" })
-                </td>
-                <td width="75">
-                    @Html.ActionLink("Diğer", "Tahsilat", "DisplaySales", new { salesID = item.salesID, typeOfCollection = 3 }, new { @class = "btn btn-danger btn-lg btn-block", @style = "font-size:12px", @onclick = "getValue2(this)" })
-                </td>
+    <tr id=@item.rowID style="border-bottom: 1px solid #cdd0d4;">
+        <td>
+            @Html.DisplayFor(modelItem => item.salesID)
+        </td>
+        <td style="text-align:right">
+            @Html.DisplayFor(modelItem => item.tutar)
+        </td>
+        <td style="text-align:right">
+            @Html.TextBoxFor(modelItem => item.indirimOranı, new { Id = "indirimOranı" + @item.salesID })
+        </td>
+        <td style="text-align:right">
+            @Html.TextBoxFor(modelItem => item.paidTutar, new { Id = "paidTutar" + @item.salesID })
+        </td>
+        <td width="75">
+            <input id="clickMe" class="btn btn-primary btn-lg btn-block" type="button" value="Detaylar" style="font-size:12px" onclick="addTable(@item.rowID, @item.salesID);" />
+        </td>
+        <td width="75">
+            @Html.ActionLink("Nakit", "Tahsilat", "DisplaySales", new { salesID = item.salesID, typeOfCollection = 1 }, new { @class = "btn btn-danger  btn-lg btn-block", @style = "font-size:12px", @onclick = "getValue2(this)" })
+        </td>
+        <td width="120">
+            @Html.ActionLink("Kredi Kartı", "Tahsilat", "DisplaySales", new { salesID = item.salesID, typeOfCollection = 2 }, new { @class = "btn btn-danger btn-lg btn-block", @style = "font-size:12px", @onclick = "getValue2(this)" })
+        </td>
+        <td width="75">
+            @Html.ActionLink("Diğer", "Tahsilat", "DisplaySales", new { salesID = item.salesID, typeOfCollection = 3 }, new { @class = "btn btn-danger btn-lg btn-block", @style = "font-size:12px", @onclick = "getValue2(this)" })
+        </td>
 
-            </tr>
+    </tr>
         }
 
     </table>

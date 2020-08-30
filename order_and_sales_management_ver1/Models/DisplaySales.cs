@@ -16,6 +16,8 @@ namespace Order_And_Sales_Management_ver1.Models
         public string  personelID { get; set; }
         [Display(Name ="Çalışan")]
         public string employee { get; set; }
+        [Display(Name = "İndirim Oranı")]
+        public string indirimOranı { get; set; }
         [Display(Name = "Tutar")]
         public string tutar { get; set; }
         [Display(Name = "Tahsil Edilen")]

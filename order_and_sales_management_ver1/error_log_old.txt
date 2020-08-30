@@ -1,3 +1,1 @@
-15.10.2019 11:14:46.69116 Function : UpdatePaidAmount           Err: 
-                    34
-                 9,00                                                                                                                                                                                                                  
+30.08.2020 16:58:14.68352 Function : UpdatePaidAmount           Err:             36         62,50                                                                                                                                                                                                                                   
