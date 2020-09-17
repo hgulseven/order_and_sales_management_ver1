@@ -8,6 +8,7 @@ using Order_And_Sales_Management_ver1.Data;
 using Order_And_Sales_Management_ver1.Models;
 using Newtonsoft;
 using Newtonsoft.Json.Linq;
+using System.Globalization;
 
 namespace Order_And_Sales_Management_ver1.Controllers
 {
@@ -49,6 +50,8 @@ namespace Order_And_Sales_Management_ver1.Controllers
 
             if (ModelState.IsValid)
             {
+                CultureInfo provider = CultureInfo.InvariantCulture;
+
                 jobjSiparis = JObject.Parse(jsonSiparis);
                 foreach (KeyValuePair<String, JToken> app in jobjSiparis)
                 {
@@ -57,7 +60,7 @@ namespace Order_And_Sales_Management_ver1.Controllers
                     switch (appName)
                     {
                         case "orderDate":
-                            siparis.orderDate = DateTime.Parse(value);
+                            siparis.orderDate = DateTime.ParseExact(value,"MM/dd/yyyy HH:mm:ss",provider);
                             break;
                         case "orderOwner_personelID":
                             siparis.orderOwner_personelID = int.Parse(value);
@@ -71,26 +74,29 @@ namespace Order_And_Sales_Management_ver1.Controllers
                 jobjOrderDetails = JArray.Parse(jsonOrderDetails);
                 foreach (JObject jObj in jobjOrderDetails)
                 {
-                    OrderDetailsModel orderDetails = new OrderDetailsModel();
-                    foreach (KeyValuePair<String, JToken> app in jObj)
-                    {
-                        var appName = app.Key;
-                        var value = (String)app.Value;
-                        switch (appName)
+                    if (jObj != null) 
+                     {
+                        OrderDetailsModel orderDetails = new OrderDetailsModel();
+                        foreach (KeyValuePair<String, JToken> app in jObj)
                         {
-                            case "orderLineNo":
-                                orderDetails.orderLineNo = int.Parse(value);
-                                break;
-                            case "productID":
-                                orderDetails.productID = int.Parse(value);
-                                break;
-                            case "productAmount":
-                                orderDetails.productAmount = int.Parse(value);
-                                break;
+                            var appName = app.Key;
+                            var value = (String)app.Value;
+                            switch (appName)
+                            {
+                                case "orderLineNo":
+                                    orderDetails.orderLineNo = int.Parse(value);
+                                    break;
+                                case "productID":
+                                    orderDetails.productID = int.Parse(value);
+                                    break;
+                                case "productAmount":
+                                    orderDetails.productAmount = int.Parse(value);
+                                    break;
+                            }
                         }
+                        orderDetails.recStatus = Program.Const_Active_Order;
+                        siparis.orderdetailsmodels.Add(orderDetails);
                     }
-                    orderDetails.recStatus = Program.Const_Active_Order;
-                    siparis.orderdetailsmodels.Add(orderDetails);
                 }
                 _context.Add(siparis);
                 _context.SaveChanges();

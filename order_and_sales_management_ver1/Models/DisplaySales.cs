@@ -21,6 +21,8 @@ namespace Order_And_Sales_Management_ver1.Models
         [Display(Name = "Tutar")]
         public string tutar { get; set; }
         [Display(Name = "Tahsil Edilen")]
+        [RegularExpression(@"^\d+\.\d{0,2}$", ErrorMessage="Numerik bir değer giriniz.")]
+        [Range(0, 9999999999999999.99)]
         public string paidTutar { get; set; }
 
     }

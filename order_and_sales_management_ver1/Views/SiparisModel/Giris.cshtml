@@ -3,131 +3,132 @@
 @{
     ViewData["Title"] = "Liste";
 }
-    <div class="panel-info">
-        <h1>Sipariş Giriş Ekranı</h1>
-        <h4>Siparis Tablosu</h4>
-    </div>
+<div class="panel-info">
+    <h1>Sipariş Giriş Ekranı</h1>
+    <h4>Siparis Tablosu</h4>
+</div>
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
 <div class="alert alert-danger">
-  @Html.ValidationSummary(false)
+    @Html.ValidationSummary(false)
 </div>
-    <div class="row">
-        <div class="col-md-2">
-            <label asp-for="productName" class="control-label"></label>
+<div class="row">
+    <div class="col-md-4">
+        <h4>ÜRÜN SEÇİMİ</h4>
+        <div class="row">
+            <div class="col-md-6">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input asp-for="productName" id="product" class="form-control" />
+                <span asp-validation-for="productName" class="text-danger"></span>
+            </div>
+            <div class="col-md-6">
+                <input type="submit" id="getProducts" value="Ürün Ara" class="btn btn-primary btn" onclick="getProducts()" />
+            </div>
         </div>
-        <div class="col-md-6">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input asp-for="productName" id="product" class="form-control" />
-            <span asp-validation-for="productName" class="text-danger"></span>
-        </div>
-        <div class="col-md-4">
-            <input type="submit" id="getProducts" value="Filtrele" class="btn btn-primary" onclick="getProducts()"/>
-        </div>
+        <table class="table table-striped table-curved table_data" id="products">
+            <thead class="table-head">
+                <tr>
+                    <th>
+                        @Html.DisplayName("Ürün Id")
+                    </th>
+                    <th>
+                        @Html.DisplayName("Ürün Adı")
+                    </th>
+                    <th>@Html.DisplayName("Ürün Fiyatı")</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                    </td>
+                    <td>
+                    </td>
+                    <td>
+                    </td>
+                    <td>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
     </div>
-
-<table class="table table-striped table-curved table_data" id="products">
-    <thead class="table-head">
-        <tr>
-                <th>
-                    @Html.DisplayName("Ürün Id")
-                </th>
-                <th>
-                    @Html.DisplayName("Ürün Adı")
-                </th>
-                <th></th>
-        </tr>
-    </thead>
-    <tbody>
-            <tr>
-                <td>
-                </td>
-                <td>
-                </td>
-                <td>
-                </td>
-            </tr>
-    </tbody>
-</table>
-<div id="entryForm">
-    <hr/>
-    <h3>SİPARİŞ FİŞİ</h3>
-    <div class="row">
-        <div class="col-md-1">
-            <label asp-for="orderDate" class="control-label"></label>
-        </div>
-        <div class="col-md-2">
-            <input asp-for="orderDate" id="orderDate" class="form-control" readonly />
-        </div>
-        <div class="col-md-1">
-            <label asp-for="orderOwner_personelID" class="control-label"></label>
-        </div>
-        <div class="col-md-2">
-            <select asp-for="orderOwner_personelID" class="form-control" asp-items="ViewBag.personelID" id="empSelect" onload="getPersonelLocation()" onchange="getPersonelLocation()"></select>
-        </div>
-        <div class="col-md-2">
-            <label asp-for="orderLocationID" class="control-label"></label>
-        </div>
-        <div class="col-md-1">
-            <input asp-for="orderLocation.locationID" id="empLocation" class="form-control" readonly />
-        </div>
-        <div class="col-md-2">
-            <input asp-for="orderLocation.locationName" id="locationName" class="form-control" readonly />
-        </div>
-        <div class="col-md-1">
-            <input type="submit" value="Kaydet" class="btn btn-primary" onclick="createJson()" />
-        </div>
-
-    </div>
-            <table class="table table-striped table-curved" id="orderDetails">
+    <div class="col-md-8">
+        <div id="entryForm">
+            <h4>SİPARİŞ FİŞİ</h4>
+            <div class="row">
+                <div class="col-md-3">
+                    <input asp-for="orderDate" id="orderDate" class="form-control" readonly />
+                </div>
+                <div class="col-md-3">
+                    <select asp-for="orderOwner_personelID" class="form-control" asp-items="ViewBag.personelID" id="empSelect" onload="getPersonelLocation()" onchange="getPersonelLocation()"></select>
+                </div>
+                <div class="col-md-3">
+                    <input hidden id="empLocation" asp-for="orderLocation.locationID"  class="form-control" />
+                    <input asp-for="orderLocation.locationName" id="locationName" class="form-control" readonly />
+                </div>
+                <div class="col-md-3">
+                    <input  type="button" value="Kaydet" class="btn btn-secondary" onclick="createJson()" />
+                </div>
+            </div>
+            <table class="table table-striped table-curved table-row-height" id="orderDetails">
                 <thead class="table-head">
                     <tr>
-                        <th>
-                            @Html.DisplayName("Satır No")
+                        <th width="15">
+                            @Html.LabelFor(modelItem => Model.productID)
                         </th>
-                        <th>
-                            @Html.DisplayName("Ürün Id")
+                        <th width="40">
+                            @Html.LabelFor(modelItem => Model.productName)
                         </th>
-                        <th>
-                            @Html.DisplayName("Ürün Adı")
+                        <th width="10">
+                            <label>Ürün Fiyatı</label>
                         </th>
-                        <th>
-                            @Html.DisplayName("Miktar")
+                        <th width="10">
+                            @Html.LabelFor(modelItem => Model.productAmount)
+                        </th>
+                        <th width="10">
+                            <label>Tutar</label>
+                        </th>
+                        <th width="15">
+                            <label>İşlem</label>
                         </th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <td>
-                        </td>
-                        <td>
-                        </td>
-                        <td>
-                        </td>
-                        <td>
-                        </td>
+                        <td width="15"></td>
+                        <td width="40"></td>
+                        <td width="10"></td>
+                        <td width="10"></td>
+                        <td width="10"></td>
+                        <td width="15"></td>
                     </tr>
-
                     @foreach (var item in Model.orderdetailsmodels)
                     {
-
-                        <tr>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.ProductModel.productID)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.ProductModel.ProductName)
-                            </td>
-                            <td>
-                                @Html.EditorFor(modelItem => item.productAmount)
-                            </td>
-                        </tr>
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ProductModel.productID)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ProductModel.ProductName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ProductModel.productWholesalePrice)
+                    </td>
+                    <td>
+                        @Html.EditorFor(modelItem => item.productAmount)
+                    </td>
+                    <td align="left">
+                        <a asp-action="Delete" asp-route-id="@item.ProductModel.productID"><button type="button" class="btn btn-danger">Sil</button></a>
+                    </td>
+                </tr>
                     }
                 </tbody>
             </table>
+        </div>
+    </div>
 </div>
 <script>
     $(document).ready(function () {
-//       $("#entryForm").hide(); 
+        //       $("#entryForm").hide();
     });
 
     function fnSelect() {
@@ -136,22 +137,22 @@
 
     function getPersonelLocation() {
         var personelID = document.getElementById("empSelect");
-        	    $.ajax({
-				    'url': 'getLocation',
-				    'type': 'GET',
-				    'data': {
-					    'employeeID': personelID.value,
-				    },
-                    'success': function (data) {
-                        var loc = document.getElementById("locationName");
-                        loc.value = data.locationName.trim();
-                        var loc = document.getElementById("empLocation");
-                        loc.value=data.locationID;
-    			    },
-				    'error': function (request, error) {
-					    alert("Request: " + JSON.stringify(request));
-				    }
-			    });
+        $.ajax({
+            'url': 'getLocation',
+            'type': 'GET',
+            'data': {
+                'employeeID': personelID.value,
+            },
+            'success': function (data) {
+                var loc = document.getElementById("locationName");
+                loc.value = data.locationName.trim();
+                var loc = document.getElementById("empLocation");
+                loc.value = data.locationID;
+            },
+            'error': function (request, error) {
+                alert("Request: " + JSON.stringify(request));
+            }
+        });
 
     }
     function GetSelected() {
@@ -166,15 +167,23 @@
             if (checkBoxes[i].checked) {
                 var row = checkBoxes[i].parentNode.parentNode;
                 var table = document.getElementById("orderDetails");
-                var NewRow = table.insertRow(1); 
-                var Newcell1 = NewRow.insertCell(0); 
-                var Newcell2 = NewRow.insertCell(1); 
-                var Newcell3 = NewRow.insertCell(2); 
-                var Newcell4 = NewRow.insertCell(3); 
-                Newcell1.innerHTML = (table.rows.length-2).toString();
-                Newcell2.innerHTML = row.cells[0].innerHTML.trim(); 
-                Newcell3.innerHTML = row.cells[1].innerHTML.trim(); 
-                Newcell4.innerHTML ='<input class="form-control" data-val="true" name="orderDetailModels.productAmount" id=productAmount'+(table.rows.length-2).toString()+' />';
+                var NewRow = table.insertRow(table.numofRows);
+                var productID = NewRow.insertCell(0);
+                var productName = NewRow.insertCell(1);
+                var productPrice = NewRow.insertCell(2);
+                var productAmount = NewRow.insertCell(3);
+                var productSum = NewRow.insertCell(4);
+                var actionBtn = NewRow.insertCell(5);
+                productID.style.width = "50px";
+                productName.style.width = "250px";
+                productPrice.style.width = "50px";
+                productAmount.style.width = "50px";
+                productID.innerHTML = row.cells[0].innerHTML.trim();
+                productName.innerHTML = row.cells[1].innerHTML.trim();
+                productPrice.innerHTML = '<input class="form-control" readonly value="' + row.cells[2].innerHTML.trim() + '" id="productPrice' + row.cells[0].innerHTML.trim() + '"/>';
+                productAmount.innerHTML = '<input class="form-control" name="orderDetailModels.productAmount" onblur=calcTutar('+row.cells[0].innerHTML.trim() +') id=productAmount' + row.cells[0].innerHTML.trim() + ' />';
+                productSum.innerHTML = '<input class="form-control" readonly value="0"/>';
+                actionBtn.innerHTML= '<input type="submit" value="Sil" class="btn btn-danger" onclick="deleteLine('+row.cells[0].innerHTML.trim()+')" />'
                 checkBoxes[i].checked = false;
             }
         }
@@ -184,6 +193,35 @@
         $("#productionLotID").val(dateString);
         $("#productionLotID").select();
     }
+
+    function deleteLine(productID) {
+        var table = document.getElementById("orderDetails");
+        i = 1
+        while (table.rows[i].cells[0].innerHTML.trim() != productID)
+            i=i+1
+        table.deleteRow(i)
+    }
+
+    function calcTutar(productID) {
+        var table = document.getElementById("orderDetails");
+        i = 1
+        while (table.rows[i].cells[0].innerHTML.trim() != productID)
+            i = i + 1
+        strAmount=document.getElementById("productAmount" + productID).value;
+        var floatAmount = parseFloat(strAmount); 
+        strPrice=document.getElementById("productPrice" + productID).value
+        var floatPrice = parseFloat(strPrice);
+        tutar = floatAmount * floatPrice;
+        table.rows[i].cells[4].innerHTML = '<input class="form-control" readonly value="' + tutar.toLocaleString("tr-TR")+ '"/>';
+        var toplam = 0;
+        for (i = 2; i <table.rows.length; i++) {
+            var strelement = table.rows[i].cells[4].firstChild;
+            var floatelement = parseFloat(strelement.value.replace(",","."));
+            toplam=toplam+floatelement 
+        }
+        table.rows[1].cells[4].innerHTML= '<input class="form-control" readonly value="' + toplam.toLocaleString("tr-TR")+ '"/>'; 
+    }
+
 
     function paginate() {
         var currentPage = 0;
@@ -211,7 +249,7 @@
 
     }
 
-        $('table.table_data').each(function () {
+    $('table.table_data').each(function () {
         var currentPage = 0;
         var numPerPage = 3;
         var $table = $(this);
@@ -242,67 +280,69 @@
         var d = date.getDate();
         var m = date.getMonth() + 1; //Month from 0 to 11
         var y = date.getFullYear();
-        return '' + y + '-' + (m<=9 ? '0' + m : m) + '-' + (d <= 9 ? '0' + d : d);
+        return '' + y + '-' + (m <= 9 ? '0' + m : m) + '-' + (d <= 9 ? '0' + d : d);
     }
 
     function getProducts() {
         var filter = document.getElementById("product");
-			    $.ajax({
-				    'url': 'getProducts',
-				    'type': 'GET',
-				    'data': {
-					    'productName': filter.value,
-				    },
-                    'success': function (data) {
-                        var table = document.getElementById("products");
-                        var numofRows = table.rows.length;
-                        for (i = 0; i < data.products.length; i++) {
-                            var row = table.insertRow(1);
-                            var newCell1 = row.insertCell(0);
-                            var newCell2 = row.insertCell(1);
-                            var newCell3 = row.insertCell(2);
-                            newCell1.innerHTML = data.products[i].productID;
-                            newCell2.innerHTML = data.products[i].productName;
-                            newCell3.innerHTML = '<input type="checkbox" id="selected" onclick="fnSelect()" />'
-                        }
-                        var lastItem = table.rows.length - numofRows;
-                        for (i = table.rows.length - 1; i > lastItem; i--) {
-                            table.deleteRow(i);
-                        }
-                        $(".pager").remove();
-                        paginate();
-    			    },
-				    'error': function (request, error) {
-					    alert("Request: " + JSON.stringify(request));
-				    }
-			    });
+        $.ajax({
+            'url': 'getProducts',
+            'type': 'GET',
+            'data': {
+                'productName': filter.value,
+            },
+            'success': function (data) {
+                var table = document.getElementById("products");
+                var numofRows = table.rows.length;
+                for (i = 0; i < data.products.length; i++) {
+                    var row = table.insertRow(1);
+                    var newCell1 = row.insertCell(0);
+                    var newCell2 = row.insertCell(1);
+                    var newCell3 = row.insertCell(2)
+                    var newCell4 = row.insertCell(3);
+                    newCell1.innerHTML = data.products[i].productID;
+                    newCell2.innerHTML = data.products[i].productName;
+                    newCell3.innerHTML = data.products[i]. productWholesalePrice.toString();
+                    newCell4.innerHTML = '<input type="checkbox" id="selected" onclick="fnSelect()" />'
+                }
+                var lastItem = table.rows.length - numofRows;
+                for (i = table.rows.length - 1; i > lastItem; i--) {
+                    table.deleteRow(i);
+                }
+                $(".pager").remove();
+                paginate();
+            },
+            'error': function (request, error) {
+                alert("Request: " + JSON.stringify(request));
+            }
+        });
 
     }
 
     function createJson() {
-        var jsObj = {orderDate:document.getElementById("orderDate").value, orderOwner_personelID:document.getElementById("empSelect").value,LocationID:document.getElementById("empLocation").value };
+        var jsObj = { orderDate: document.getElementById("orderDate").value, orderOwner_personelID: document.getElementById("empSelect").value, LocationID: document.getElementById("empLocation").value };
         var table = document.getElementById("orderDetails");
         var orderModelDetails = [];
-        for (i = 1; i < table.rows.length; i++) {
-            if (table.rows[i].cells[1].innerHTML.trim() != "") {
-                var obj = { orderLineNo: table.rows[i].cells[0].innerHTML, productID: table.rows[i].cells[1].innerHTML, productAmount: document.getElementById("productAmount" + table.rows[i].cells[0].innerHTML).value }
-                orderModelDetails[i - 1] = obj;
+        for (i = 2; i < table.rows.length; i++) {
+            if (table.rows[i].cells[0].innerHTML.trim() != "") {
+                var obj = { orderLineNo: i-1, productID: table.rows[i].cells[0].innerHTML, productAmount: document.getElementById("productAmount" + table.rows[i].cells[0].innerHTML).value }
+                orderModelDetails[i - 2] = obj;
             }
         }
-			    $.ajax({
-				    'url': 'Giris',
-				    'type': 'POST',
-				    'data': {
-					    'jsonSiparis': JSON.stringify(jsObj),
-					    'jsonOrderDetails': JSON.stringify(orderModelDetails),
-				    },
-                    'success': function (data) {
-                        location.reload(); 
-				    },
-				    'error': function (request, error) {
-					    alert("Request: " + JSON.stringify(request));
-				    }
-			    });
+        $.ajax({
+            'url': 'Giris',
+            'type': 'POST',
+            'data': {
+                'jsonSiparis': JSON.stringify(jsObj),
+                'jsonOrderDetails': JSON.stringify(orderModelDetails),
+            },
+            'success': function (data) {
+                location.reload();
+            },
+            'error': function (request, error) {
+                alert("Request: " + JSON.stringify(request));
+            }
+        });
 
     }
 
@@ -315,13 +355,13 @@
         var action = "newEntry";
 
         $.ajax({
-            'url' : 'StockItemExists',
-            'type' : 'GET',
-            'data' : {
-             'prodID': prodID.value,
-             'lotID': lotID.value
+            'url': 'StockItemExists',
+            'type': 'GET',
+            'data': {
+                'prodID': prodID.value,
+                'lotID': lotID.value
             },
-            'success': function (data) {    
+            'success': function (data) {
                 if (data == true) {
                     if (confirm("Kayıt Daha Önce girilmiş. Güncellemek mi istiyorsunuz?")) {
                         action = "update"
@@ -329,27 +369,26 @@
                         action = "doNothing"
                     }
                 }
-			    $.ajax({
-				    'url': 'Giris',
-				    'type': 'POST',
-				    'data': {
-					    'productID': prodID.value,
-					    'ProductName': prodName.Value,
-					    'productionLotID': lotID.value,
-					    'stockAmount': stockAmount.value,
-					    'action': action
-				    },
+                $.ajax({
+                    'url': 'Giris',
+                    'type': 'POST',
+                    'data': {
+                        'productID': prodID.value,
+                        'ProductName': prodName.Value,
+                        'productionLotID': lotID.value,
+                        'stockAmount': stockAmount.value,
+                        'action': action
+                    },
                     'success': function (data) {
-                        location.reload(); 
-				    },
-				    'error': function (request, error) {
-					    alert("Request: " + JSON.stringify(request));
-				    }
-			    });
+                        location.reload();
+                    },
+                    'error': function (request, error) {
+                        alert("Request: " + JSON.stringify(request));
+                    }
+                });
             },
-            'error' : function(request,error)
-            {
-                alert("Request: "+JSON.stringify(request));
+            'error': function (request, error) {
+                alert("Request: " + JSON.stringify(request));
             }
         });
     }

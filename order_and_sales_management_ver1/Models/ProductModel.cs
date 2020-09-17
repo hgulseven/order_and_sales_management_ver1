@@ -14,6 +14,7 @@ namespace Order_And_Sales_Management_ver1.Models
             salesmodels = new HashSet<SalesModel>();
         }
         [Key]
+        [Display(Name = "Ürün Kodu")]
         public int productID { get; set; }
         [Display(Name = "Ürün Adý")]
         public string ProductName { get; set; }

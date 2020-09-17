@@ -170,7 +170,12 @@ body {
     border-radius: 0 6px 0 0;
 }
 
-.panel-info {
+.table-row-height tr {
+    overflow: hidden;
+    height: 8px;
+    white-space: nowrap;
+}
+    .panel-info {
     background-color: chocolate;
     color: white;
     border-bottom-left-radius: 10px;
