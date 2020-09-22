@@ -9,15 +9,17 @@ namespace Order_And_Sales_Management_ver1.Models
         [Column(Order = 0)]
         [ForeignKey("OrderModel")]
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
+        [Display(Name = "Sipariþ No")]
         public int orderID { get; set; }
 
         [Key]
         [Column(Order = 1)]
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
+        [Display(Name = "Sipariþ Satýr No")]
         public int orderLineNo { get; set; }
 
         public int productID { get; set; }
-
+        [Display(Name ="Ürün Miktarý")]
         public int productAmount { get; set; }
 
         public int orderDeliveryDate { get; set; }

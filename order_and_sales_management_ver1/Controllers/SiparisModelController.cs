@@ -9,6 +9,7 @@ using Order_And_Sales_Management_ver1.Models;
 using Newtonsoft;
 using Newtonsoft.Json.Linq;
 using System.Globalization;
+using Microsoft.EntityFrameworkCore;
 
 namespace Order_And_Sales_Management_ver1.Controllers
 {
@@ -20,6 +21,29 @@ namespace Order_And_Sales_Management_ver1.Controllers
         {
             _context = context;
         }
+
+        [HttpGet]
+        public ActionResult Liste()
+        {
+            List<OrderModel> siparis = new List<OrderModel>();
+            siparis = _context.OrderModel.Include(b => b.orderdetailsmodels)
+                                                                     .Include(b => b.orderLocation)
+                                                                     .Include(c => c.orderOwnerEmployeeModel)
+                                .ToList();
+            foreach (OrderModel order in siparis)
+            {
+                order.orderOwnerEmployeeModel = _context.employeesmodels.FirstOrDefault(e => e.personelID == order.orderOwner_personelID); 
+            }
+            foreach (OrderModel order in siparis)
+            {
+                foreach (OrderDetailsModel orderDetails in order.orderdetailsmodels)
+                        orderDetails.ProductModel = _context.productmodels.FirstOrDefault(e => e.productID== orderDetails.productID);
+            }
+
+            return View(siparis);
+
+        }
+
         [HttpGet]
         public ActionResult Giris(string productName)
         {
