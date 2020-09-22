@@ -13,6 +13,7 @@ namespace Order_And_Sales_Management_ver1.Models
         }
 
         [Key]
+        [Display(Name = "Sipariþ No")]
         public int orderID { get; set; }
         [Display(Name ="Sipariþ Tarihi")]
         public DateTime orderDate { get; set; }
