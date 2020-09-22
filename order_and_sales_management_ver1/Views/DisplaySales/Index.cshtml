@@ -9,7 +9,7 @@
     <h4>Satış Tablosu</h4>
 </div>
 <div class="alert alert-danger">
-    @Html.ValidationSummary(true)
+    @Html.ValidationSummary(false)
 </div>
 
 <hr />
@@ -205,7 +205,8 @@
            var xmlhttp = new XMLHttpRequest();
            var curRow = Id.parentNode.parentNode;
            var salesID = curRow.cells.item(0).innerHTML.trim();
-           var val=document.getElementById("paidTutar"+salesID).value;
+            var val = document.getElementById("paidTutar" + salesID).value;
+            val = val.replace(".", ",");
            xmlhttp.onreadystatechange = function() {
              if (xmlhttp.readyState == XMLHttpRequest.DONE) {   // XMLHttpRequest.DONE == 4
                if (xmlhttp.status == 200)
