@@ -1,4 +1,4 @@
-namespace Order_And_Sales_Management_ver1.Models
+namespace order_and_sales_management_ver1.Models
 {
     using System;
     using System.ComponentModel.DataAnnotations;
@@ -31,6 +31,8 @@ namespace Order_And_Sales_Management_ver1.Models
         public float tutar { get; set; }
         public int typeOfCollection { get; set; }
         public int locationID { get; set; }
+        [StringLength(13,MinimumLength =4)]
+        public string productBarcodeID { get; set; }
         public virtual EmployeesModels employeesmodels { get; set; }
         public virtual ProductModel ProductModel { get; set; }
     }

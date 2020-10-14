@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Http.Authentication;
 using Microsoft.AspNetCore.Identity;
 
-namespace Order_And_Sales_Management_ver1.Models
+namespace order_and_sales_management_ver1.Models
 {
     public class IndexViewModel
     {

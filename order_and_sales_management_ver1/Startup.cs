@@ -5,10 +5,10 @@ using Microsoft.AspNetCore.Identity.UI;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Order_And_Sales_Management_ver1.Data;
+using order_and_sales_management_ver1.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Order_And_Sales_Management_ver1.Hubs;
+using order_and_sales_management_ver1.Hubs;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Server.IIS;
 using System.Globalization;
@@ -18,7 +18,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.HttpOverrides;
 using System.Net;
 
-namespace Order_And_Sales_Management_ver1
+namespace order_and_sales_management_ver1
 {
     public class CustomerCultureProvider : RequestCultureProvider
     {

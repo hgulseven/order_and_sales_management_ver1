@@ -1,4 +1,4 @@
-﻿@model Order_And_Sales_Management_ver1.Models.OrderModel
+﻿@model order_and_sales_management_ver1.Models.OrderModel
 
 @{
     ViewData["Title"] = "Edit";
@@ -24,9 +24,9 @@
                 </label>
             </div>
             <div class="form-group">
-                <label asp-for="orderOwner_personelID" class="control-label"></label>
-                <select asp-for="orderOwner_personelID" class="form-control" asp-items="ViewBag.orderOwner_personelID"></select>
-                <span asp-validation-for="orderOwner_personelID" class="text-danger"></span>
+                <label asp-for="personelID" class="control-label"></label>
+                <select asp-for="personelID" class="form-control" asp-items="ViewBag.orderOwner_personelID"></select>
+                <span asp-validation-for="personelID" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />

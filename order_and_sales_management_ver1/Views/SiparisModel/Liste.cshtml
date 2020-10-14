@@ -1,4 +1,4 @@
-﻿@model List<Order_And_Sales_Management_ver1.Models.OrderModel>
+﻿@model List<order_and_sales_management_ver1.Models.OrderModel>
 
 @{
     ViewBag.Title = "SİPARİŞLER";
@@ -36,23 +36,27 @@
             </thead>
             @foreach (var item in Model)
             {
-                <tr id=@item.orderID style="border-bottom: 1px solid #cdd0d4;">
-                    <td>
-                        @Html.DisplayFor(Item => item.orderID)
-                    </td>
-                    <td style="text-align:right">
-                        @Html.DisplayFor(Item => item.orderDate)
-                    </td>
-                    <td style="text-align:right">
-                        @Html.DisplayFor(Item => item.orderLocation.locationName)
-                    </td>
-                    <td style="text-align:right">
-                        @Html.DisplayFor(Item => item.orderOwnerEmployeeModel.persName)
-                    </td>
-                    <td width="75">
-                        <input id="clickMe" class="btn btn-primary btn-sm btn-block" type="button" value="Detaylar" style="font-size:10px" onclick="addTable(@item.orderID);" />
-                    </td>
-                </tr>
+        <tr id=@item.orderID style="border-bottom: 1px solid #cdd0d4;">
+            <td>
+                @Html.DisplayFor(Item => item.orderID)
+            </td>
+            <td style="text-align:right">
+                @Html.DisplayFor(Item => item.orderDate)
+            </td>
+            <td style="text-align:right">
+                @Html.DisplayFor(Item => item.orderLocation.locationName)
+            </td>
+            <td style="text-align:right">
+                @Html.DisplayFor(Item => item.orderOwnerEmployeeModel.persName)
+            </td>
+            <td width="75">
+                <input id="clickMe" class="btn btn-primary btn-sm btn-block" type="button" value="Detaylar" style="font-size:10px" onclick="addTable(@item.orderID);" />
+            </td>
+            <td width="75">
+                @Html.ActionLink("Güncelle","Guncelle", "SiparisModel", new { orderID = item.orderID}, new { htmlAttributes = new { @class = "btn btn-primary btn-sm btn-block", @style = "font-size:10px"} })
+            </td>
+
+        </tr>
                 <tr>
                         <thead class="table-head">
                             <tr id="header.@item.orderID" style="display:none;border-left: 1px solid #cdd0d4;border-right:1px solid #cdd0d4;" class="table-head">

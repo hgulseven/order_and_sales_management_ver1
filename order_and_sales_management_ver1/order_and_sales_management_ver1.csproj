@@ -2,11 +2,11 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.2</TargetFramework>
-    <UserSecretsId>aspnet-Order_And_Sales_Management_ver1-0A2F06CF-2612-44E3-AD45-4D75254332A7</UserSecretsId>
+    <UserSecretsId>aspnet-order_and_sales_management_ver1-0A2F06CF-2612-44E3-AD45-4D75254332A7</UserSecretsId>
     <AspNetCoreHostingModel>inprocess</AspNetCoreHostingModel>
     <ApplicationIcon />
     <OutputType>Exe</OutputType>
-    <StartupObject>Order_And_Sales_Management_ver1.Program</StartupObject>
+    <StartupObject>order_and_sales_management_ver1.Program</StartupObject>
     <NoWin32Manifest>true</NoWin32Manifest>
   </PropertyGroup>
 
@@ -23,6 +23,32 @@
     <Compile Remove="Migrations\20190911184250_recreatedb.Designer.cs" />
     <Compile Remove="Migrations\20190911194436_autoincrement.cs" />
     <Compile Remove="Migrations\20190911194436_autoincrement.Designer.cs" />
+    <Compile Remove="Migrations\20200928101056_kasaMUtabakat.cs" />
+    <Compile Remove="Migrations\20200928101056_kasaMUtabakat.Designer.cs" />
+    <Compile Remove="Migrations\20200928104831_kasaMutabakat2.cs" />
+    <Compile Remove="Migrations\20200928104831_kasaMutabakat2.Designer.cs" />
+    <Compile Remove="Migrations\20200928105458_kasaMutabakat2.cs" />
+    <Compile Remove="Migrations\20200928105458_kasaMutabakat2.Designer.cs" />
+    <Compile Remove="Migrations\20200928105805_kasaMutabakat2.cs" />
+    <Compile Remove="Migrations\20200928105805_kasaMutabakat2.Designer.cs" />
+    <Compile Remove="Migrations\20200928105948_kasaMutabakat2.cs" />
+    <Compile Remove="Migrations\20200928105948_kasaMutabakat2.Designer.cs" />
+    <Compile Remove="Migrations\20200928110214_kasaMutabakat2.cs" />
+    <Compile Remove="Migrations\20200928110214_kasaMutabakat2.Designer.cs" />
+    <Compile Remove="Migrations\20200928114437_kasaMutabakat2.cs" />
+    <Compile Remove="Migrations\20200928114437_kasaMutabakat2.Designer.cs" />
+    <Compile Remove="Migrations\20200928114729_kasaMutabakat2.cs" />
+    <Compile Remove="Migrations\20200928114729_kasaMutabakat2.Designer.cs" />
+    <Compile Remove="Migrations\20200928115158_kasaMutabakat2.cs" />
+    <Compile Remove="Migrations\20200928115158_kasaMutabakat2.Designer.cs" />
+    <Compile Remove="Migrations\20200928123244_kasaMutabakat2.cs" />
+    <Compile Remove="Migrations\20200928123244_kasaMutabakat2.Designer.cs" />
+    <Compile Remove="Migrations\20200928124352_kasaMutabakat2.cs" />
+    <Compile Remove="Migrations\20200928124352_kasaMutabakat2.Designer.cs" />
+    <Compile Remove="Migrations\20200929210959_kasaMutabakat9.cs" />
+    <Compile Remove="Migrations\20200929210959_kasaMutabakat9.Designer.cs" />
+    <Compile Remove="Migrations\20200929211144_kasaMutabakat9.cs" />
+    <Compile Remove="Migrations\20200929211144_kasaMutabakat9.Designer.cs" />
   </ItemGroup>
 
 

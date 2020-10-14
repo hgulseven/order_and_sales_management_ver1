@@ -1,4 +1,6 @@
-namespace Order_And_Sales_Management_ver1.Models
+using System;
+
+namespace order_and_sales_management_ver1.Models
 {
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
@@ -17,10 +19,16 @@ namespace Order_And_Sales_Management_ver1.Models
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
         [Display(Name = "Sipariþ Satýr No")]
         public int orderLineNo { get; set; }
-
+        [ForeignKey("productID")]
         public int productID { get; set; }
+        public ProductModel ProductModel { get; set; }
+
         [Display(Name ="Ürün Miktarý")]
-        public int productAmount { get; set; }
+        public float productAmount { get; set; }
+
+        [Display(Name = "Yüklenen Miktar")]
+
+        public float loadedProductAmount { get; set; }
 
         public int orderDeliveryDate { get; set; }
 
@@ -32,7 +40,6 @@ namespace Order_And_Sales_Management_ver1.Models
 
         public virtual OrderModel OrderModel { get; set; }
 
-        public virtual ProductModel ProductModel { get; set; }
 
         public int recStatus { get; set; } /* -1 : Order Deleted 1: Aktif order  2:Order Delivered */
     }

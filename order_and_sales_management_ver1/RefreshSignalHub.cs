@@ -1,4 +1,4 @@
-﻿namespace Order_And_Sales_Management_ver1.Hubs
+﻿namespace order_and_sales_management_ver1.Hubs
 {
     using Microsoft.AspNetCore.SignalR;
     using System.Threading.Tasks;

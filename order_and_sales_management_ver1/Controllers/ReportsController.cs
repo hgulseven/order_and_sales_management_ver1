@@ -4,12 +4,12 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Order_And_Sales_Management_ver1.Models;
+using order_and_sales_management_ver1.Models;
 using Newtonsoft.Json;
 using MySql.Data.MySqlClient;
 
 
-namespace Order_And_Sales_Management_ver1.Controllers
+namespace order_and_sales_management_ver1.Controllers
 {
     public class ReportsController : Controller
     {

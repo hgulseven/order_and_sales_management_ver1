@@ -15,7 +15,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "Order_And_Sales_Management_ver1": {
+    "order_and_sales_management_ver1": {
       "commandName": "Project",
       "launchBrowser": true,
       "environmentVariables": {

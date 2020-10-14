@@ -5,7 +5,7 @@ using System.Web;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Order_And_Sales_Management_ver1.Models
+namespace order_and_sales_management_ver1.Models
 {
     [NotMapped]
     public class DisplaySales

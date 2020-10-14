@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
-namespace Order_And_Sales_Management_ver1
+namespace order_and_sales_management_ver1
 {
     public class logger
     {
@@ -42,9 +42,13 @@ namespace Order_And_Sales_Management_ver1
         public const int Const_Production_Location = 1;
 
         public const int Const_Active_Order = 1;
-        public const int Const_Order_Delivered = 2;
-        public const int Const_Order_Deleted = 3;
-        public const int Const_Order_Not_Accepted = 4;
+        public const int Const_Order_Loaded = 2;
+        public const int Const_Order_Partially_Loaded = 3;
+        public const int Const_Order_Delivered = 4;
+        public const int Const_Order_Partially_Delivered = 5;
+        public const int Const_Order_Deleted = 6;
+        public const int Const_Order_Not_Accepted = 7;
+        public static DateTime Const_Valid_To_Date { get; set; }
 
         public const int Const_Record_Active = 1;
         public const int Const_Record_Deleted=-1;
@@ -52,6 +56,7 @@ namespace Order_And_Sales_Management_ver1
 
         public static void Main(string[] args)
         {
+            Const_Valid_To_Date = DateTime.Parse("2099-01-01");
             CreateWebHostBuilder(args).Build().Run();
 
         }

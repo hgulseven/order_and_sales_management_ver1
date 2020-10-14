@@ -1,4 +1,4 @@
-namespace Order_And_Sales_Management_ver1.Models
+namespace order_and_sales_management_ver1.Models
 {
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
@@ -34,7 +34,7 @@ namespace Order_And_Sales_Management_ver1.Models
         public bool userActive { get; set; }
 
         public int accessFailedCount { get; set; }
-
+               
         public int recStatus { get; set; }
     }
 }

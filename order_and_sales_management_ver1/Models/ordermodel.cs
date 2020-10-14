@@ -1,4 +1,4 @@
-namespace Order_And_Sales_Management_ver1.Models
+namespace order_and_sales_management_ver1.Models
 {
     using System;
     using System.Collections.Generic;
@@ -11,7 +11,6 @@ namespace Order_And_Sales_Management_ver1.Models
         {
             orderdetailsmodels = new HashSet<OrderDetailsModel>();
         }
-
         [Key]
         [Display(Name = "Sipariþ No")]
         public int orderID { get; set; }
@@ -21,7 +20,7 @@ namespace Order_And_Sales_Management_ver1.Models
         public int recStatus { get; set; }
         [ForeignKey("employeesmodels")]
         [Display(Name = "Sipariþ Veren")]
-        public int orderOwner_personelID { get; set; }
+        public int personelID { get; set; }
         public virtual EmployeesModels orderOwnerEmployeeModel { get; set; }
 
         public virtual ICollection<OrderDetailsModel> orderdetailsmodels { get; set; }

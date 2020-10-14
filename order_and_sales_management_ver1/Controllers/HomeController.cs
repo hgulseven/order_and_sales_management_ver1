@@ -4,9 +4,9 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Order_And_Sales_Management_ver1.Models;
+using order_and_sales_management_ver1.Models;
 
-namespace Order_And_Sales_Management_ver1.Controllers
+namespace order_and_sales_management_ver1.Controllers
 {
     public class HomeController : Controller
     {

@@ -1,4 +1,4 @@
-namespace Order_And_Sales_Management_ver1.Models
+namespace order_and_sales_management_ver1.Models
 {
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;

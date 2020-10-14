@@ -5,10 +5,10 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using Order_And_Sales_Management_ver1.Models;
-using Order_And_Sales_Management_ver1.Data;
+using order_and_sales_management_ver1.Models;
+using order_and_sales_management_ver1.Data;
 
-namespace Order_And_Sales_Management_ver1.Controllers
+namespace order_and_sales_management_ver1.Controllers
 {
     public class stockitemsController : Controller
     {
