@@ -1,0 +1,149 @@
+﻿@model order_and_sales_management_ver1.Models.LabelModel
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="panel-info">
+    <h1>Etiket Veri Hazırlama</h1>
+</div>
+<div class="alert alert-danger">
+    @Html.ValidationSummary(false)
+</div>
+<hr/>
+<form asp-action="Create">
+    <div class="form-group">
+        <div class="row">
+            <div class="col-md-2">
+                @Html.LabelFor(modelitem => Model.productBarcodID)
+            </div>
+            <div class="col-md-4">
+                @Html.TextBoxFor(modelitem => Model.productBarcodID, null, new { onblur = "getRecordDetails()" })
+            </div>
+            <div class="col-md-2">
+                @Html.LabelFor(modelitem => Model.productID)
+            </div>
+            <div class="col-md-4">
+                @Html.TextBoxFor(modelitem => Model.productID)
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-2">
+                @Html.LabelFor(modelitem => Model.productName)
+            </div>
+            <div class="col-md-10">
+                @Html.TextBoxFor(modelitem => Model.productName, new { @class = "w-100" })
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-2">
+                @Html.LabelFor(modelitem => Model.productAmount)
+            </div>
+            <div class="col-md-10">
+                @Html.TextBoxFor(modelitem => Model.productAmount, new { @class = "w-100" })
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-2">
+                @Html.LabelFor(modelitem => Model.productContents)
+            </div>
+            <div class="col-md-10">
+                @Html.TextBoxFor(modelitem => Model.productContents, new { @class = "w-100" })
+
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-2">
+                @Html.LabelFor(modelitem => Model.productLawStr)
+            </div>
+            <div class="col-md-10">
+                @Html.TextBoxFor(modelitem => Model.productLawStr, new { @class = "w-100" })
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-2">
+                @Html.LabelFor(modelitem => Model.productStoringCond)
+            </div>
+            <div class="col-md-10">
+                @Html.TextBoxFor(modelitem => Model.productStoringCond, new { @class = "w-100" })
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-2">
+                @Html.LabelFor(modelitem => Model.productLotNo)
+            </div>
+            <div class="col-md-10">
+                @Html.TextBoxFor(modelitem => Model.productLotNo, new { @class = "w-100" })
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-2">
+                @Html.LabelFor(modelitem => Model.productShelfLife)
+            </div>
+            <div class="col-md-10">
+                @Html.TextBoxFor(modelitem => Model.productShelfLife, new { @class = "w-100" })
+            </div>
+        </div>
+        @Html.HiddenFor(modelItem => Model.recordExists)
+        <input type="submit" value="Güncelle" class="btn btn-primary btn-sm" style = "font-size:12px" />
+        @Html.ActionLink("Liste", "Index", "LabelModels", null, new { @class = "btn btn-secondary  btn-sm", @style = "font-size:12px", })
+
+    </div>
+</form>
+
+
+<script>
+    $(document).ready(function () {
+        var recordExists = document.getElementById("recordExists")
+        if (recordExists.value == "yes")
+        {
+            var BarcodeID = document.getElementById("productBarcodID");
+            BarcodeID.readonly = true;
+            BarcodeID.style.color = "#c0c0c0";
+            var ProductID = document.getElementById("productID");
+            ProductID.readonly = true;
+            ProductID.style.color = "#c0c0c0";
+        }
+    });
+    function validate() {
+        var errors = "Etiket Düzenlemek istediğiniz ürün tanımlı değil. Lütfen önce ürünü tanımlayınız.";
+        return errors;
+    }
+
+    function getRecordDetails() {
+        var BarcodeID = document.getElementById("productBarcodID");
+        BarcodeID.readonly = true;
+        BarcodeID.style.color = "#c0c0c0";
+        $.ajax({
+            'url': 'getData',
+            'type': 'GET',
+            'data': {
+                'BarcodeID': BarcodeID.value,
+            },
+            'success': function (data) {
+                if (data== "{}") {
+                    alert("Etiket Düzenlemek istediğiniz ürün tanımlı değil. Lütfen önce ürünü tanımlayınız.");
+                    location.reload();
+                }
+                else {
+                    var obj = JSON.parse(data, function (key, value) {
+                        var elem = document.getElementById(key);
+                        if (elem != null)
+                            elem.value = value;
+                    });
+                }
+            },
+            'error': function (request, error) {
+                alert("Request: " + JSON.stringify(request));
+            }
+        });
+        var ProductID = document.getElementById("productID");
+        ProductID.readonly = true;
+        ProductID.style.color = "#c0c0c0";
+    }
+</script>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

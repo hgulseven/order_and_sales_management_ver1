@@ -9,6 +9,7 @@ namespace order_and_sales_management_ver1.Models
 {
     public class LabelModel
     {
+        [Display(Name = "Sistem Ürün Kodu")]
         public int productID { get; set; }
         [Display(Name = "Ürün Adı")]
         public string productName { get; set; }
@@ -18,9 +19,23 @@ namespace order_and_sales_management_ver1.Models
         public string productContents { get; set; }
         [Display(Name = "Gıda Kodeks Satırı")]
         public string productLawStr { get; set;}
+
+        [Display(Name = "Saklama Koşulları")]
+        public string productStoringCond { get; set; }
+
+        [Display(Name = "Ürün Raf Ömrü")]
+        public string productShelfLife{ get; set; }
+
         [Display(Name = "Parti No")]
         public string productLotNo { get; set; }
         [Display(Name = "Ürün Barkod")]
         public string productBarcodID { get; set; }
+
+        [NotMapped]
+        public string recordExists { get; set; }
+        [NotMapped]
+        [Display(Name = "Kopya Sayısı")]
+        public int numberOfCopies { get; set; }
+
     }
 }

@@ -36,7 +36,7 @@ namespace order_and_sales_management_ver1.Areas.Identity.Pages.Account
             }
             else
             {
-                return Page();
+                return RedirectToPage();
             }
         }
     }

@@ -17,6 +17,8 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.HttpOverrides;
 using System.Net;
+using Microsoft.AspNetCore.Identity.UI.Services;
+using order_and_sales_management_ver1.Services;
 
 namespace order_and_sales_management_ver1
 {
@@ -75,10 +77,14 @@ namespace order_and_sales_management_ver1
                 options.UseMySql(
                     Configuration.GetConnectionString("DefaultConnection")));
             services.AddDefaultIdentity<IdentityUser>()
-                .AddDefaultUI(UIFramework.Bootstrap4)
+//                .AddDefaultUI(UIFramework.Bootstrap4)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+//            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             services.AddSignalR();
+            services.AddControllersWithViews();
+            services.AddRazorPages();
+            services.AddTransient<IEmailSender, EmailSender>();
+            services.Configure<AuthMessageSenderOptions>(Configuration);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -105,7 +111,8 @@ namespace order_and_sales_management_ver1
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseDatabaseErrorPage();
+                app.UseBrowserLink();
+                //                app.UseDatabaseErrorPage();
             }
             else
             {
@@ -122,14 +129,27 @@ namespace order_and_sales_management_ver1
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
+            app.UseRouting();
             app.UseAuthentication();
+            app.UseAuthorization();
 
-            app.UseMvc(routes =>
+
+            app.UseEndpoints(endpoints =>
             {
-                routes.MapRoute(
-                    name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
+                endpoints.MapControllerRoute(
+                            name: "default",
+                            pattern: "{controller=Home}/{action=Index}/{id?}");
+                endpoints.MapRazorPages();
+
             });
+
+
+            //            app.UseMvc(routes =>
+            //            {
+            //                routes.MapRoute(
+            //                    name: "default",
+            //                    template: "{controller=Home}/{action=Index}/{id?}");
+            //            });
 
             app.UseSignalR(routes =>
             {

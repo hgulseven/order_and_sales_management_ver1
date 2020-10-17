@@ -54,20 +54,20 @@ namespace order_and_sales_management_ver1.Controllers
                 barcodeSettings.ShowText = true;
                 barcodeSettings.Type = BarCodeType.EAN128;
                 BarCodeGenerator barcode = new BarCodeGenerator(barcodeSettings);
-                Image lotIDBarcode = barcode.GenerateImage();
+//                Image lotIDBarcode = barcode.GenerateImage();
                 barcodeSettings.Data = "027622100989189";
                 barcodeSettings.AutoResize = true;
                 barcodeSettings.ShowText = true;
                 barcodeSettings.Type = BarCodeType.EAN128;
                 barcode = new BarCodeGenerator(barcodeSettings);
-                Image productBarcode = barcode.GenerateImage();
-                var target = new Bitmap(lotIDBarcode, lotIDBarcode.Width, lotIDBarcode.Height);
-                var graphics = Graphics.FromImage(target);
-                graphics.CompositingMode = CompositingMode.SourceOver; // this is the default, but just to be clear
+//                Image productBarcode = barcode.GenerateImage();
+//                var target = new Bitmap(lotIDBarcode, lotIDBarcode.Width, lotIDBarcode.Height);
+//                var graphics = Graphics.FromImage(target);
+//                graphics.CompositingMode = CompositingMode.SourceOver; // this is the default, but just to be clear
 
-                graphics.DrawImage(lotIDBarcode, 0, 0);
-                graphics.DrawImage(productBarcode, 200, lotIDBarcode.Height+10);
-                target.Save("filename.png", ImageFormat.Png);
+//                graphics.DrawImage(lotIDBarcode, 0, 0);
+//                graphics.DrawImage(productBarcode, 200, lotIDBarcode.Height+10);
+//                target.Save("filename.png", ImageFormat.Png);
 
 
                 if (action == "update")

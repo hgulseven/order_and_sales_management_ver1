@@ -53,6 +53,8 @@
                 <ul class="navbar-nav ml-auto">
                     <li><a asp-area="" asp-controller="DisplaySales" asp-action="Index">Satış Görüntüleme</a></li>
                     <li><a asp-area="" asp-controller="KasaMutabakat" asp-action="MutabakatEntry">Kasa Mutabakat</a></li>
+                    <li><a asp-area="" asp-controller="LabelModels" asp-action="Index">Etiket Düzenleme</a></li>
+
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             Tanımlar
@@ -89,7 +91,7 @@
                             </ul>
                         </div>
                 </ul>
-                @await Html.PartialAsync("_LoginPartial")
+                <partial name="_LoginPartial"/>
             </div>
         </nav>
         <main role="main" class="pb-3">

@@ -14,21 +14,24 @@ namespace order_and_sales_management_ver1.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.2.6-servicing-10079")
+                .HasAnnotation("ProductVersion", "3.1.9")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
                     b.Property<string>("Id")
-                        .ValueGeneratedOnAdd();
+                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
 
                     b.Property<string>("ConcurrencyStamp")
-                        .IsConcurrencyToken();
+                        .IsConcurrencyToken()
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
 
                     b.Property<string>("Name")
+                        .HasColumnType("varchar(256) CHARACTER SET utf8mb4")
                         .HasMaxLength(256);
 
                     b.Property<string>("NormalizedName")
+                        .HasColumnType("varchar(256) CHARACTER SET utf8mb4")
                         .HasMaxLength(256);
 
                     b.HasKey("Id");
@@ -43,14 +46,18 @@ namespace order_and_sales_management_ver1.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
 
-                    b.Property<string>("ClaimType");
+                    b.Property<string>("ClaimType")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
 
-                    b.Property<string>("ClaimValue");
+                    b.Property<string>("ClaimValue")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
 
                     b.Property<string>("RoleId")
-                        .IsRequired();
+                        .IsRequired()
+                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
 
                     b.HasKey("Id");
 
@@ -62,39 +69,53 @@ namespace order_and_sales_management_ver1.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUser", b =>
                 {
                     b.Property<string>("Id")
-                        .ValueGeneratedOnAdd();
+                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
 
-                    b.Property<int>("AccessFailedCount");
+                    b.Property<int>("AccessFailedCount")
+                        .HasColumnType("int");
 
                     b.Property<string>("ConcurrencyStamp")
-                        .IsConcurrencyToken();
+                        .IsConcurrencyToken()
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
 
                     b.Property<string>("Email")
+                        .HasColumnType("varchar(256) CHARACTER SET utf8mb4")
                         .HasMaxLength(256);
 
-                    b.Property<bool>("EmailConfirmed");
+                    b.Property<bool>("EmailConfirmed")
+                        .HasColumnType("tinyint(1)");
 
-                    b.Property<bool>("LockoutEnabled");
+                    b.Property<bool>("LockoutEnabled")
+                        .HasColumnType("tinyint(1)");
 
-                    b.Property<DateTimeOffset?>("LockoutEnd");
+                    b.Property<DateTimeOffset?>("LockoutEnd")
+                        .HasColumnType("datetime(6)");
 
                     b.Property<string>("NormalizedEmail")
+                        .HasColumnType("varchar(256) CHARACTER SET utf8mb4")
                         .HasMaxLength(256);
 
                     b.Property<string>("NormalizedUserName")
+                        .HasColumnType("varchar(256) CHARACTER SET utf8mb4")
                         .HasMaxLength(256);
 
-                    b.Property<string>("PasswordHash");
+                    b.Property<string>("PasswordHash")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
 
-                    b.Property<string>("PhoneNumber");
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
 
-                    b.Property<bool>("PhoneNumberConfirmed");
+                    b.Property<bool>("PhoneNumberConfirmed")
+                        .HasColumnType("tinyint(1)");
 
-                    b.Property<string>("SecurityStamp");
+                    b.Property<string>("SecurityStamp")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
 
-                    b.Property<bool>("TwoFactorEnabled");
+                    b.Property<bool>("TwoFactorEnabled")
+                        .HasColumnType("tinyint(1)");
 
                     b.Property<string>("UserName")
+                        .HasColumnType("varchar(256) CHARACTER SET utf8mb4")
                         .HasMaxLength(256);
 
                     b.HasKey("Id");
@@ -112,14 +133,18 @@ namespace order_and_sales_management_ver1.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
 
-                    b.Property<string>("ClaimType");
+                    b.Property<string>("ClaimType")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
 
-                    b.Property<string>("ClaimValue");
+                    b.Property<string>("ClaimValue")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
 
                     b.Property<string>("UserId")
-                        .IsRequired();
+                        .IsRequired()
+                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
 
                     b.HasKey("Id");
 
@@ -131,15 +156,19 @@ namespace order_and_sales_management_ver1.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
                     b.Property<string>("LoginProvider")
+                        .HasColumnType("varchar(128) CHARACTER SET utf8mb4")
                         .HasMaxLength(128);
 
                     b.Property<string>("ProviderKey")
+                        .HasColumnType("varchar(128) CHARACTER SET utf8mb4")
                         .HasMaxLength(128);
 
-                    b.Property<string>("ProviderDisplayName");
+                    b.Property<string>("ProviderDisplayName")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
 
                     b.Property<string>("UserId")
-                        .IsRequired();
+                        .IsRequired()
+                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
 
                     b.HasKey("LoginProvider", "ProviderKey");
 
@@ -150,9 +179,11 @@ namespace order_and_sales_management_ver1.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
                 {
-                    b.Property<string>("UserId");
+                    b.Property<string>("UserId")
+                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
 
-                    b.Property<string>("RoleId");
+                    b.Property<string>("RoleId")
+                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
 
                     b.HasKey("UserId", "RoleId");
 
@@ -163,15 +194,19 @@ namespace order_and_sales_management_ver1.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.Property<string>("UserId");
+                    b.Property<string>("UserId")
+                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
 
                     b.Property<string>("LoginProvider")
+                        .HasColumnType("varchar(128) CHARACTER SET utf8mb4")
                         .HasMaxLength(128);
 
                     b.Property<string>("Name")
+                        .HasColumnType("varchar(128) CHARACTER SET utf8mb4")
                         .HasMaxLength(128);
 
-                    b.Property<string>("Value");
+                    b.Property<string>("Value")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
 
                     b.HasKey("UserId", "LoginProvider", "Name");
 
@@ -181,59 +216,271 @@ namespace order_and_sales_management_ver1.Migrations
             modelBuilder.Entity("order_and_sales_management_ver1.Models.EmployeesModels", b =>
                 {
                     b.Property<int>("personelID")
-                        .ValueGeneratedOnAdd();
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
 
-                    b.Property<int>("accessFailedCount");
+                    b.Property<int>("accessFailedCount")
+                        .HasColumnType("int");
 
-                    b.Property<string>("connectionId");
+                    b.Property<string>("connectionId")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
 
-                    b.Property<int>("locationID");
+                    b.Property<int?>("empLocationlocationID")
+                        .HasColumnType("int");
+
+                    b.Property<int>("locationID")
+                        .HasColumnType("int");
 
                     b.Property<string>("password")
+                        .HasColumnType("varchar(32) CHARACTER SET utf8mb4")
                         .HasMaxLength(32);
 
                     b.Property<string>("persName")
+                        .HasColumnType("varchar(40) CHARACTER SET utf8mb4")
                         .HasMaxLength(40);
 
                     b.Property<string>("persSurName")
+                        .HasColumnType("varchar(40) CHARACTER SET utf8mb4")
                         .HasMaxLength(40);
 
-                    b.Property<int>("recStatus");
+                    b.Property<int>("recStatus")
+                        .HasColumnType("int");
 
-                    b.Property<bool>("userActive");
+                    b.Property<bool>("userActive")
+                        .HasColumnType("tinyint(1)");
 
-                    b.Property<string>("userName");
+                    b.Property<string>("userName")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
 
-                    b.Property<string>("userRole");
+                    b.Property<string>("userRole")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
 
                     b.HasKey("personelID");
 
-                    b.HasIndex("locationID");
+                    b.HasIndex("empLocationlocationID");
 
                     b.ToTable("employeesmodels");
                 });
 
+            modelBuilder.Entity("order_and_sales_management_ver1.Models.Expenditures", b =>
+                {
+                    b.Property<DateTime>("opDate")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<int>("locationID")
+                        .HasColumnType("int");
+
+                    b.Property<string>("aciklama")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<float>("amount")
+                        .HasColumnType("float");
+
+                    b.Property<int?>("employeepersonelID")
+                        .HasColumnType("int");
+
+                    b.HasKey("opDate", "locationID");
+
+                    b.HasIndex("employeepersonelID");
+
+                    b.ToTable("expenditures");
+                });
+
+            modelBuilder.Entity("order_and_sales_management_ver1.Models.KasaMutabakat", b =>
+                {
+                    b.Property<DateTime>("mutabakatTimeStamp")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<int>("locationID")
+                        .HasColumnType("int");
+
+                    b.Property<string>("typeOfMutabakat")
+                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
+
+                    b.Property<int>("change100TL")
+                        .HasColumnType("int");
+
+                    b.Property<int>("change10KRS")
+                        .HasColumnType("int");
+
+                    b.Property<int>("change10TL")
+                        .HasColumnType("int");
+
+                    b.Property<int>("change1TL")
+                        .HasColumnType("int");
+
+                    b.Property<int>("change200TL")
+                        .HasColumnType("int");
+
+                    b.Property<int>("change20TL")
+                        .HasColumnType("int");
+
+                    b.Property<int>("change25KRS")
+                        .HasColumnType("int");
+
+                    b.Property<int>("change50KRS")
+                        .HasColumnType("int");
+
+                    b.Property<int>("change50TL")
+                        .HasColumnType("int");
+
+                    b.Property<int>("change5TL")
+                        .HasColumnType("int");
+
+                    b.Property<int>("diger100TL")
+                        .HasColumnType("int");
+
+                    b.Property<int>("diger10KRS")
+                        .HasColumnType("int");
+
+                    b.Property<int>("diger10TL")
+                        .HasColumnType("int");
+
+                    b.Property<int>("diger1TL")
+                        .HasColumnType("int");
+
+                    b.Property<int>("diger200TL")
+                        .HasColumnType("int");
+
+                    b.Property<int>("diger20TL")
+                        .HasColumnType("int");
+
+                    b.Property<int>("diger25KRS")
+                        .HasColumnType("int");
+
+                    b.Property<int>("diger50KRS")
+                        .HasColumnType("int");
+
+                    b.Property<int>("diger50TL")
+                        .HasColumnType("int");
+
+                    b.Property<int>("diger5TL")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("employeepersonelID")
+                        .HasColumnType("int");
+
+                    b.Property<float>("krediKartıToplam")
+                        .HasColumnType("float");
+
+                    b.Property<DateTime>("mutabakatDate")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<int>("nakit100TL")
+                        .HasColumnType("int");
+
+                    b.Property<int>("nakit10KRS")
+                        .HasColumnType("int");
+
+                    b.Property<int>("nakit10TL")
+                        .HasColumnType("int");
+
+                    b.Property<int>("nakit1TL")
+                        .HasColumnType("int");
+
+                    b.Property<int>("nakit200TL")
+                        .HasColumnType("int");
+
+                    b.Property<int>("nakit20TL")
+                        .HasColumnType("int");
+
+                    b.Property<int>("nakit25KRS")
+                        .HasColumnType("int");
+
+                    b.Property<int>("nakit50KRS")
+                        .HasColumnType("int");
+
+                    b.Property<int>("nakit50TL")
+                        .HasColumnType("int");
+
+                    b.Property<int>("nakit5TL")
+                        .HasColumnType("int");
+
+                    b.Property<int>("personelID")
+                        .HasColumnType("int");
+
+                    b.Property<float>("sistemDigerToplam")
+                        .HasColumnType("float");
+
+                    b.Property<float>("sistemKrediKartıToplam")
+                        .HasColumnType("float");
+
+                    b.Property<float>("sistemNakitToplam")
+                        .HasColumnType("float");
+
+                    b.HasKey("mutabakatTimeStamp", "locationID", "typeOfMutabakat");
+
+                    b.HasIndex("employeepersonelID");
+
+                    b.ToTable("kasamutabakat");
+                });
+
+            modelBuilder.Entity("order_and_sales_management_ver1.Models.LabelModel", b =>
+                {
+                    b.Property<int>("productID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("productAmount")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<string>("productBarcodID")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<string>("productContents")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<string>("productLawStr")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<string>("productLotNo")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<string>("productName")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<string>("productShelfLife")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<string>("productStoringCond")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.HasKey("productID");
+
+                    b.ToTable("labelmodels");
+                });
+
             modelBuilder.Entity("order_and_sales_management_ver1.Models.OrderDetailsModel", b =>
                 {
-                    b.Property<int>("orderID");
+                    b.Property<int>("orderID")
+                        .HasColumnType("int");
 
-                    b.Property<int>("orderLineNo");
+                    b.Property<int>("orderLineNo")
+                        .HasColumnType("int");
 
-                    b.Property<float>("loadedProductAmount");
+                    b.Property<float>("loadedProductAmount")
+                        .HasColumnType("float");
 
-                    b.Property<string>("orderCritic");
+                    b.Property<string>("orderCritic")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
 
-                    b.Property<int>("orderDeliveryDate");
+                    b.Property<int>("orderDeliveryDate")
+                        .HasColumnType("int");
 
-                    b.Property<float>("productAmount");
+                    b.Property<float>("productAmount")
+                        .HasColumnType("float");
 
-                    b.Property<int>("productID");
+                    b.Property<int>("productID")
+                        .HasColumnType("int");
 
-                    b.Property<int>("productQualityChecker");
+                    b.Property<int>("productQualityChecker")
+                        .HasColumnType("int");
 
-                    b.Property<int>("productionLotID");
+                    b.Property<int>("productionLotID")
+                        .HasColumnType("int");
 
-                    b.Property<int>("recStatus");
+                    b.Property<int>("recStatus")
+                        .HasColumnType("int");
 
                     b.HasKey("orderID", "orderLineNo");
 
@@ -245,17 +492,23 @@ namespace order_and_sales_management_ver1.Migrations
             modelBuilder.Entity("order_and_sales_management_ver1.Models.OrderModel", b =>
                 {
                     b.Property<int>("orderID")
-                        .ValueGeneratedOnAdd();
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
 
-                    b.Property<DateTime>("orderDate");
+                    b.Property<DateTime>("orderDate")
+                        .HasColumnType("datetime(6)");
 
-                    b.Property<int>("orderLocationID");
+                    b.Property<int>("orderLocationID")
+                        .HasColumnType("int");
 
-                    b.Property<int?>("orderOwnerEmployeeModelpersonelID");
+                    b.Property<int?>("orderOwnerEmployeeModelpersonelID")
+                        .HasColumnType("int");
 
-                    b.Property<int>("personelID");
+                    b.Property<int>("personelID")
+                        .HasColumnType("int");
 
-                    b.Property<int>("recStatus");
+                    b.Property<int>("recStatus")
+                        .HasColumnType("int");
 
                     b.HasKey("orderID");
 
@@ -271,23 +524,30 @@ namespace order_and_sales_management_ver1.Migrations
             modelBuilder.Entity("order_and_sales_management_ver1.Models.PackagedProductDetailsModel", b =>
                 {
                     b.Property<string>("PackedProductID")
+                        .HasColumnType("varchar(13) CHARACTER SET utf8mb4")
                         .HasMaxLength(13);
 
-                    b.Property<int>("PackagedProductLineNo");
+                    b.Property<int>("PackagedProductLineNo")
+                        .HasColumnType("int");
 
-                    b.Property<double>("Amount");
+                    b.Property<double>("Amount")
+                        .HasColumnType("double");
 
-                    b.Property<int>("ProductID");
+                    b.Property<int>("ProductID")
+                        .HasColumnType("int");
 
-                    b.Property<DateTime>("recDate");
+                    b.Property<int?>("ProductModelproductID")
+                        .HasColumnType("int");
 
-                    b.Property<int>("recStatus");
+                    b.Property<DateTime>("recDate")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<int>("recStatus")
+                        .HasColumnType("int");
 
                     b.HasKey("PackedProductID", "PackagedProductLineNo");
 
-                    b.HasAlternateKey("PackagedProductLineNo", "PackedProductID", "recDate", "recStatus");
-
-                    b.HasIndex("ProductID");
+                    b.HasIndex("ProductModelproductID");
 
                     b.ToTable("PackagedProductDetailsModel");
                 });
@@ -295,17 +555,23 @@ namespace order_and_sales_management_ver1.Migrations
             modelBuilder.Entity("order_and_sales_management_ver1.Models.ProductModel", b =>
                 {
                     b.Property<int>("productID")
-                        .ValueGeneratedOnAdd();
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
 
-                    b.Property<string>("ProductName");
+                    b.Property<string>("ProductName")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
 
-                    b.Property<string>("productBarcodeID");
+                    b.Property<string>("productBarcodeID")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
 
-                    b.Property<decimal>("productRetailPrice");
+                    b.Property<decimal>("productRetailPrice")
+                        .HasColumnType("decimal(65,30)");
 
-                    b.Property<decimal>("productWholesalePrice");
+                    b.Property<decimal>("productWholesalePrice")
+                        .HasColumnType("decimal(65,30)");
 
-                    b.Property<int>("recStatus");
+                    b.Property<int>("recStatus")
+                        .HasColumnType("int");
 
                     b.HasKey("productID");
 
@@ -314,78 +580,117 @@ namespace order_and_sales_management_ver1.Migrations
 
             modelBuilder.Entity("order_and_sales_management_ver1.Models.SalesModel", b =>
                 {
-                    b.Property<DateTime>("saleDate");
+                    b.Property<DateTime>("saleDate")
+                        .HasColumnType("datetime(6)");
 
-                    b.Property<int>("salesID");
+                    b.Property<int>("salesID")
+                        .HasColumnType("int");
 
-                    b.Property<int>("salesLineId");
+                    b.Property<int>("salesLineId")
+                        .HasColumnType("int");
 
-                    b.Property<float>("amount");
+                    b.Property<int?>("ProductModelproductID")
+                        .HasColumnType("int");
 
-                    b.Property<int>("locationID");
+                    b.Property<float>("amount")
+                        .HasColumnType("float");
 
-                    b.Property<float>("paidAmount");
+                    b.Property<int?>("employeesmodelspersonelID")
+                        .HasColumnType("int");
 
-                    b.Property<int>("personelID");
+                    b.Property<int>("locationID")
+                        .HasColumnType("int");
+
+                    b.Property<float>("paidAmount")
+                        .HasColumnType("float");
+
+                    b.Property<int>("personelID")
+                        .HasColumnType("int");
 
                     b.Property<string>("productBarcodeID")
+                        .HasColumnType("varchar(13) CHARACTER SET utf8mb4")
                         .HasMaxLength(13);
 
-                    b.Property<int>("productID");
+                    b.Property<int>("productID")
+                        .HasColumnType("int");
 
-                    b.Property<DateTime>("saleTime");
+                    b.Property<DateTime>("saleTime")
+                        .HasColumnType("datetime(6)");
 
-                    b.Property<int>("typeOfCollection");
+                    b.Property<int>("typeOfCollection")
+                        .HasColumnType("int");
 
                     b.HasKey("saleDate", "salesID", "salesLineId");
 
-                    b.HasIndex("personelID");
+                    b.HasIndex("ProductModelproductID");
 
-                    b.HasIndex("productID");
+                    b.HasIndex("employeesmodelspersonelID");
 
                     b.ToTable("salesmodels");
                 });
 
             modelBuilder.Entity("order_and_sales_management_ver1.Models.StockItem", b =>
                 {
-                    b.Property<int>("productID");
+                    b.Property<int>("productID")
+                        .HasColumnType("int");
 
-                    b.Property<int>("locationID");
+                    b.Property<int>("locationID")
+                        .HasColumnType("int");
 
                     b.Property<string>("productionLotID")
+                        .HasColumnType("varchar(10) CHARACTER SET utf8mb4")
                         .HasMaxLength(10);
 
-                    b.Property<int>("recStatus");
+                    b.Property<int>("recStatus")
+                        .HasColumnType("int");
 
-                    b.Property<double>("stockAmount");
+                    b.Property<double>("stockAmount")
+                        .HasColumnType("double");
 
                     b.HasKey("productID", "locationID", "productionLotID");
 
-                    b.HasAlternateKey("locationID", "productID", "productionLotID");
+                    b.HasIndex("locationID");
 
                     b.ToTable("stockitems");
                 });
 
             modelBuilder.Entity("order_and_sales_management_ver1.Models.TeraziScreenMapping", b =>
                 {
-                    b.Property<int>("teraziID");
+                    b.Property<int>("teraziID")
+                        .HasColumnType("int");
 
-                    b.Property<int>("productID");
+                    b.Property<int>("productID")
+                        .HasColumnType("int");
 
-                    b.Property<int?>("screenSeqNo");
+                    b.Property<int?>("screenSeqNo")
+                        .HasColumnType("int");
 
                     b.HasKey("teraziID", "productID");
-
-                    b.HasAlternateKey("productID", "teraziID");
 
                     b.ToTable("TeraziScreenMapping");
                 });
 
+            modelBuilder.Entity("order_and_sales_management_ver1.Models.packagedproductsbarcode", b =>
+                {
+                    b.Property<string>("barcodeID")
+                        .HasColumnType("varchar(13) CHARACTER SET utf8mb4")
+                        .HasMaxLength(13);
+
+                    b.Property<int>("recStatus")
+                        .HasColumnType("int");
+
+                    b.HasKey("barcodeID");
+
+                    b.ToTable("packagedproductsbarcodes");
+                });
+
             modelBuilder.Entity("order_and_sales_management_ver1.Models.salescounter", b =>
                 {
-                    b.Property<DateTime>("salesDate");
+                    b.Property<DateTime>("salesDate")
+                        .HasColumnType("datetime(6)");
 
-                    b.Property<int>("counter");
+                    b.Property<int>("counter")
+                        .HasColumnType("int");
 
                     b.HasKey("salesDate");
 
@@ -395,9 +700,11 @@ namespace order_and_sales_management_ver1.Migrations
             modelBuilder.Entity("order_and_sales_management_ver1.Models.stocklocationmodel", b =>
                 {
                     b.Property<int>("locationID")
-                        .ValueGeneratedOnAdd();
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
 
-                    b.Property<string>("locationName");
+                    b.Property<string>("locationName")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
 
                     b.HasKey("locationID");
 
@@ -406,9 +713,11 @@ namespace order_and_sales_management_ver1.Migrations
 
             modelBuilder.Entity("order_and_sales_management_ver1.Models.terazitable", b =>
                 {
-                    b.Property<int>("teraziID");
+                    b.Property<int>("teraziID")
+                        .HasColumnType("int");
 
                     b.Property<string>("TeraziName")
+                        .HasColumnType("varchar(20) CHARACTER SET utf8mb4")
                         .HasMaxLength(20);
 
                     b.HasKey("teraziID");
@@ -416,266 +725,62 @@ namespace order_and_sales_management_ver1.Migrations
                     b.ToTable("terazitable");
                 });
 
-            modelBuilder.Entity("order_and_sales_management_ver1.Models.Expenditures", b =>
-                {
-                    b.Property<DateTime>("opDate");
-
-                    b.Property<int>("locationID");
-
-                    b.Property<string>("aciklama");
-
-                    b.Property<float>("amount");
-
-                    b.Property<int?>("employeepersonelID");
-
-                    b.HasKey("opDate", "locationID");
-
-                    b.HasAlternateKey("locationID", "opDate");
-
-                    b.HasIndex("employeepersonelID");
-
-                    b.ToTable("expenditures");
-                });
-
-            modelBuilder.Entity("order_and_sales_management_ver1.Models.KasaMutabakat", b =>
-                {
-                    b.Property<DateTime>("mutabakatTimeStamp");
-
-                    b.Property<int>("locationID");
-
-                    b.Property<string>("typeOfMutabakat");
-
-                    b.Property<int>("change100TL");
-
-                    b.Property<int>("change10KRS");
-
-                    b.Property<int>("change10TL");
-
-                    b.Property<int>("change1TL");
-
-                    b.Property<int>("change200TL");
-
-                    b.Property<int>("change20TL");
-
-                    b.Property<int>("change25KRS");
-
-                    b.Property<int>("change50KRS");
-
-                    b.Property<int>("change50TL");
-
-                    b.Property<int>("change5TL");
-
-                    b.Property<int>("diger100TL");
-
-                    b.Property<int>("diger10KRS");
-
-                    b.Property<int>("diger10TL");
-
-                    b.Property<int>("diger1TL");
-
-                    b.Property<int>("diger200TL");
-
-                    b.Property<int>("diger20TL");
-
-                    b.Property<int>("diger25KRS");
-
-                    b.Property<int>("diger50KRS");
-
-                    b.Property<int>("diger50TL");
-
-                    b.Property<int>("diger5TL");
-
-                    b.Property<float>("krediKartıToplam");
-
-                    b.Property<DateTime>("mutabakatDate");
-
-                    b.Property<int>("nakit100TL");
-
-                    b.Property<int>("nakit10KRS");
-
-                    b.Property<int>("nakit10TL");
-
-                    b.Property<int>("nakit1TL");
-
-                    b.Property<int>("nakit200TL");
-
-                    b.Property<int>("nakit20TL");
-
-                    b.Property<int>("nakit25KRS");
-
-                    b.Property<int>("nakit50KRS");
-
-                    b.Property<int>("nakit50TL");
-
-                    b.Property<int>("nakit5TL");
-
-                    b.Property<int>("personelID");
-
-                    b.Property<float>("sistemDigerToplam");
-
-                    b.Property<float>("sistemKrediKartıToplam");
-
-                    b.Property<float>("sistemNakitToplam");
-
-                    b.HasKey("mutabakatTimeStamp", "locationID", "typeOfMutabakat");
-
-                    b.HasAlternateKey("locationID", "mutabakatTimeStamp", "typeOfMutabakat");
-
-                    b.HasIndex("personelID");
-
-                    b.ToTable("kasamutabakat");
-                });
-
-            modelBuilder.Entity("order_and_sales_management_ver1.Models.LabelModel", b =>
-                {
-                    b.Property<int>("productID")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("productAmount");
-
-                    b.Property<string>("productBarcodID");
-
-                    b.Property<string>("productContents");
-
-                    b.Property<string>("productLawStr");
-
-                    b.Property<string>("productLotNo");
-
-                    b.Property<string>("productName");
-
-                    b.HasKey("productID");
-
-                    b.ToTable("labelmodels");
-                });
-
-            modelBuilder.Entity("order_and_sales_management_ver1.Models.packagedproductsbarcode", b =>
-                {
-                    b.Property<string>("barcodeID")
-                        .ValueGeneratedOnAdd()
-                        .HasMaxLength(13);
-
-                    b.Property<int>("recStatus");
-
-                    b.HasKey("barcodeID");
-
-                    b.ToTable("packagedproductsbarcodes");
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole")
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser")
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser")
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole")
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser")
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser")
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("order_and_sales_management_ver1.Models.EmployeesModels", b =>
                 {
                     b.HasOne("order_and_sales_management_ver1.Models.stocklocationmodel", "empLocation")
                         .WithMany()
-                        .HasForeignKey("locationID")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("order_and_sales_management_ver1.Models.OrderDetailsModel", b =>
-                {
-                    b.HasOne("order_and_sales_management_ver1.Models.OrderModel", "OrderModel")
-                        .WithMany("orderdetailsmodels")
-                        .HasForeignKey("orderID")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("order_and_sales_management_ver1.Models.ProductModel", "ProductModel")
-                        .WithMany("orderdetailsmodels")
-                        .HasForeignKey("productID")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("order_and_sales_management_ver1.Models.OrderModel", b =>
-                {
-                    b.HasOne("order_and_sales_management_ver1.Models.stocklocationmodel", "orderLocation")
-                        .WithMany()
-                        .HasForeignKey("orderLocationID")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("order_and_sales_management_ver1.Models.EmployeesModels", "orderOwnerEmployeeModel")
-                        .WithMany()
-                        .HasForeignKey("orderOwnerEmployeeModelpersonelID");
-
-                    b.HasOne("order_and_sales_management_ver1.Models.EmployeesModels")
-                        .WithMany()
-                        .HasForeignKey("personelID")
-                        .OnDelete(DeleteBehavior.Restrict);
-                });
-
-            modelBuilder.Entity("order_and_sales_management_ver1.Models.PackagedProductDetailsModel", b =>
-                {
-                    b.HasOne("order_and_sales_management_ver1.Models.ProductModel", "ProductModel")
-                        .WithMany("packagedproductdetailsmodels")
-                        .HasForeignKey("ProductID")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("order_and_sales_management_ver1.Models.SalesModel", b =>
-                {
-                    b.HasOne("order_and_sales_management_ver1.Models.EmployeesModels", "employeesmodels")
-                        .WithMany()
-                        .HasForeignKey("personelID")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("order_and_sales_management_ver1.Models.ProductModel", "ProductModel")
-                        .WithMany("salesmodels")
-                        .HasForeignKey("productID")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("order_and_sales_management_ver1.Models.StockItem", b =>
-                {
-                    b.HasOne("order_and_sales_management_ver1.Models.stocklocationmodel", "stocklocationmodel")
-                        .WithMany()
-                        .HasForeignKey("locationID")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("order_and_sales_management_ver1.Models.ProductModel", "product")
-                        .WithMany()
-                        .HasForeignKey("productID")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("empLocationlocationID");
                 });
 
             modelBuilder.Entity("order_and_sales_management_ver1.Models.Expenditures", b =>
@@ -689,8 +794,74 @@ namespace order_and_sales_management_ver1.Migrations
                 {
                     b.HasOne("order_and_sales_management_ver1.Models.EmployeesModels", "employee")
                         .WithMany()
+                        .HasForeignKey("employeepersonelID");
+                });
+
+            modelBuilder.Entity("order_and_sales_management_ver1.Models.OrderDetailsModel", b =>
+                {
+                    b.HasOne("order_and_sales_management_ver1.Models.OrderModel", "OrderModel")
+                        .WithMany("orderdetailsmodels")
+                        .HasForeignKey("orderID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("order_and_sales_management_ver1.Models.ProductModel", "ProductModel")
+                        .WithMany("orderdetailsmodels")
+                        .HasForeignKey("productID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("order_and_sales_management_ver1.Models.OrderModel", b =>
+                {
+                    b.HasOne("order_and_sales_management_ver1.Models.stocklocationmodel", "orderLocation")
+                        .WithMany()
+                        .HasForeignKey("orderLocationID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("order_and_sales_management_ver1.Models.EmployeesModels", "orderOwnerEmployeeModel")
+                        .WithMany()
+                        .HasForeignKey("orderOwnerEmployeeModelpersonelID");
+
+                    b.HasOne("order_and_sales_management_ver1.Models.EmployeesModels", null)
+                        .WithMany()
                         .HasForeignKey("personelID")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("order_and_sales_management_ver1.Models.PackagedProductDetailsModel", b =>
+                {
+                    b.HasOne("order_and_sales_management_ver1.Models.ProductModel", "ProductModel")
+                        .WithMany("packagedproductdetailsmodels")
+                        .HasForeignKey("ProductModelproductID");
+                });
+
+            modelBuilder.Entity("order_and_sales_management_ver1.Models.SalesModel", b =>
+                {
+                    b.HasOne("order_and_sales_management_ver1.Models.ProductModel", "ProductModel")
+                        .WithMany("salesmodels")
+                        .HasForeignKey("ProductModelproductID");
+
+                    b.HasOne("order_and_sales_management_ver1.Models.EmployeesModels", "employeesmodels")
+                        .WithMany()
+                        .HasForeignKey("employeesmodelspersonelID");
+                });
+
+            modelBuilder.Entity("order_and_sales_management_ver1.Models.StockItem", b =>
+                {
+                    b.HasOne("order_and_sales_management_ver1.Models.stocklocationmodel", "stocklocationmodel")
+                        .WithMany()
+                        .HasForeignKey("locationID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("order_and_sales_management_ver1.Models.ProductModel", "product")
+                        .WithMany()
+                        .HasForeignKey("productID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }
