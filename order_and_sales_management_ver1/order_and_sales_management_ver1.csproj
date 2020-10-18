@@ -8,6 +8,8 @@
     <OutputType>Exe</OutputType>
     <StartupObject>order_and_sales_management_ver1.Program</StartupObject>
     <AssemblyName>order_and_sales_management_ver1</AssemblyName>
+    <RunPostBuildEvent>OnOutputUpdated</RunPostBuildEvent>
+    <TypeScriptToolsVersion>Latest</TypeScriptToolsVersion>
   </PropertyGroup>
 
   <ItemGroup>

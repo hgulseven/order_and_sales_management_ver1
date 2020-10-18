@@ -14,6 +14,7 @@
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
+      "ancmHostingModel": "InProcess",
       "nativeDebugging": false
     },
     "order_and_sales_management_ver1": {

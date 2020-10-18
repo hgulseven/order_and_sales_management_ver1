@@ -25,6 +25,8 @@ namespace order_and_sales_management_ver1.Services
         public Task Execute(string apiKey, string subject, string message, string email)
         {
             /*
+             * Grid uyarlaması da çalışıyor. 
+             * 
             var client = new SendGridClient(apiKey);
             var msg = new SendGridMessage()
             {
