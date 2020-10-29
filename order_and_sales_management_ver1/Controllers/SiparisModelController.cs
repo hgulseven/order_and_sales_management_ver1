@@ -26,23 +26,40 @@ namespace order_and_sales_management_ver1.Controllers
         public ActionResult Liste()
         {
             List<OrderModel> siparis = new List<OrderModel>();
-            siparis = _context.OrderModel.Include(b => b.orderdetailsmodels)
-                                                                     .Include(b => b.orderLocation)
-                                                                     .Include(c => c.orderOwnerEmployeeModel)
-                                                                     .Where(t=>t.recStatus == Program.Const_Active_Order)
-                                                                     .ToList();
-            foreach (OrderModel order in siparis)
-            {
-                order.orderOwnerEmployeeModel = _context.employeesmodels.FirstOrDefault(e => e.personelID == order.personelID);
-            }
-            foreach (OrderModel order in siparis)
-            {
-                foreach (OrderDetailsModel orderDetails in order.orderdetailsmodels)
-                    orderDetails.ProductModel = _context.productmodels.FirstOrDefault(e => e.productID == orderDetails.productID);
-            }
 
+            if (User.Identity.IsAuthenticated)
+            {
+                int location = int.Parse(HttpContext.User.Claims.Where(c => c.Type == "location").FirstOrDefault().Value.ToString());
+                if (location == 1)
+                {
+                    siparis = _context.OrderModel.Include(b => b.orderdetailsmodels)
+                                                                             .Include(b => b.orderLocation)
+                                                                             .Include(c => c.orderOwnerEmployeeModel)
+                                                                             .Where(t => t.recStatus == Program.Const_Active_Order)
+                                                                             .ToList();
+                }
+                else
+                {
+                    siparis = _context.OrderModel.Include(b => b.orderdetailsmodels)
+                                                                             .Include(b => b.orderLocation)
+                                                                             .Include(c => c.orderOwnerEmployeeModel)
+                                                                             .Where(t => t.recStatus == Program.Const_Active_Order && t.orderLocationID == location)
+                                                                             .ToList();
+                }
+                foreach (OrderModel order in siparis)
+                {
+                    order.orderOwnerEmployeeModel = _context.employeesmodels.FirstOrDefault(e => e.personelID == order.personelID);
+                }
+                foreach (OrderModel order in siparis)
+                {
+                    foreach (OrderDetailsModel orderDetails in order.orderdetailsmodels)
+                        orderDetails.ProductModel = _context.productmodels.FirstOrDefault(e => e.productID == orderDetails.productID);
+                }
+            } else
+            {
+                ModelState.AddModelError("User", "İşlem yapabilmeniz için sisteme giriş yapınız.");
+            }
             return View(siparis);
-
         }
 
         [HttpGet]
@@ -50,20 +67,27 @@ namespace order_and_sales_management_ver1.Controllers
         {
 
            SiparisModel siparis = new SiparisModel();
-            siparis.orderDate = DateTime.Now;
-            ViewData["personelID"] = new SelectList(_context.employeesmodels, nameof(SiparisModel.orderOwnerEmployeeModel.personelID), nameof(SiparisModel.orderOwnerEmployeeModel.persName));
-            EmployeesModels employees = _context.employeesmodels.First();
-            siparis.orderLocation = _context.stocklocationmodel.FirstOrDefault(e => e.locationID == employees.locationID);
-            if (!String.IsNullOrEmpty(productName))
+            if (User.Identity.IsAuthenticated)
             {
-                siparis.products = _context.productmodels.Where(x => x.ProductName.Contains(productName)).ToList();
+                siparis.orderDate = DateTime.Now;
+                ViewData["personelID"] = new SelectList(_context.employeesmodels, nameof(SiparisModel.orderOwnerEmployeeModel.personelID), nameof(SiparisModel.orderOwnerEmployeeModel.persName));
+                EmployeesModels employees = _context.employeesmodels.First();
+                siparis.orderLocation = _context.stocklocationmodel.FirstOrDefault(e => e.locationID == employees.locationID);
+                if (!String.IsNullOrEmpty(productName))
+                {
+                    siparis.products = _context.productmodels.Where(x => x.ProductName.Contains(productName)).ToList();
+                }
+                else
+                {
+                    siparis.products = new List<ProductModel>();
+
+                }
+                siparis.operation = "Add";
             }
             else
             {
-                siparis.products = new List<ProductModel>();
-
+                ModelState.AddModelError("User", "İşlem yapabilmeniz için sisteme giriş yapınız.");
             }
-            siparis.operation = "Add";
             return View(siparis);
         }
         
