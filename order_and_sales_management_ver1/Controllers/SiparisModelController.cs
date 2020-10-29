@@ -35,7 +35,7 @@ namespace order_and_sales_management_ver1.Controllers
                     siparis = _context.OrderModel.Include(b => b.orderdetailsmodels)
                                                                              .Include(b => b.orderLocation)
                                                                              .Include(c => c.orderOwnerEmployeeModel)
-                                                                             .Where(t => t.recStatus == Program.Const_Active_Order)
+                                                                             .Where(t => t.recStatus == Program.Const_Active_Order && t.validTo==DateTime.Parse("2099-01-01"))
                                                                              .ToList();
                 }
                 else
@@ -43,7 +43,7 @@ namespace order_and_sales_management_ver1.Controllers
                     siparis = _context.OrderModel.Include(b => b.orderdetailsmodels)
                                                                              .Include(b => b.orderLocation)
                                                                              .Include(c => c.orderOwnerEmployeeModel)
-                                                                             .Where(t => t.recStatus == Program.Const_Active_Order && t.orderLocationID == location)
+                                                                             .Where(t => t.recStatus == Program.Const_Active_Order && t.orderLocationID == location && t.validTo == DateTime.Parse("2099-01-01"))
                                                                              .ToList();
                 }
                 foreach (OrderModel order in siparis)
@@ -95,7 +95,7 @@ namespace order_and_sales_management_ver1.Controllers
         public ActionResult Guncelle(int orderID)
         {
             OrderModel order = _context.OrderModel.Include(b => b.orderdetailsmodels)
-                                                                                        .FirstOrDefault<OrderModel>(t => t.orderID == orderID );
+                                                                                        .FirstOrDefault<OrderModel>(t => t.orderID == orderID && t.validTo == DateTime.Parse("2099-01-01"));
                                                                                          
             SiparisModel siparis = new SiparisModel();
             siparis.orderID = order.orderID;
@@ -118,16 +118,18 @@ namespace order_and_sales_management_ver1.Controllers
         {
             JObject jobjSiparis;
             JArray jobjOrderDetails;
+            OrderModel siparisnew = new OrderModel();
             OrderModel siparis = new OrderModel();
             string Operation = "";
+            ordercounter counter = new ordercounter ();
+            DateTime validity = DateTime.Now;
 
-
+            siparisnew.orderdetailsmodels = new List<OrderDetailsModel>();
             siparis.orderdetailsmodels = new List<OrderDetailsModel>();
 
             if (ModelState.IsValid)
             {
                 CultureInfo provider = CultureInfo.InvariantCulture;
-
                 jobjSiparis = JObject.Parse(jsonSiparis);
                 foreach (KeyValuePair<String, JToken> app in jobjSiparis)
                 {
@@ -136,16 +138,16 @@ namespace order_and_sales_management_ver1.Controllers
                     switch (appName)
                     {
                         case "orderID":
-                            siparis.orderID= int.Parse(value);
+                            siparisnew.orderID = int.Parse(value);
                             break;
                         case "orderDate":
-                            siparis.orderDate = DateTime.ParseExact(value, "MM/dd/yyyy HH:mm:ss", provider);
+                            siparisnew.orderDate = DateTime.ParseExact(value, "MM/dd/yyyy HH:mm:ss", provider);
                             break;
                         case "orderOwner_personelID":
-                            siparis.personelID = int.Parse(value);
+                            siparisnew.personelID = int.Parse(value);
                             break;
                         case "LocationID":
-                            siparis.orderLocationID = int.Parse(value);
+                            siparisnew.orderLocationID = int.Parse(value);
                             break;
                         case "Operation":
                             Operation = value;
@@ -153,7 +155,31 @@ namespace order_and_sales_management_ver1.Controllers
                             
                     }
                 }
-                siparis.recStatus = Program.Const_Active_Order;
+                siparisnew.recStatus = Program.Const_Active_Order;
+
+                if (Operation != "Add")
+                {
+                    siparis = _context.OrderModel.Include(b => b.orderdetailsmodels)
+                                                                                                .FirstOrDefault<OrderModel>(t => t.orderID == siparisnew.orderID && t.validTo == DateTime.Parse("2099-01-01"));
+                    _context.OrderModel.Remove(siparis);
+                    _context.SaveChanges();
+                    siparis.validTo = validity;
+                    foreach (OrderDetailsModel item in siparis.orderdetailsmodels)
+                    {
+                        item.validTo = validity;
+                    }
+
+                    _context.OrderModel.Add(siparis);
+                    _context.SaveChanges();
+                } else
+                {
+                    counter = _context.ordercounters.FirstOrDefault();
+                    counter.counter = counter.counter + 1;
+                    _context.ordercounters.Update(counter);
+                    _context.SaveChanges(); 
+                    siparisnew.orderID = counter.counter;
+                }
+
                 jobjOrderDetails = JArray.Parse(jsonOrderDetails);
                 foreach (JObject jObj in jobjOrderDetails)
                 {
@@ -177,16 +203,17 @@ namespace order_and_sales_management_ver1.Controllers
                                     break;
                             }
                         }
+                        orderDetails.orderID = siparisnew.orderID;
                         orderDetails.recStatus = Program.Const_Active_Order;
-                        siparis.orderdetailsmodels.Add(orderDetails);
+                        orderDetails.validTo= DateTime.Parse("2099-01-01");
+                        orderDetails.validFrom = validity;
+                        siparisnew.orderdetailsmodels.Add(orderDetails);
                     }
                 }
-                if (Operation!= "Add")
-                {
-                    _context.OrderModel.Remove(siparis);
-                    _context.SaveChanges();
-                }
-                _context.Add(siparis);
+                siparisnew.validTo = DateTime.Parse("2099-01-01");
+                siparisnew.validFrom = validity;
+
+                _context.Add(siparisnew);
                 _context.SaveChanges();
             }
             return RedirectToAction(nameof(Giris), new { productName = "" });
@@ -230,7 +257,7 @@ namespace order_and_sales_management_ver1.Controllers
             siparis = _context.OrderModel.Include(b => b.orderdetailsmodels)
                                                                      .Include(b => b.orderLocation)
                                                                      .Include(c => c.orderOwnerEmployeeModel)
-                                                                     .Where(t => t.recStatus == Program.Const_Active_Order || t.recStatus== Program.Const_Order_Partially_Loaded)
+                                                                     .Where(t => (t.recStatus == Program.Const_Active_Order || t.recStatus== Program.Const_Order_Partially_Loaded) && t.validTo == DateTime.Parse("2099-01-01"))
                                 .ToList();
             foreach (OrderModel order in siparis)
             {
@@ -252,7 +279,7 @@ namespace order_and_sales_management_ver1.Controllers
             siparis = _context.OrderModel.Include(b => b.orderdetailsmodels)
                                                                     .Include(b => b.orderLocation)
                                                                     .Include(c => c.orderOwnerEmployeeModel)
-                                                                    .First(t => t.orderID == orderID);
+                                                                    .First(t => t.orderID == orderID && t.validTo == DateTime.Parse("2099-01-01"));
             siparis.orderOwnerEmployeeModel = _context.employeesmodels.FirstOrDefault<EmployeesModels>(t => t.personelID == siparis.personelID);
             foreach (OrderDetailsModel orderDetails in siparis.orderdetailsmodels)
             {
@@ -298,6 +325,12 @@ namespace order_and_sales_management_ver1.Controllers
                             case "locationID":
                                 siparis.orderLocationID = int.Parse(value);
                                 break;
+                            case "validTo":
+                                siparis.validTo = DateTime.Parse(value);
+                                break;
+                            case "validFrom":
+                                siparis.validFrom = DateTime.Parse(value);
+                                break;
                         }
                     }
                     siparis.recStatus = Program.Const_Order_Loaded;
@@ -334,6 +367,8 @@ namespace order_and_sales_management_ver1.Controllers
                                 orderDetails.recStatus = Program.Const_Order_Loaded;
                             else
                                 orderDetails.recStatus = Program.Const_Order_Partially_Loaded;
+                            orderDetails.validTo = siparis.validTo;
+                            orderDetails.validFrom = siparis.validFrom;
                             siparis.orderdetailsmodels.Add(orderDetails);
                         }
                     }

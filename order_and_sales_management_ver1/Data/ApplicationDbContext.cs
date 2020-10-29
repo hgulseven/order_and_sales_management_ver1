@@ -31,6 +31,7 @@ namespace order_and_sales_management_ver1.Data
         public DbSet<PackagedProductDetailsModel> packagedProductDetails { get; set; }
         public DbSet<packagedproductsbarcode> packagedproductsbarcodes { get; set; }
         public DbSet<LabelModel> labelmodels { get; set; }
+        public DbSet<ordercounter> ordercounters { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -38,7 +39,7 @@ namespace order_and_sales_management_ver1.Data
             base.OnModelCreating(modelBuilder);
 
             modelBuilder.Entity<OrderDetailsModel>()
-                                    .HasKey(b => new {b.orderID, b.orderLineNo });
+                                    .HasKey(b => new {b.orderID, b.orderLineNo,b.validTo });
             modelBuilder.Entity<OrderDetailsModel>()
                                       .HasOne(a=>a.ProductModel)
                                       .WithMany(b=>b.orderdetailsmodels)
@@ -46,7 +47,7 @@ namespace order_and_sales_management_ver1.Data
             modelBuilder.Entity<OrderDetailsModel>()
                                       .HasOne(a => a.OrderModel)
                                       .WithMany(b => b.orderdetailsmodels)
-                                      .HasForeignKey("orderID");
+                                      .HasForeignKey("orderID","validTo");
             modelBuilder.Entity<SalesModel>()
                 .HasKey(b => new { b.saleDate, b.salesID, b.salesLineId,b.locationID });
             modelBuilder.Entity<PackagedProductDetailsModel>()
@@ -56,7 +57,7 @@ namespace order_and_sales_management_ver1.Data
             modelBuilder.Entity<TeraziScreenMapping>()
                 .HasKey(b => new { b.teraziID, b.productID });
             modelBuilder.Entity<OrderModel>()
-                                    .HasKey(b => new {b.orderID});
+                                    .HasKey(b => new {b.orderID,b.validTo});
             modelBuilder.Entity<OrderModel>()
                                     .HasOne(typeof(EmployeesModels))
                                     .WithMany()

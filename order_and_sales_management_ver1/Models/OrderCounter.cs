@@ -7,10 +7,10 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace order_and_sales_management_ver1.Models
 {
-    public class OrderCounter
+    public class ordercounter
     {
         [Key]
         public int ID { get; set; }
-        public int orderCounter { get; set; }
+        public int counter { get; set; }
     }
 }

@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using order_and_sales_management_ver1.Data;
 
 namespace order_and_sales_management_ver1.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20201029111632_validity2")]
+    partial class validity2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -461,7 +463,7 @@ namespace order_and_sales_management_ver1.Migrations
                     b.Property<int>("orderLineNo")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("validTo")
+                    b.Property<DateTime>("validTom")
                         .HasColumnType("datetime(6)");
 
                     b.Property<float>("loadedProductAmount")
@@ -488,14 +490,14 @@ namespace order_and_sales_management_ver1.Migrations
                     b.Property<int>("recStatus")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("validFrom")
+                    b.Property<DateTime>("validFromm")
                         .HasColumnType("datetime(6)");
 
-                    b.HasKey("orderID", "orderLineNo", "validTo");
+                    b.HasKey("orderID", "orderLineNo", "validTom");
 
                     b.HasIndex("productID");
 
-                    b.HasIndex("orderID", "validTo");
+                    b.HasIndex("orderID", "validTom");
 
                     b.ToTable("orderdetailsmodels");
                 });
@@ -505,7 +507,7 @@ namespace order_and_sales_management_ver1.Migrations
                     b.Property<int>("orderID")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("validTo")
+                    b.Property<DateTime>("validTom")
                         .HasColumnType("datetime(6)");
 
                     b.Property<DateTime>("orderDate")
@@ -523,10 +525,10 @@ namespace order_and_sales_management_ver1.Migrations
                     b.Property<int>("recStatus")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("validFrom")
+                    b.Property<DateTime>("validFromm")
                         .HasColumnType("datetime(6)");
 
-                    b.HasKey("orderID", "validTo");
+                    b.HasKey("orderID", "validTom");
 
                     b.HasIndex("orderLocationID");
 
@@ -686,20 +688,6 @@ namespace order_and_sales_management_ver1.Migrations
                     b.ToTable("TeraziScreenMapping");
                 });
 
-            modelBuilder.Entity("order_and_sales_management_ver1.Models.ordercounter", b =>
-                {
-                    b.Property<int>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    b.Property<int>("counter")
-                        .HasColumnType("int");
-
-                    b.HasKey("ID");
-
-                    b.ToTable("ordercounters");
-                });
-
             modelBuilder.Entity("order_and_sales_management_ver1.Models.packagedproductsbarcode", b =>
                 {
                     b.Property<string>("barcodeID")
@@ -837,7 +825,7 @@ namespace order_and_sales_management_ver1.Migrations
 
                     b.HasOne("order_and_sales_management_ver1.Models.OrderModel", "OrderModel")
                         .WithMany("orderdetailsmodels")
-                        .HasForeignKey("orderID", "validTo")
+                        .HasForeignKey("orderID", "validTom")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

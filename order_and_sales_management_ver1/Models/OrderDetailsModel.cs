@@ -19,6 +19,11 @@ namespace order_and_sales_management_ver1.Models
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
         [Display(Name = "Sipariþ Satýr No")]
         public int orderLineNo { get; set; }
+
+        [Key]
+        [Column(Order = 2)]
+        public DateTime validTo { get; set; }
+
         [ForeignKey("productID")]
         public int productID { get; set; }
         public ProductModel ProductModel { get; set; }
@@ -37,9 +42,9 @@ namespace order_and_sales_management_ver1.Models
         public int productQualityChecker { get; set; }
 
         public string orderCritic { get; set; }
+        public DateTime validFrom { get; set; }
 
         public virtual OrderModel OrderModel { get; set; }
-
 
         public int recStatus { get; set; } /* -1 : Order Deleted 1: Aktif order  2:Order Delivered */
     }

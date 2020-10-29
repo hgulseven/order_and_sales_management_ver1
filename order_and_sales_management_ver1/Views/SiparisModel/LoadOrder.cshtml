@@ -73,7 +73,7 @@
                                         @Html.DisplayFor(modelItem => item.ProductModel.ProductName)
                                     </td>
                                     <td>
-                                        @Html.EditorFor(modelItem => item.productAmount, new { htmlAttributes = new { @class = "form-control", @disabled = "disabled", @style="height:25px", id = "productAmount" + item.orderLineNo } })
+                                        @Html.EditorFor(modelItem => item.productAmount, new { htmlAttributes = new { @class = "form-control", @disabled = "disabled", @style = "height:25px", id = "productAmount" + item.orderLineNo } })
                                     </td>
                                     <td>
                                         @Html.EditorFor(modelItem => item.loadedProductAmount, new { htmlAttributes = new { @class = "form-control", @style = "height:25px", id = "loadedProductAmount" + item.orderLineNo } })
@@ -85,6 +85,8 @@
                         </tbody>
                     </table>
                     @Html.HiddenFor(model => model.personelID, new { @class = "form-control" })
+                    @Html.HiddenFor(model => model.validTo, new { @class = "form-control" })
+                    @Html.HiddenFor(model => model.validFrom, new { @class = "form-control" })
                 </div>
         </div>
     </div>
@@ -123,11 +125,15 @@
             var orderDate = document.getElementById("orderDate").value;
             var orderOwner = document.getElementById("personelID").value;
             var locationID = document.getElementById("empLocation").value;
+            var validTo = document.getElementById("validTo").value;
+            var validFrom = document.getElementById("validFrom").value;
             var jsObj = {
                 orderID,
                 orderDate,
                 orderOwner,
-                locationID
+                locationID,
+                validTo,
+                validFrom
             };
             var table = document.getElementById("orderDetails");
             var orderModelDetails = [];
