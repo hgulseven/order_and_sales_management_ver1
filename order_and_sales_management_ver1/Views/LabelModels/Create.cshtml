@@ -85,8 +85,16 @@
                 @Html.TextBoxFor(modelitem => Model.productShelfLife, new { @class = "w-100" })
             </div>
         </div>
+        <div class="row">
+            <div class="col-md-2">
+                @Html.LabelFor(modelitem => Model.companyInfo)
+            </div>
+            <div class="col-md-10">
+                @Html.TextBoxFor(modelitem => Model.companyInfo, new { @class = "w-100" })
+            </div>
+        </div>
         @Html.HiddenFor(modelItem => Model.recordExists)
-        <input type="submit" value="Güncelle" class="btn btn-primary btn-sm" style = "font-size:12px" />
+        <input type="submit" value="Güncelle" class="btn btn-primary btn-sm" style="font-size:12px" />
         @Html.ActionLink("Liste", "Index", "LabelModels", null, new { @class = "btn btn-secondary  btn-sm", @style = "font-size:12px", })
 
     </div>

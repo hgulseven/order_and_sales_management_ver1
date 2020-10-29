@@ -110,7 +110,7 @@ namespace order_and_sales_management_ver1.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("productID,productName,productAmount,productContents,productLawStr, productStoringCond,productLotNo,productShelfLife,productBarcodID,recordExists")] LabelModel labelModel)
+        public async Task<IActionResult> Create([Bind("productID,productName,productAmount,productContents,productLawStr, productStoringCond,productLotNo,productShelfLife,productBarcodID,recordExists,companyInfo")] LabelModel labelModel)
         {
             if (ModelState.IsValid)
             {
@@ -267,6 +267,7 @@ namespace order_and_sales_management_ver1.Controllers
                 public List<string> aciklama { get; set; }
                 public string barcode { get; set; }
                 public int numberOfCopies { get; set; }
+                public int typeOfLabel { get; set; }
 
                 public string setLabelData(LabelModel label)
                 {
@@ -282,6 +283,11 @@ namespace order_and_sales_management_ver1.Controllers
                     labelData.aciklama.Add(label.productLotNo);
                     labelData.aciklama.Add("IMALAT TARİHİ: " + DateTime.Now.ToString("dd-MM-yyyy"));
                     labelData.aciklama.Add(label.productShelfLife);
+                    labelData.aciklama.Add(label.companyInfo);
+                    if ((label.companyInfo != null) && label.companyInfo.Length > 0)
+                        labelData.typeOfLabel = 1;
+                    else
+                        labelData.typeOfLabel = 0;
                     labelData.barcode = label.productBarcodID;
                     labelData.numberOfCopies = label.numberOfCopies;
                     String jsonOutput = JsonConvert.SerializeObject(labelData,Formatting.Indented);
@@ -292,7 +298,7 @@ namespace order_and_sales_management_ver1.Controllers
 
             public void StartClient(LabelModel label)
             {
-                string Print_Server_IP_Address = "127.0.0.1";
+                string Print_Server_IP_Address = "192.168.1.50";
 
                 byte[] bytes = new byte[1024];
 

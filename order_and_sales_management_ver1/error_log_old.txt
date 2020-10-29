@@ -1,2 +1,1 @@
-17.10.2020 13:04:12.27487 Function : GetDisplaySales            Err: System.NullReferenceException: Object reference not set to an instance of an object.
-   at order_and_sales_management_ver1.Controllers.DisplaySalesController.GetDisplaySales() in C:\Users\hakan\Source\Repos\hgulseven\order_and_sales_management_ver1\order_and_sales_management_ver1\Controllers\DisplaySalesController.cs:line 84
+28.10.2020 16:34:04.52168 Function : UpdatePaidAmount           Err: 3 103,00                                                                                                                                                                                                                                                       

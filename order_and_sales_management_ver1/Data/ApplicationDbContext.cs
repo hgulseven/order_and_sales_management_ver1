@@ -48,7 +48,7 @@ namespace order_and_sales_management_ver1.Data
                                       .WithMany(b => b.orderdetailsmodels)
                                       .HasForeignKey("orderID");
             modelBuilder.Entity<SalesModel>()
-                .HasKey(b => new { b.saleDate, b.salesID, b.salesLineId });
+                .HasKey(b => new { b.saleDate, b.salesID, b.salesLineId,b.locationID });
             modelBuilder.Entity<PackagedProductDetailsModel>()
                 .HasKey(b => new { b.PackedProductID, b.PackagedProductLineNo });
             modelBuilder.Entity<StockItem>()

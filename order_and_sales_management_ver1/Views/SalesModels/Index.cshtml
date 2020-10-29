@@ -1,0 +1,181 @@
+﻿@model IEnumerable<order_and_sales_management_ver1.Models.SalesModel>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="panel-info">
+    <h1>Satış Ekle</h1>
+</div>
+
+<div class="alert alert-danger">
+    @Html.ValidationSummary(false)
+</div>
+
+<hr />
+
+<div class="row">
+    <div class="col-lg-2">
+        @Html.DisplayNameFor(model => model.productBarcodeID)
+    </div>
+    <div class="col-lg-2">
+        <input type="text" id="productBarcodeID" onblur="AddNewSaleItem()">
+    </div>
+    <div class="col-lg-2">
+        <input id="Guncelle" class="btn btn-primary btn-sm btn-block" type="button" value="Güncelle" style="font-size:12px" onclick="UpdateSales()">
+    </div>
+    <div class="col-lg-6">
+    </div>
+</div>
+    <div class="table-responsive">
+        <table class="table table-striped table-curved " style="font-size:0.8em" id="saleTable">
+            <thead class="table-head">
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.salesID)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.employeesmodels.personelID)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.personelNameSurname)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.ProductModel.productID)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.ProductModel.productBarcodeID)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.ProductModel.ProductName)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.amount)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.tutar)
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                <tr>
+                    <td class="salesID">
+                        @Html.DisplayFor(modelItem => item.salesID)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.personelID)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.personelNameSurname)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ProductModel.productID)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ProductModel.productBarcodeID)
+                    </td>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ProductModel.ProductName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.amount)
+                    </td>
+                    <td style="text-align:right">
+                        @Html.DisplayFor(modelItem => item.tutar)
+                    </td>
+                </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+ <script>
+    function UpdateSales() {
+            var listOfProducts = {};
+            listOfProducts = new Array();
+            var saleTableBodyRef = document.getElementById("saleTable").getElementsByTagName('tbody')[0];
+            for (i = 0; i < saleTableBodyRef.rows.length;i++)
+            {
+                var row = saleTableBodyRef.rows[i]
+                listOfProducts.push({
+                    "salesID": row.cells.item(0).innerHTML.trim(),
+                    "personelID": row.cells.item(1).innerHTML.trim(),
+                    "productID": row.cells.item(3).innerHTML.trim(),
+                    "productBarcodeID": row.cells.item(4).innerHTML.trim(),
+                    "amount": row.cells.item(6).innerHTML.trim()
+                });
+            }
+            var xmlhttp = new XMLHttpRequest();
+            xmlhttp.onreadystatechange = function () {
+            if (xmlhttp.readyState == XMLHttpRequest.DONE) {   // XMLHttpRequest.DONE == 4
+                if (xmlhttp.status == 200) {
+                }
+                else if (xmlhttp.status == 400) {
+                    alert('There was an error 400');
+                }
+                else {
+                    alert('something else other than 200 was returned');
+                }
+            }
+        };
+        var jsonstr = JSON.stringify(listOfProducts);
+        xmlhttp.open("GET", "/SalesModels/UpdateSales?listOfProducts=" +jsonstr, false);
+        xmlhttp.send();
+        window.location.href = "/DisplaySales";
+    }
+
+    function AddNewSaleItem() {
+        var barcode = document.getElementById("productBarcodeID");
+        var salesID = document.getElementsByClassName("salesID")[0];
+        $.ajax({
+            type: 'GET',
+            url: '@Url.Action("getProductByBarcode", "SalesModels")',
+            data: {
+                "barcodeID": barcode.value,
+                "salesID" : salesID.innerHTML.trim()},
+            success: function (data) {
+                var saleTableBodyRef = document.getElementById("saleTable").getElementsByTagName('tbody')[0];
+                var newRow = saleTableBodyRef.insertRow();
+
+                var newCell = newRow.insertCell();
+                var newText = document.createTextNode(data.salesID);
+                newCell.appendChild(newText);
+
+                var newCell = newRow.insertCell();
+                var newText = document.createTextNode(data.personelID);
+                newCell.appendChild(newText);
+
+                var newCell = newRow.insertCell();
+                newText = document.createTextNode(data.personelNameSurname);
+                newCell.appendChild(newText);
+
+                var newCell = newRow.insertCell();
+                newText = document.createTextNode(data.productID);
+                newCell.appendChild(newText);
+
+                var newCell = newRow.insertCell();
+                newText = document.createTextNode(data.productBarcodeID);
+                newCell.appendChild(newText);
+
+                newCell = newRow.insertCell();
+                newText = document.createTextNode(data.productModel.productName);
+                newCell.appendChild(newText)
+
+                newCell = newRow.insertCell();
+                newText = document.createTextNode(data.amount);
+                newCell.appendChild(newText);
+
+                var mytext = data.tutar.toFixed(2);
+                newCell = newRow.insertCell();
+                newCell.style = "text-align:right";
+                newText = document.createTextNode(mytext.trim());
+                newCell.appendChild(newText);
+            }
+        })
+        barcode.value = "";
+        barcode.focus();
+    }
+
+  </script>

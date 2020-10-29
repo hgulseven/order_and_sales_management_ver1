@@ -39,7 +39,8 @@
                     </th>
                     <th>
                     </th>
-
+                    <th>
+                    </th>
                 </tr>
             </thead>
             @foreach (var item in Model)
@@ -52,7 +53,7 @@
                         @Html.DisplayFor(modelItem => item.tutar)
                     </td>
                     <td style="text-align:right">
-                        @Html.TextBoxFor(modelItem => item.indirimOranı, new { Id = "indirimOran" + @item.salesID , onblur = "calculateIndirim("+@item.salesID+")" } )
+                        @Html.TextBoxFor(modelItem => item.indirimOranı, new { Id = "indirimOran" + @item.salesID, onblur = "calculateIndirim(" + @item.salesID + ")" })
                     </td>
                     <td style="text-align:right">
                         @Html.TextBoxFor(modelItem => item.paidTutar, new { Id = "paidTutar" + @item.salesID })
@@ -60,6 +61,9 @@
                     </td>
                     <td width="75">
                         <input id="clickMe" class="btn btn-primary btn-sm btn-block" type="button" value="Detaylar" style="font-size:12px" onclick="addTable(@item.rowID, @item.salesID);" />
+                    </td>
+                    <td width="75'">
+                        @Html.ActionLink("Ekle", "Index", "SalesModels", new { salesID = item.salesID}, new { @class = "btn btn-secondary btn-sm btn-block", @style = "font-size:12px"})
                     </td>
                     <td width="75">
                         @Html.ActionLink("Nakit", "Tahsilat", "DisplaySales", new { salesID = item.salesID, typeOfCollection = 1 }, new { @class = "btn btn-danger  btn-sm btn-block", @style = "font-size:12px", @onclick = "getValue2(this)" })
@@ -75,8 +79,8 @@
             }
 
         </table>
+    </div>
 </form>
-</div>
 
 @section scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
@@ -225,6 +229,7 @@
 
          xmlhttp.open("GET","/DisplaySales/updatePaidAmount?salesID="+salesID+"&paidAmount="+val , false);
          xmlhttp.send();
+        location.url("DisplaySales");
        }
 
 

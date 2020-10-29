@@ -1,0 +1,72 @@
+﻿@model order_and_sales_management_ver1.Models.SalesModel
+
+@{
+    ViewData["Title"] = "Delete";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Delete</h1>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>SalesModel</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.saleTime)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.saleTime)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.personelID)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.personelID)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.productID)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.productID)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.amount)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.amount)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.paidAmount)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.paidAmount)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.typeOfCollection)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.typeOfCollection)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.locationID)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.locationID)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.productBarcodeID)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.productBarcodeID)
+        </dd>
+    </dl>
+    
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="saleDate" />
+        <input type="hidden" asp-for="salesID" />
+        <input type="hidden" asp-for="salesLineId" />
+        <input type="submit" value="Delete" class="btn btn-danger" /> |
+        <a asp-action="Index">Back to List</a>
+    </form>
+</div>

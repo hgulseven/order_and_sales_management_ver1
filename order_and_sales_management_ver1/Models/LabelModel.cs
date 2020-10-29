@@ -30,12 +30,16 @@ namespace order_and_sales_management_ver1.Models
         public string productLotNo { get; set; }
         [Display(Name = "Ürün Barkod")]
         public string productBarcodID { get; set; }
+        [Display(Name = "Firma Bilgisi")]
+        public string companyInfo { get; set; }
 
         [NotMapped]
         public string recordExists { get; set; }
         [NotMapped]
         [Display(Name = "Kopya Sayısı")]
         public int numberOfCopies { get; set; }
+        [NotMapped] 
+        public int typeOfLabel { get; set; }
 
     }
 }
