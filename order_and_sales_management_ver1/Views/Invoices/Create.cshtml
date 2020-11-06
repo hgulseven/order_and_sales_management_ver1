@@ -1,0 +1,69 @@
+﻿@model order_and_sales_management_ver1.Models.Invoice
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Create</h1>
+
+<h4>Invoice</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="suplier" class="control-label"></label>
+                <input asp-for="suplier" class="form-control" />
+                <span asp-validation-for="suplier" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="partyId" class="control-label"></label>
+                <input asp-for="partyId" class="form-control" />
+                <span asp-validation-for="partyId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="taxSchemeName" class="control-label"></label>
+                <input asp-for="taxSchemeName" class="form-control" />
+                <span asp-validation-for="taxSchemeName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="allowanceMultiplier" class="control-label"></label>
+                <input asp-for="allowanceMultiplier" class="form-control" />
+                <span asp-validation-for="allowanceMultiplier" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="allowanceAmount" class="control-label"></label>
+                <input asp-for="allowanceAmount" class="form-control" />
+                <span asp-validation-for="allowanceAmount" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="taxAmount" class="control-label"></label>
+                <input asp-for="taxAmount" class="form-control" />
+                <span asp-validation-for="taxAmount" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="taxPercentage" class="control-label"></label>
+                <input asp-for="taxPercentage" class="form-control" />
+                <span asp-validation-for="taxPercentage" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="amountBeforeTax" class="control-label"></label>
+                <input asp-for="amountBeforeTax" class="form-control" />
+                <span asp-validation-for="amountBeforeTax" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

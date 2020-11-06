@@ -1,5 +1,6 @@
 namespace order_and_sales_management_ver1.Models
 {
+    using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
 
@@ -20,7 +21,6 @@ namespace order_and_sales_management_ver1.Models
         [StringLength(32)]
         public string password { get; set; }
 
-        [ForeignKey("stocklocationmodel")]
         public int locationID { get; set; }
         [Display(Name ="Lokasyon")]
         public virtual stocklocationmodel empLocation { get; set; }
@@ -36,5 +36,7 @@ namespace order_and_sales_management_ver1.Models
         public int accessFailedCount { get; set; }
                
         public int recStatus { get; set; }
+        public virtual ICollection<OrderModel> orders { get; set; }
+        public virtual ICollection<SalesModel> sales { get; set; }
     }
 }

@@ -48,6 +48,8 @@ namespace order_and_sales_management_ver1.Models
         public string productBarcodeID { get; set; }
         public virtual EmployeesModels employeesmodels { get; set; }
         public virtual ProductModel ProductModel { get; set; }
+
+        public virtual stocklocationmodel location { get; set; }
     }
 
     [NotMapped]

@@ -21,12 +21,9 @@ namespace order_and_sales_management_ver1.Models
         [Column(Order = 3)]
         public DateTime recDate { get; set; }
 
-
-
-
         public double Amount { get; set; }
 
-        public int ProductID { get; set; }
+        public int productID { get; set; }
 
         public virtual ProductModel ProductModel { get; set; }
     }

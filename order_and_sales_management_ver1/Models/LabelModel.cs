@@ -33,6 +33,12 @@ namespace order_and_sales_management_ver1.Models
         [Display(Name = "Firma Bilgisi")]
         public string companyInfo { get; set; }
 
+        [Display(Name = "Menşei")]
+        public string mensei { get; set; }
+
+        [Display(Name = "Alerji Bilgisi")]
+        public string alerji { get; set; }
+
         [NotMapped]
         public string recordExists { get; set; }
         [NotMapped]

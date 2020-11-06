@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace order_and_sales_management_ver1.Data
 {
-    public class ApplicationDbContext : IdentityDbContext
+    public class ApplicationDbContext :   IdentityDbContext
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
@@ -32,43 +32,100 @@ namespace order_and_sales_management_ver1.Data
         public DbSet<packagedproductsbarcode> packagedproductsbarcodes { get; set; }
         public DbSet<LabelModel> labelmodels { get; set; }
         public DbSet<ordercounter> ordercounters { get; set; }
+        public DbSet<Invoice> invoice{ get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
 
+            modelBuilder.Entity<EmployeesModels>()
+                                     .HasKey(b => new { b.personelID });
+
+            _ = modelBuilder.Entity<EmployeesModels>()
+                                     .HasOne<stocklocationmodel>(b => b.empLocation)
+                                     .WithMany("employees")
+                                     .HasForeignKey("locationID");
+
+            modelBuilder.Entity<OrderModel>()
+                        .HasKey(b => new { b.orderID, b.validTo });
+
+            modelBuilder.Entity<OrderModel>()
+                                    .HasOne<EmployeesModels>(b => b.orderOwnerEmployeeModel)
+                                    .WithMany("orders")
+                                    .HasForeignKey("personelID")
+                                    .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<OrderModel>()
+                                    .HasMany<OrderDetailsModel>(b => b.orderdetailsmodels)
+                                    .WithOne("OrderModel")
+                                    .HasForeignKey("orderID","validTo")
+                                    .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<OrderModel>()
+                                    .HasOne<stocklocationmodel>(b => b.orderLocation)
+                                    .WithMany("orders")
+                                    .HasForeignKey("orderLocationID")
+                                    .OnDelete(DeleteBehavior.Cascade);
+
             modelBuilder.Entity<OrderDetailsModel>()
                                     .HasKey(b => new {b.orderID, b.orderLineNo,b.validTo });
+            
             modelBuilder.Entity<OrderDetailsModel>()
-                                      .HasOne(a=>a.ProductModel)
+                                      .HasOne<ProductModel>(a=>a.ProductModel)
                                       .WithMany(b=>b.orderdetailsmodels)
                                       .HasForeignKey(a=>a.productID);
+
             modelBuilder.Entity<OrderDetailsModel>()
                                       .HasOne(a => a.OrderModel)
                                       .WithMany(b => b.orderdetailsmodels)
                                       .HasForeignKey("orderID","validTo");
+
             modelBuilder.Entity<SalesModel>()
-                .HasKey(b => new { b.saleDate, b.salesID, b.salesLineId,b.locationID });
+                .HasKey(b => new { b.saleDate, b.salesID, b.salesLineId, b.locationID });
+
+            modelBuilder.Entity<SalesModel>()
+                                    .HasOne(a => a.employeesmodels)
+                                    .WithMany(b => b.sales)
+                                    .HasForeignKey("personelID");
+
+            modelBuilder.Entity<SalesModel>()
+                                    .HasOne(a => a.ProductModel)
+                                    .WithMany(b => b.salesmodels)
+                                    .HasForeignKey("productID");
+
+            modelBuilder.Entity<SalesModel>()
+                        .HasOne(a => a.location)
+                        .WithMany(b => b.sales)
+                        .HasForeignKey("locationID");
+
+            modelBuilder.Entity<salescounter>()
+                        .HasKey(b => new { b.salesDate, b.locationID });
+
             modelBuilder.Entity<PackagedProductDetailsModel>()
-                .HasKey(b => new { b.PackedProductID, b.PackagedProductLineNo });
+                .HasKey(b => new { b.PackedProductID, b.PackagedProductLineNo, b.recDate ,b.recStatus});
+
+            modelBuilder.Entity<PackagedProductDetailsModel>()
+                                    .HasOne<ProductModel>(a => a.ProductModel)
+                                    .WithMany(b => b.packagedproductdetailsmodels)
+                                    .HasForeignKey("productID");
+
             modelBuilder.Entity<StockItem>()
                 .HasKey(b => new { b.productID, b.locationID, b.productionLotID });
             modelBuilder.Entity<TeraziScreenMapping>()
                 .HasKey(b => new { b.teraziID, b.productID });
-            modelBuilder.Entity<OrderModel>()
-                                    .HasKey(b => new {b.orderID,b.validTo});
-            modelBuilder.Entity<OrderModel>()
-                                    .HasOne(typeof(EmployeesModels))
-                                    .WithMany()
-                                    .HasForeignKey("personelID")
-                                    .OnDelete(DeleteBehavior.Restrict);
+
             modelBuilder.Entity<KasaMutabakat>()
                 .HasKey(b => new { b.mutabakatTimeStamp, b.locationID, b.typeOfMutabakat });
             modelBuilder.Entity<Expenditures>()
                 .HasKey(b => new { b.opDate, b.locationID});
             modelBuilder.Entity<LabelModel>()
                 .HasKey(b => new { b.productID});
+            modelBuilder.Entity<Invoice>()
+                .HasKey(b => new { b.suplier});
+
+            modelBuilder.Entity<Invoice.InvoiceLine>()
+                            .HasNoKey();
 
         }
 

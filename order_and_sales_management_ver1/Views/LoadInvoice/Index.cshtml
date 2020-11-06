@@ -1,0 +1,119 @@
+﻿@model order_and_sales_management_ver1.Models.Invoice
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="panel-info">
+    <h1>Fatura Yükleme</h1>
+</div>
+<div class="alert alert-danger">
+    @Html.ValidationSummary(false)
+</div>
+<hr />
+<style>
+    table {
+        border-collapse: collapse;
+        width: 100%;
+    }
+    th {
+        height:10px;
+    }
+</style>
+    <form asp-action="Index">
+        <div class="row">
+            <div class="col-md-6">
+                <input type="file" class="btn btn-primary" name="elementName" />
+            </div>
+            <div class="col-md-3">
+                <input type="submit" formaction=@Url.Action("Index") formenctype="multipart/form-data" formmethod="post" class="btn btn-secondary" value="Fatura Yükle" />
+            </div>
+            <div class="col-md-3">
+                <input type="submit" formaction=@Url.Action("Index") formmethod="post" class="btn btn-danger" value="Fiyatları Güncelle" />
+            </div>
+        </div>
+        <div class="table-responsive">
+            <table class="table table-striped table-curved table-row-height" style="font-size:0.9em;height:30px">
+                <tr>
+                    <th><label asp-for="suplier" style="height:25px" class="control-label"></label></th>
+                    <td>
+                        <input asp-for="suplier" readonly="readonly" style="height:25px" class="form-control" />
+                    </td>
+                    <th> <label asp-for="partyId" style="height:25px" class="control-label"></label></th>
+                    <td>
+                        <input asp-for="partyId" readonly style="height:25px" class="form-control" />
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        <label asp-for="allowanceMultiplier" style="height:25px" class="control-label"></label>
+                    </th>
+                    <td>
+                        <input asp-for="allowanceMultiplier" readonly style="height:25px" class="form-control" />
+                        <span asp-validation-for="allowanceMultiplier" class="text-danger"></span>
+                    </td>
+                    <th>
+                        <label asp-for="allowanceAmount" style="height:25px" class="control-label"></label>
+                    </th>
+                    <td>
+                        <input asp-for="allowanceAmount" readonly style="height:25px" class="form-control" />
+                        <span asp-validation-for="allowanceAmount" class="text-danger"></span>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div class="table-responsive">
+            <table class="table table-striped table-curved table-row-height" style="font-size:0.9em;height:30px">
+                <thead class="table-head">
+                    <tr>
+                        <th>
+                            <label asp-for="invoiceLines[0].sellersIDForItem" style="font-size:0.8em; height:25px" class="control-label"></label>
+                        </th>
+                        <th>
+                            <label asp-for="invoiceLines[0].itemName" style="font-size:0.8em; height:25px" class="control-label"></label>
+                        </th>
+                        <th>
+                            <label asp-for="invoiceLines[0].itemDesc" style="font-size:0.8em; height:25px" class="control-label"></label>
+                        </th>
+                        <th>
+                            <label asp-for="invoiceLines[0].invoicedQuantity" style="font-size:0.8em; height:25px" class="control-label"></label>
+                        </th>
+                        <th>
+                            <label asp-for="invoiceLines[0].itemPrice" style="font-size:0.8em; height:25px" class="control-label"></label>
+                        </th>
+                        <th>
+                            <label asp-for="invoiceLines[0].urunKodu" style="font-size:0.8em; height:25px" class="control-label"></label>
+                        </th>
+                    </tr>
+                </thead>
+                @foreach (var item in Model.invoiceLines)
+                {
+                    <tr id=@item.orderID style="border-bottom: 1px solid #cdd0d4;">
+                        <td>
+                            <input asp-for=@item.sellersIDForItem readonly style="font-size:0.8em; height:25px" class="form-control" />
+                        </td>
+                        <td>
+                            <input asp-for=@item.itemName style="font-size:0.8em; height:25px" readonly class="form-control" />
+                        </td>
+                        <td>
+                            <input asp-for=@item.itemDesc readonly style="font-size:0.8em; height:25px" class="form-control" />
+                        </td>
+                        <td>
+                            <input asp-for=@item.invoicedQuantity style="font-size:0.8em; height:25px" readonly class="form-control" />
+
+                        </td>
+                        <td>
+                            <input asp-for=@item.itemPrice readonly style="font-size:0.8em; height:25px" class="form-control" />
+                        </td>
+                        <td>
+                            <input asp-for=@item.urunKodu style="font-size:0.8em; height:25px" class="form-control" />
+                        </td>
+                    </tr>
+                }
+            </table>
+
+        </div>
+    </form>
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

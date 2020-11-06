@@ -71,6 +71,14 @@
         </div>
         <div class="row">
             <div class="col-md-2">
+                @Html.LabelFor(modelitem => Model.alerji)
+            </div>
+            <div class="col-md-10">
+                @Html.TextBoxFor(modelitem => Model.alerji, new { @class = "w-100" })
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-2">
                 @Html.LabelFor(modelitem => Model.productLotNo)
             </div>
             <div class="col-md-10">
@@ -93,6 +101,15 @@
                 @Html.TextBoxFor(modelitem => Model.companyInfo, new { @class = "w-100" })
             </div>
         </div>
+        <div class="row">
+            <div class="col-md-2">
+                @Html.LabelFor(modelitem => Model.mensei)
+            </div>
+            <div class="col-md-10">
+                @Html.TextBoxFor(modelitem => Model.mensei, new { @class = "w-100" })
+            </div>
+        </div>
+
         @Html.HiddenFor(modelItem => Model.recordExists)
         <input type="submit" value="Güncelle" class="btn btn-primary btn-sm" style="font-size:12px" />
         @Html.ActionLink("Liste", "Index", "LabelModels", null, new { @class = "btn btn-secondary  btn-sm", @style = "font-size:12px", })

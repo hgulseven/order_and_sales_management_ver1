@@ -34,5 +34,7 @@ namespace order_and_sales_management_ver1.Models
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<SalesModel> salesmodels { get; set; }
+        [Display(Name = "Teradrikçi Kodu")]
+        public string sellersID { get; set; }
     }
 }

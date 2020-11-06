@@ -9,7 +9,6 @@ namespace order_and_sales_management_ver1.Models
     {
         [Key]
         [Column(Order = 0)]
-        [ForeignKey("OrderModel")]
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
         [Display(Name = "Sipariþ No")]
         public int orderID { get; set; }
@@ -24,7 +23,6 @@ namespace order_and_sales_management_ver1.Models
         [Column(Order = 2)]
         public DateTime validTo { get; set; }
 
-        [ForeignKey("productID")]
         public int productID { get; set; }
         public ProductModel ProductModel { get; set; }
 
@@ -43,9 +41,7 @@ namespace order_and_sales_management_ver1.Models
 
         public string orderCritic { get; set; }
         public DateTime validFrom { get; set; }
-
         public virtual OrderModel OrderModel { get; set; }
-
         public int recStatus { get; set; } /* -1 : Order Deleted 1: Aktif order  2:Order Delivered */
     }
 }

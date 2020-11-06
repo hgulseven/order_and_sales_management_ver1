@@ -55,6 +55,10 @@
     <Compile Remove="Migrations\20201029101342_validity.Designer.cs" />
     <Compile Remove="Migrations\20201029134257_validity5.cs" />
     <Compile Remove="Migrations\20201029134257_validity5.Designer.cs" />
+    <Compile Remove="Migrations\20201029193648_initial2.cs" />
+    <Compile Remove="Migrations\20201029193648_initial2.Designer.cs" />
+    <Compile Remove="Migrations\20201030084446_packaged.cs" />
+    <Compile Remove="Migrations\20201030084446_packaged.Designer.cs" />
   </ItemGroup>
 
 
@@ -82,7 +86,7 @@
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.4" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Utils" Version="3.1.4" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
-    <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="3.2.3" />
+    <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="3.2.4" />
     <PackageReference Include="SendGrid" Version="9.21.0" />
     <PackageReference Include="Spire.Barcode" Version="4.9.2" />
     <PackageReference Include="System.Globalization" Version="4.3.0" />
