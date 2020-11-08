@@ -32,7 +32,9 @@ namespace order_and_sales_management_ver1.Data
         public DbSet<packagedproductsbarcode> packagedproductsbarcodes { get; set; }
         public DbSet<LabelModel> labelmodels { get; set; }
         public DbSet<ordercounter> ordercounters { get; set; }
-        public DbSet<Invoice> invoice{ get; set; }
+        public DbSet<baseproduct> baseProducts { get; set; }
+        public DbSet<packedproduct> packedProducts{ get; set; }
+        public DbSet<packedproductdetail> packedProductDetails{ get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -59,7 +61,7 @@ namespace order_and_sales_management_ver1.Data
             modelBuilder.Entity<OrderModel>()
                                     .HasMany<OrderDetailsModel>(b => b.orderdetailsmodels)
                                     .WithOne("OrderModel")
-                                    .HasForeignKey("orderID","validTo")
+                                    .HasForeignKey("orderID", "validTo")
                                     .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<OrderModel>()
@@ -69,17 +71,17 @@ namespace order_and_sales_management_ver1.Data
                                     .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<OrderDetailsModel>()
-                                    .HasKey(b => new {b.orderID, b.orderLineNo,b.validTo });
-            
+                                    .HasKey(b => new { b.orderID, b.orderLineNo, b.validTo });
+
             modelBuilder.Entity<OrderDetailsModel>()
-                                      .HasOne<ProductModel>(a=>a.ProductModel)
-                                      .WithMany(b=>b.orderdetailsmodels)
-                                      .HasForeignKey(a=>a.productID);
+                                      .HasOne<ProductModel>(a => a.ProductModel)
+                                      .WithMany(b => b.orderdetailsmodels)
+                                      .HasForeignKey(a => a.productID);
 
             modelBuilder.Entity<OrderDetailsModel>()
                                       .HasOne(a => a.OrderModel)
                                       .WithMany(b => b.orderdetailsmodels)
-                                      .HasForeignKey("orderID","validTo");
+                                      .HasForeignKey("orderID", "validTo");
 
             modelBuilder.Entity<SalesModel>()
                 .HasKey(b => new { b.saleDate, b.salesID, b.salesLineId, b.locationID });
@@ -103,7 +105,7 @@ namespace order_and_sales_management_ver1.Data
                         .HasKey(b => new { b.salesDate, b.locationID });
 
             modelBuilder.Entity<PackagedProductDetailsModel>()
-                .HasKey(b => new { b.PackedProductID, b.PackagedProductLineNo, b.recDate ,b.recStatus});
+                .HasKey(b => new { b.PackedProductID, b.PackagedProductLineNo, b.recDate, b.recStatus });
 
             modelBuilder.Entity<PackagedProductDetailsModel>()
                                     .HasOne<ProductModel>(a => a.ProductModel)
@@ -118,14 +120,31 @@ namespace order_and_sales_management_ver1.Data
             modelBuilder.Entity<KasaMutabakat>()
                 .HasKey(b => new { b.mutabakatTimeStamp, b.locationID, b.typeOfMutabakat });
             modelBuilder.Entity<Expenditures>()
-                .HasKey(b => new { b.opDate, b.locationID});
+                .HasKey(b => new { b.opDate, b.locationID });
             modelBuilder.Entity<LabelModel>()
-                .HasKey(b => new { b.productID});
-            modelBuilder.Entity<Invoice>()
-                .HasKey(b => new { b.suplier});
+                .HasKey(b => new { b.productID });
 
-            modelBuilder.Entity<Invoice.InvoiceLine>()
-                            .HasNoKey();
+            modelBuilder.Entity<baseproduct>()
+                    .HasKey(b => new { b.baseId });
+
+            modelBuilder.Entity<packedproduct>()
+                    .HasKey(b => new { b.packedId });
+
+            modelBuilder.Entity<packedproductdetail>()
+                    .HasKey(b => new { b.packedId, b.contentLineNo });
+
+            modelBuilder.Entity<packedproduct>()
+                                    .HasMany<packedproductdetail>(b => b.packedProductDetails)
+                                    .WithOne("packedProduct")
+                                    .HasForeignKey("packedId");
+
+            modelBuilder.Entity<packedproductdetail>()
+                                    .HasOne<baseproduct>(a => a.baseProduct)
+                                    .WithMany(b => b.packedProductDetail)
+                                    .HasForeignKey("baseId");
+                                   
+
+
 
         }
 

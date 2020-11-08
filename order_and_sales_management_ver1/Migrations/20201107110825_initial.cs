@@ -48,6 +48,23 @@ namespace order_and_sales_management_ver1.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "baseProducts",
+                columns: table => new
+                {
+                    baseId = table.Column<int>(nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    retailPrice = table.Column<decimal>(nullable: false),
+                    wholeSalePrice = table.Column<decimal>(nullable: false),
+                    name = table.Column<string>(nullable: true),
+                    sellersID = table.Column<string>(nullable: true),
+                    detailsId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_baseProducts", x => x.baseId);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "labelmodels",
                 columns: table => new
                 {
@@ -61,7 +78,9 @@ namespace order_and_sales_management_ver1.Migrations
                     productShelfLife = table.Column<string>(nullable: true),
                     productLotNo = table.Column<string>(nullable: true),
                     productBarcodID = table.Column<string>(nullable: true),
-                    companyInfo = table.Column<string>(nullable: true)
+                    companyInfo = table.Column<string>(nullable: true),
+                    mensei = table.Column<string>(nullable: true),
+                    alerji = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -94,6 +113,19 @@ namespace order_and_sales_management_ver1.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "packedProducts",
+                columns: table => new
+                {
+                    packedId = table.Column<int>(nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    packedProductName = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_packedProducts", x => x.packedId);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "productmodels",
                 columns: table => new
                 {
@@ -103,7 +135,8 @@ namespace order_and_sales_management_ver1.Migrations
                     productBarcodeID = table.Column<string>(nullable: true),
                     productRetailPrice = table.Column<decimal>(nullable: false),
                     productWholesalePrice = table.Column<decimal>(nullable: false),
-                    recStatus = table.Column<int>(nullable: false)
+                    recStatus = table.Column<int>(nullable: false),
+                    sellersID = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -264,6 +297,32 @@ namespace order_and_sales_management_ver1.Migrations
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "packedProductDetails",
+                columns: table => new
+                {
+                    packedId = table.Column<int>(nullable: false),
+                    contentLineNo = table.Column<int>(nullable: false),
+                    baseId = table.Column<int>(nullable: false),
+                    amount = table.Column<decimal>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_packedProductDetails", x => new { x.packedId, x.contentLineNo });
+                    table.ForeignKey(
+                        name: "FK_packedProductDetails_baseProducts_baseId",
+                        column: x => x.baseId,
+                        principalTable: "baseProducts",
+                        principalColumn: "baseId",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_packedProductDetails_packedProducts_packedId",
+                        column: x => x.packedId,
+                        principalTable: "packedProducts",
+                        principalColumn: "packedId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -601,6 +660,11 @@ namespace order_and_sales_management_ver1.Migrations
                 column: "productID");
 
             migrationBuilder.CreateIndex(
+                name: "IX_packedProductDetails_baseId",
+                table: "packedProductDetails",
+                column: "baseId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_salesmodels_locationID",
                 table: "salesmodels",
                 column: "locationID");
@@ -660,6 +724,9 @@ namespace order_and_sales_management_ver1.Migrations
                 name: "packagedproductsbarcodes");
 
             migrationBuilder.DropTable(
+                name: "packedProductDetails");
+
+            migrationBuilder.DropTable(
                 name: "salescounter");
 
             migrationBuilder.DropTable(
@@ -682,6 +749,12 @@ namespace order_and_sales_management_ver1.Migrations
 
             migrationBuilder.DropTable(
                 name: "OrderModel");
+
+            migrationBuilder.DropTable(
+                name: "baseProducts");
+
+            migrationBuilder.DropTable(
+                name: "packedProducts");
 
             migrationBuilder.DropTable(
                 name: "productmodels");

@@ -10,85 +10,85 @@ using order_and_sales_management_ver1.Models;
 
 namespace order_and_sales_management_ver1.Controllers
 {
-    public class InvoicesController : Controller
+    public class baseproductsController : Controller
     {
         private readonly ApplicationDbContext _context;
 
-        public InvoicesController(ApplicationDbContext context)
+        public baseproductsController(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        // GET: Invoices
+        // GET: baseproducts
         public async Task<IActionResult> Index()
         {
-            return View(await _context.invoice.ToListAsync());
+            return View(await _context.baseProducts.ToListAsync());
         }
 
-        // GET: Invoices/Details/5
-        public async Task<IActionResult> Details(string id)
+        // GET: baseproducts/Details/5
+        public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var invoice = await _context.invoice
-                .FirstOrDefaultAsync(m => m.suplier == id);
-            if (invoice == null)
+            var baseproduct = await _context.baseProducts
+                .FirstOrDefaultAsync(m => m.baseId == id);
+            if (baseproduct == null)
             {
                 return NotFound();
             }
 
-            return View(invoice);
+            return View(baseproduct);
         }
 
-        // GET: Invoices/Create
+        // GET: baseproducts/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Invoices/Create
+        // POST: baseproducts/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("suplier,partyId,taxSchemeName,allowanceMultiplier,allowanceAmount,taxAmount,taxPercentage,amountBeforeTax")] Invoice invoice)
+        public async Task<IActionResult> Create([Bind("baseId,retailPrice,wholeSalePrice,name,sellersID,detailsId")] baseproduct baseproduct)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(invoice);
+                _context.Add(baseproduct);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(invoice);
+            return View(baseproduct);
         }
 
-        // GET: Invoices/Edit/5
-        public async Task<IActionResult> Edit(string id)
+        // GET: baseproducts/Edit/5
+        public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var invoice = await _context.invoice.FindAsync(id);
-            if (invoice == null)
+            var baseproduct = await _context.baseProducts.FindAsync(id);
+            if (baseproduct == null)
             {
                 return NotFound();
             }
-            return View(invoice);
+            return View(baseproduct);
         }
 
-        // POST: Invoices/Edit/5
+        // POST: baseproducts/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("suplier,partyId,taxSchemeName,allowanceMultiplier,allowanceAmount,taxAmount,taxPercentage,amountBeforeTax")] Invoice invoice)
+        public async Task<IActionResult> Edit(int id, [Bind("baseId,retailPrice,wholeSalePrice,name,sellersID,detailsId")] baseproduct baseproduct)
         {
-            if (id != invoice.suplier)
+            if (id != baseproduct.baseId)
             {
                 return NotFound();
             }
@@ -97,12 +97,12 @@ namespace order_and_sales_management_ver1.Controllers
             {
                 try
                 {
-                    _context.Update(invoice);
+                    _context.Update(baseproduct);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!InvoiceExists(invoice.suplier))
+                    if (!baseproductExists(baseproduct.baseId))
                     {
                         return NotFound();
                     }
@@ -113,41 +113,41 @@ namespace order_and_sales_management_ver1.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(invoice);
+            return View(baseproduct);
         }
 
-        // GET: Invoices/Delete/5
-        public async Task<IActionResult> Delete(string id)
+        // GET: baseproducts/Delete/5
+        public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var invoice = await _context.invoice
-                .FirstOrDefaultAsync(m => m.suplier == id);
-            if (invoice == null)
+            var baseproduct = await _context.baseProducts
+                .FirstOrDefaultAsync(m => m.baseId == id);
+            if (baseproduct == null)
             {
                 return NotFound();
             }
 
-            return View(invoice);
+            return View(baseproduct);
         }
 
-        // POST: Invoices/Delete/5
+        // POST: baseproducts/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(string id)
+        public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var invoice = await _context.invoice.FindAsync(id);
-            _context.invoice.Remove(invoice);
+            var baseproduct = await _context.baseProducts.FindAsync(id);
+            _context.baseProducts.Remove(baseproduct);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool InvoiceExists(string id)
+        private bool baseproductExists(int id)
         {
-            return _context.invoice.Any(e => e.suplier == id);
+            return _context.baseProducts.Any(e => e.baseId == id);
         }
     }
 }

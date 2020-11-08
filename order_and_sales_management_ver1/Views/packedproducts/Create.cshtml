@@ -1,10 +1,10 @@
-﻿@model order_and_sales_management_ver1.Models.SiparisModel
+﻿@model order_and_sales_management_ver1.Models.packedproduct
 
 @{
     ViewData["Title"] = "Liste";
 }
 <div class="panel-info">
-    <h1>Sipariş Giriş Ekranı</h1>
+    <h1>PAKETLİ ÜRÜN TANIMLAMA EKRANI</h1>
 </div>
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
 <div class="alert alert-danger">
@@ -15,15 +15,13 @@
         <h4>ÜRÜN SEÇİMİ</h4>
         <div class="row">
             <div class="col-md-6">
-                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                <input asp-for="productName" id="product" class="form-control" />
-                <span asp-validation-for="productName" class="text-danger"></span>
+                <input type="text" id="product" class="form-control" />
             </div>
             <div class="col-md-6">
                 <input type="submit" id="getProducts" value="Ürün Ara" class="btn btn-primary btn" onclick="getProducts()" />
             </div>
         </div>
-        <table class="table table-striped table-curved table_data"  style="font-size:0.7em" id="products">
+        <table class="table table-striped table-curved table_data" style="font-size:0.7em" id="products">
             <thead class="table-head">
                 <tr>
                     <th>
@@ -52,99 +50,85 @@
     </div>
     <div class="col-md-8">
         <div id="entryForm">
-            <h4>
-                SİPARİŞ FİŞİ
-                @Html.EditorFor(model => model.orderID, new { htmlAttributes = new { @disabled = "disabled" } })
-            </h4>
-            <div class="row">
-                <div class="col-md-3">
-                    <input asp-for="orderDate" id="orderDate" class="form-control" readonly />
-                </div>
-                <div class="col-md-3">
-                    <select asp-for="orderOwner_personelID" class="form-control" asp-items="ViewBag.personelID" id="empSelect" onload="getPersonelLocation()" onchange="getPersonelLocation()"></select>
-                </div>
-                <div class="col-md-3">
-                    <input hidden id="empLocation" asp-for="orderLocation.locationID" class="form-control" />
-                    <input asp-for="orderLocation.locationName" id="locationName" class="form-control" readonly />
-                </div>
-                <div class="col-md-3">
-                    <input type="button" value="Kaydet" class="btn btn-secondary" onclick="createJson()" />
-                </div>
-            </div>
-            <table class="table table-striped table-curved"  style="font-size:0.7em" id="orderDetails">
-                <colgroup>
-                    <col style="width:10%">
-                    <col style="width:40%">
-                    <col style="width:5%">
-                    <col style="width:5%">
-                    <col style="width:30%">
-                    <col style="width:10%">
-                </colgroup>
-                <thead class="table-head">
-                    <tr>
-                        <th>
-                            @Html.LabelFor(modelItem => Model.productID)
-                        </th>
-                        <th>
-                            @Html.LabelFor(modelItem => Model.productName)
-                        </th>
-                        <th>
-                            <label>Ürün Fiyatı</label>
-                        </th>
-                        <th>
-                            @Html.LabelFor(modelItem => Model.productAmount)
-                        </th>
-                        <th>
-                            <label>Tutar</label>
-                        </th>
-                        <th>
-                            <label>İşlem</label>
-                        </th>
-                    </tr>
-                </thead>
-                    <tr>
-                        <td ></td>
-                        <td ></td>
-                        <td ></td>
-                        <td ></td>
-                        <td ></td>
-                        <td ></td>
-                    </tr>
-                    @foreach (var item in Model.orderdetailsmodels)
-                    {
+            <form asp-controller="packedproducts" asp-action="Create" method="post">
+                <h4>
+                    PAKETLİ ÜRÜN
+                    @Html.EditorFor(Model => Model.packedProductName)
+                    @Html.HiddenFor(Model=>Model.packedId)
+                    <input type="submit" asp-action="Create" id="kaydet" value="Kaydet/Güncelle" class="btn btn-primary btn" formmethod="post" />
+                    <input asp-for=@Model.operation hidden type="text" value=@Model.operation />
+                </h4>
+                <table class="table table-striped table-curved" style="font-size:0.7em" id="packedDetails">
+                    <colgroup>
+                        <col style="width:10%">
+                        <col style="width:40%">
+                        <col style="width:5%">
+                        <col style="width:5%">
+                        <col style="width:30%">
+                        <col style="width:10%">
+                    </colgroup>
+                    <thead class="table-head">
                         <tr>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.ProductModel.productID)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.ProductModel.ProductName)
-                            </td>
-                            <td>
-                                @Html.EditorFor(modelItem => item.ProductModel.productWholesalePrice, new { htmlAttributes = new { id = "productPrice" + item.productID, @disabled = "disabled" } })
-                            </td>
-                            <td>
-                                @Html.EditorFor(modelItem => item.productAmount, new { htmlAttributes = new { id = "productAmount" + item.productID , onblur = "calcTutar("+@item.productID+")"} })
-                            </td>
-                            <td>
-                                <input class="tex-box single-line" id="@item.productID"  style="font-size:0.7em"  readonly value="0" />
-                            </td>
-                            <td align="left">
-                                <a asp-action="Delete" asp-route-id="@item.ProductModel.productID"><button type="button" class="btn-sm btn-block btn-danger" style="font-size:10px">Sil</button></a>
-                            </td>
+                            <th>
+                                @Html.LabelFor(modelItem => Model.packedProductDetails.ElementAt(0).baseProduct.baseId)
+                            </th>
+                            <th>
+                                @Html.LabelFor(modelItem => Model.packedProductDetails.ElementAt(0).baseProduct.name)
+                            </th>
+                            <th>
+                                @Html.LabelFor(modelItem => Model.packedProductDetails.ElementAt(0).baseProduct.retailPrice)
+                            </th>
+                            <th>
+                                @Html.LabelFor(modelItem => Model.packedProductDetails.ElementAt(0).amount)
+                            </th>
+                            <th>
+                                <label>Tutar</label>
+                            </th>
+                            <th>
+                                <label>İşlem</label>
+                            </th>
                         </tr>
+                    </thead>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    @foreach (var item in Model.packedProductDetails)
+                    {
+                <tr>
+                    <td>
+                        <input asp-for=@item.baseProduct.baseId type="text" readonly value=@item.baseProduct.baseId>
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.baseProduct.name)
+                    </td>
+                    <td>
+                        @Html.EditorFor(modelItem => item.baseProduct.retailPrice, new { htmlAttributes =new { id = "productPrice" + item.baseProduct.baseId }})
+                    </td>
+                    <td>
+                        @Html.EditorFor(modelItem => item.amount, new { htmlAttributes = new { id = "productAmount" + item.baseProduct.baseId, onblur = "calcTutar()" } })
+                    </td>
+                    <td>
+                        <input class="text-box single-line" id="productSum-@item.baseProduct.baseId" readonly value="0"/>
+                    </td>
+                    <td align="left">
+                        <button type="button" class="btn-sm btn-block btn-danger" style="font-size:10px" onclick="deleteLine(@item.baseProduct.baseId)" >Sil</button>
+                    </td>
+                </tr>
                     }
-            </table>
-            @Html.HiddenFor(model => model.operation)
+                </table>
+            </form>
         </div>
     </div>
 </div>
 <script>
     $(document).ready(function () {
         //       $("#entryForm").hide();
-        var orderDetailsTable = document.getElementById("orderDetails")
-        i = 0
-        while (i < orderDetailsTable.rows.length)
-            calcTutar(orderDetailsTable.rows[i].cells[0].innerHTML.trim())
+        calcTutar();
     });
 
     function fnSelect() {
@@ -182,7 +166,7 @@
         for (var i = 0; i < checkBoxes.length; i++) {
             if (checkBoxes[i].checked) {
                 var row = checkBoxes[i].parentNode.parentNode;
-                var table = document.getElementById("orderDetails");
+                var table = document.getElementById("packedDetails");
                 var NewRow = table.insertRow(table.numofRows);
                 var productID = NewRow.insertCell(0);
                 var productName = NewRow.insertCell(1);
@@ -190,11 +174,11 @@
                 var productAmount = NewRow.insertCell(3);
                 var productSum = NewRow.insertCell(4);
                 var actionBtn = NewRow.insertCell(5);
-                productID.innerHTML = row.cells[0].innerHTML.trim();
+                productID.innerHTML = '<input class="text-box single-line" readonly value="' + row.cells[0].innerHTML.trim()+ '" name="item.baseProduct.baseId"/>' ;
                 productName.innerHTML = row.cells[1].innerHTML.trim();
                 productPrice.innerHTML = '<input class="text-box single-line" readonly value="' + row.cells[2].innerHTML.trim() + '" id="productPrice' + row.cells[0].innerHTML.trim() + '"/>';
-                productAmount.innerHTML = '<input class="text-box single-line" name="orderDetailModels.productAmount" onblur=calcTutar('+row.cells[0].innerHTML.trim() +') id=productAmount' + row.cells[0].innerHTML.trim() + ' />';
-                productSum.innerHTML = '<input class="text-box single-line" id="productSum' + row.cells[0].innerHTML.trim()+'" readonly value="0"/>';
+                productAmount.innerHTML = '<input class="text-box single-line" name="packedproductdetails.amount" onblur=calcTutar() id=productAmount' + row.cells[0].innerHTML.trim() + ' />';
+                productSum.innerHTML = '<input class="text-box single-line" id="productSum-' + row.cells[0].innerHTML.trim() + '" readonly value="0"/>';
                 actionBtn.innerHTML = '<input type="submit" value="Sil" class="btn-sm btn-block btn-danger" style="font-size:10px" onclick="deleteLine('+row.cells[0].innerHTML.trim()+')" />'
                 checkBoxes[i].checked = false;
             }
@@ -206,30 +190,32 @@
         $("#productionLotID").select();
     }
 
-    function deleteLine(productID) {
-        var table = document.getElementById("orderDetails");
-        i = 1
-        while (table.rows[i].cells[0].innerHTML.trim() != productID)
+    function deleteLine(packedId) {
+        var table = document.getElementById("packedDetails");
+        i = 2
+        while (table.rows[i].cells[0].children[0].value != packedId)
             i=i+1
-        table.deleteRow(i)
+        table.deleteRow(i);
+        calcTutar();
     }
 
-    function calcTutar(productID) {
-        var table = document.getElementById("orderDetails");
+    function calcTutar() {
+        var table = document.getElementById("packedDetails");
         var toplam = 0;
         i = 2
         for (i = 2; i < table.rows.length; i++) {
-            var rowProductID = table.rows[i].cells[0].innerText;
-            strAmount = document.getElementById("productAmount" + rowProductID).value;
+            packedId=table.rows[i].cells[0].children[0].value; 
+            strAmount = document.getElementById("productAmount" + packedId).value.replace(',','.');
             var floatAmount = parseFloat(strAmount);
-            strPrice = document.getElementById("productPrice" + rowProductID).value
-            strPrice=strPrice.replace(',', '.');
+            strPrice = document.getElementById("productPrice" + packedId).value.replace(',', '.');
             var floatPrice = parseFloat(strPrice);
             tutar = floatAmount * floatPrice;
-            table.rows[i].cells[4].innerHTML = '<input class="text-box single-line" id="productSum' + rowProductID + '" readonly value="' + tutar.toLocaleString("tr-TR") + '"/>';
+            table.rows[i].cells[2].innerHTML = '<input class="text-box single-line" id="productPrice' + packedId + '" readonly value="' + floatPrice.toLocaleString().replace(',','.') + '"/>';
+            table.rows[i].cells[3].innerHTML = '<input class="text-box single-line" name="packedproductdetails.amount" id="productAmount' + packedId + '"onblur=calcTutar() value="' + floatAmount.toLocaleString().replace(',', '.') + '"/>';
+            table.rows[i].cells[4].innerHTML = '<input class="text-box single-line" id="productSum-' + packedId + '" readonly value="' + tutar.toLocaleString("tr-TR").replace(',', '.') + '"/>';
             toplam = toplam + tutar;
         }
-        table.rows[1].cells[4].innerHTML = '<input class="text-box single-line" readonly value="' + toplam.toLocaleString("tr-TR")+ '"/>'; 
+        table.rows[1].cells[4].innerHTML = '<input class="text-box single-line" readonly value="' + toplam.toLocaleString("tr-TR")+ '"/>';
     }
 
 
@@ -304,15 +290,15 @@
             'success': function (data) {
                 var table = document.getElementById("products");
                 var numofRows = table.rows.length;
-                for (i = 0; i < data.products.length; i++) {
+                for (i = 0; i < data.length; i++) {
                     var row = table.insertRow(1);
                     var newCell1 = row.insertCell(0);
                     var newCell2 = row.insertCell(1);
                     var newCell3 = row.insertCell(2)
                     var newCell4 = row.insertCell(3);
-                    newCell1.innerHTML = data.products[i].productID;
-                    newCell2.innerHTML = data.products[i].productName;
-                    newCell3.innerHTML = data.products[i]. productWholesalePrice.toString();
+                    newCell1.innerHTML = data[i].baseId;
+                    newCell2.innerHTML = data[i].name;
+                    newCell3.innerHTML = data[i].retailPrice.toString();
                     newCell4.innerHTML = '<input type="checkbox" id="selected" onclick="fnSelect()" />'
                 }
                 var lastItem = table.rows.length - numofRows;
@@ -331,7 +317,7 @@
 
     function createJson() {
         var jsObj = { Operation: document.getElementById("operation").value,orderID: document.getElementById("orderID").value, orderDate: document.getElementById("orderDate").value, orderOwner_personelID: document.getElementById("empSelect").value, LocationID: document.getElementById("empLocation").value };
-        var table = document.getElementById("orderDetails");
+        var table = document.getElementById("packedDetails");
         var orderModelDetails = [];
         for (i = 2; i < table.rows.length; i++) {
             if (table.rows[i].cells[0].innerHTML.trim() != "") {
@@ -402,3 +388,7 @@
         });
     }
 </script>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

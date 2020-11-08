@@ -2,30 +2,30 @@
 
 namespace order_and_sales_management_ver1.Migrations
 {
-    public partial class LabelUpdate : Migration
+    public partial class barcodes : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AddColumn<string>(
-                name: "alerji",
-                table: "labelmodels",
+                name: "barcodProductId",
+                table: "packedProducts",
                 nullable: true);
 
             migrationBuilder.AddColumn<string>(
-                name: "mensei",
-                table: "labelmodels",
+                name: "barcodProductId",
+                table: "packedProductDetails",
                 nullable: true);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropColumn(
-                name: "alerji",
-                table: "labelmodels");
+                name: "barcodProductId",
+                table: "packedProducts");
 
             migrationBuilder.DropColumn(
-                name: "mensei",
-                table: "labelmodels");
+                name: "barcodProductId",
+                table: "packedProductDetails");
         }
     }
 }

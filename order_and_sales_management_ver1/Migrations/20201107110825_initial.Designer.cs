@@ -9,8 +9,8 @@ using order_and_sales_management_ver1.Data;
 namespace order_and_sales_management_ver1.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20201030091851_LabelUpdate")]
-    partial class LabelUpdate
+    [Migration("20201107110825_initial")]
+    partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -586,6 +586,9 @@ namespace order_and_sales_management_ver1.Migrations
                     b.Property<int>("recStatus")
                         .HasColumnType("int");
 
+                    b.Property<string>("sellersID")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
                     b.HasKey("productID");
 
                     b.ToTable("productmodels");
@@ -679,6 +682,32 @@ namespace order_and_sales_management_ver1.Migrations
                     b.ToTable("TeraziScreenMapping");
                 });
 
+            modelBuilder.Entity("order_and_sales_management_ver1.Models.baseproduct", b =>
+                {
+                    b.Property<int>("baseId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<int>("detailsId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("name")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<decimal>("retailPrice")
+                        .HasColumnType("decimal(65,30)");
+
+                    b.Property<string>("sellersID")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<decimal>("wholeSalePrice")
+                        .HasColumnType("decimal(65,30)");
+
+                    b.HasKey("baseId");
+
+                    b.ToTable("baseProducts");
+                });
+
             modelBuilder.Entity("order_and_sales_management_ver1.Models.ordercounter", b =>
                 {
                     b.Property<int>("ID")
@@ -705,6 +734,41 @@ namespace order_and_sales_management_ver1.Migrations
                     b.HasKey("barcodeID");
 
                     b.ToTable("packagedproductsbarcodes");
+                });
+
+            modelBuilder.Entity("order_and_sales_management_ver1.Models.packedproduct", b =>
+                {
+                    b.Property<int>("packedId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("packedProductName")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.HasKey("packedId");
+
+                    b.ToTable("packedProducts");
+                });
+
+            modelBuilder.Entity("order_and_sales_management_ver1.Models.packedproductdetail", b =>
+                {
+                    b.Property<int>("packedId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("contentLineNo")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("amount")
+                        .HasColumnType("decimal(65,30)");
+
+                    b.Property<int>("baseId")
+                        .HasColumnType("int");
+
+                    b.HasKey("packedId", "contentLineNo");
+
+                    b.HasIndex("baseId");
+
+                    b.ToTable("packedProductDetails");
                 });
 
             modelBuilder.Entity("order_and_sales_management_ver1.Models.salescounter", b =>
@@ -896,6 +960,21 @@ namespace order_and_sales_management_ver1.Migrations
                     b.HasOne("order_and_sales_management_ver1.Models.ProductModel", "product")
                         .WithMany()
                         .HasForeignKey("productID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("order_and_sales_management_ver1.Models.packedproductdetail", b =>
+                {
+                    b.HasOne("order_and_sales_management_ver1.Models.baseproduct", "baseProduct")
+                        .WithMany("packedProductDetail")
+                        .HasForeignKey("baseId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("order_and_sales_management_ver1.Models.packedproduct", "packedProduct")
+                        .WithMany("packedProductDetails")
+                        .HasForeignKey("packedId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

@@ -1,0 +1,32 @@
+﻿@model order_and_sales_management_ver1.Models.packedproduct
+@{
+    ViewData["Title"] = "Liste";
+}
+<div class="panel-info">
+    <h1>PAKETLİ ÜRÜN TANIMLAMA DETAY GÖRÜNTÜLEME</h1>
+</div>
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<div class="alert alert-danger">
+    @Html.ValidationSummary(false)
+</div>
+<div>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.packedProductName)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.packedProductName)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.barcodProductId)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.barcodProductId)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Create" asp-route-id="@Model.packedId">Güncelle</a> |
+    <a asp-action="Index">Liste</a>
+</div>

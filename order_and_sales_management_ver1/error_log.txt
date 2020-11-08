@@ -1,1 +1,2 @@
-28.10.2020 16:45:19.04214 Function : UpdatePaidAmount           Err: 3 116                                                                                                                                                                                                                                                          
+08.11.2020 12:35:55.78349 Function : Tahsilat                   Err: System.NullReferenceException: Object reference not set to an instance of an object.
+   at order_and_sales_management_ver1.Controllers.DisplaySalesController.Tahsilat(String salesID, String typeOfCollection) in C:\Users\hakan\Source\Repos\hgulseven\order_and_sales_management_ver1\order_and_sales_management_ver1\Controllers\DisplaySalesController.cs:line 208

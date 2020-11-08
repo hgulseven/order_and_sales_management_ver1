@@ -11,7 +11,6 @@
 <div class="alert alert-danger">
     @Html.ValidationSummary(false)
 </div>
-
 <hr />
 @Html.ActionLink("Müşteriyi Geri Çağır", "updateLastCustomerAsNotPaid", "DisplaySales", new { }, new { @class = "btn btn-info  btn-lg", @style = "font-size:12px" })
 <form id="myform">
@@ -63,7 +62,7 @@
                         <input id="clickMe" class="btn btn-primary btn-sm btn-block" type="button" value="Detaylar" style="font-size:12px" onclick="addTable(@item.rowID, @item.salesID);" />
                     </td>
                     <td width="75'">
-                        @Html.ActionLink("Ekle", "Index", "SalesModels", new { salesID = item.salesID}, new { @class = "btn btn-secondary btn-sm btn-block", @style = "font-size:12px"})
+                        @Html.ActionLink("Ekle", "Index", "SalesModels", new { salesID = item.salesID }, new { @class = "btn btn-secondary btn-sm btn-block", @style = "font-size:12px" })
                     </td>
                     <td width="75">
                         @Html.ActionLink("Nakit", "Tahsilat", "DisplaySales", new { salesID = item.salesID, typeOfCollection = 1 }, new { @class = "btn btn-danger  btn-sm btn-block", @style = "font-size:12px", @onclick = "getValue2(this)" })
