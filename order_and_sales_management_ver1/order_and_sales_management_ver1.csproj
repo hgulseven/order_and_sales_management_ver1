@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TargetFramework>net5.0</TargetFramework>
     <UserSecretsId>aspnet-order_and_sales_management_ver1-0A2F06CF-2612-44E3-AD45-4D75254332A7</UserSecretsId>
     <AspNetCoreHostingModel>inprocess</AspNetCoreHostingModel>
     <ApplicationIcon />
@@ -63,6 +63,8 @@
     <Compile Remove="Migrations\20201107094025_productchange.Designer.cs" />
     <Compile Remove="Migrations\20201107094429_productchange.cs" />
     <Compile Remove="Migrations\20201107094429_productchange.Designer.cs" />
+    <Compile Remove="Migrations\20201113065906_productbarcode.cs" />
+    <Compile Remove="Migrations\20201113065906_productbarcode.Designer.cs" />
   </ItemGroup>
 
 
@@ -70,7 +72,7 @@
     <PackageReference Include="FluentAssertions" Version="5.10.3" />
     <PackageReference Include="Humanizer.Core" Version="2.8.26" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
-    <PackageReference Include="Microsoft.AspNetCore.Authorization" Version="3.1.9" />
+    <PackageReference Include="Microsoft.AspNetCore.Authorization" Version="5.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="3.1.9" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.1.9" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="3.1.9" />

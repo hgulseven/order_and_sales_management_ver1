@@ -31,22 +31,22 @@ namespace order_and_sales_management_ver1.Controllers
     public class DisplaySalesController : Controller
     {
 
-        public const string SelectLastCustomerWhoDidPayment = "select max(salesID) as salesID from salesmodels where typeOfCollection>0 and saleDate = @saleDate and locationID=@locationID"; /* Get maximum sales id which is paid on given date */
-        public const string UpdateLastCustomerAsNotPaid = "update salesmodels set typeOfCollection = 0 where saleDate=@saleDate and salesID=@salesID and locationID=@locationID";
+        public const string SelectLastCustomerWhoDidPayment = "select max(salesID) as salesID from order_and_sales.salesmodels where typeOfCollection>0 and saleDate = @saleDate and locationID=@locationID"; /* Get maximum sales id which is paid on given date */
+        public const string UpdateLastCustomerAsNotPaid = "update order_and_sales.salesmodels set typeOfCollection = 0 where saleDate=@saleDate and salesID=@salesID and locationID=@locationID";
         public const string SelectCustomersWhichSentToCashier = "select  salesID,sum(amount*productRetailPrice) as tutar,max(paidAmount) as paidTutar " +
-                                                                                                                    "from salesmodels left outer join employeesmodels  on (salesmodels.personelID = employeesmodels.personelID) " +
-                                                                                                                    "left outer join productmodels on(salesmodels.productID=productmodels.productID) " +
+                                                                                                                    "from order_and_sales.salesmodels left outer join order_and_sales.employeesmodels  on (salesmodels.personelID = employeesmodels.personelID) " +
+                                                                                                                    "left outer join order_and_sales.productmodels on(salesmodels.productID=productmodels.productID) " +
                                                                                                                     "where typeOfCollection = 0  and salesmodels.locationID=@locationID and saleDate=@saleDate group by salesID";
 
         public const string SelectSalesDetail = "select salesmodels.personelID,salesLineID,CONCAT(persName,' ',persSurname) as employee, productName, amount, (amount*productRetailPrice) as tutar " +
-                                                                                    "from salesmodels left outer join employeesmodels  on (salesmodels.personelID = employeesmodels.personelID) " +
-                                                                                    "left outer join productmodels on(salesmodels.productID=productmodels.productID) " +
+                                                                                    "from order_and_sales.salesmodels left outer join order_and_sales.employeesmodels  on (salesmodels.personelID = employeesmodels.personelID) " +
+                                                                                    "left outer join order_and_sales.productmodels on(salesmodels.productID=productmodels.productID) " +
                                                                                     "where typeOfCollection = 0  and salesmodels.salesID=@salesID  and salesmodels.locationID=@locationID " +
                                                                                     "order by salesLineID";
-        public const string UpdateSalesAsPaid = "Update salesmodels set typeOfCollection=@typeOfCollection, saleTime=@saleTime " +
+        public const string UpdateSalesAsPaid = "Update order_and_sales.salesmodels set typeOfCollection=@typeOfCollection, saleTime=@saleTime " +
                                                                                    "where typeOfCollection = 0  and salesID=@salesID and saleDate = @saleDate and locationID=@locationID";
 
-        public const string UpdatePaidAmount = "Update salesmodels set paidAmount=@paidTutar " +
+        public const string UpdatePaidAmount = "Update order_and_sales.salesmodels set paidAmount=@paidTutar " +
                                                                                     "where salesID=@salesID and saleDate=@salesDate and locationID=@locationID";
         public const string EndOFDayReport = "select sum(round(paidAmount,2)) as totalPaidAmount, " +
                                                                                            "sum(round(amount* productmodels.productRetailPrice,2)) as totalCalculatedAmount," +
@@ -56,9 +56,9 @@ namespace order_and_sales_management_ver1.Controllers
                                                                                                         "when 3 then 'Diğer' " +
                                                                                                         "else 'Bilinmeyen' " +
                                                                                             "end as salesType " +
-                                                                                "from salesmodels " +
+                                                                                "from order_and_sales.salesmodels " +
                                                                                 "left outer join " +
-                                                                                "productmodels " +
+                                                                                "order_and_sales.productmodels " +
                                                                                 "on salesmodels.productID = productmodels.productID " +
                                                                                 "where saleDate =@saleDate  " +
                                                                                 "group by salesType";

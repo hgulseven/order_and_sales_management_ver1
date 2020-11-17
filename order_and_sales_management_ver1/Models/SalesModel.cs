@@ -50,6 +50,8 @@ namespace order_and_sales_management_ver1.Models
         public virtual ProductModel ProductModel { get; set; }
 
         public virtual stocklocationmodel location { get; set; }
+
+        public float dara { get; set; }
     }
 
     [NotMapped]

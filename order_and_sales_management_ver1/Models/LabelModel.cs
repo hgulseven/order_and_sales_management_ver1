@@ -46,6 +46,7 @@ namespace order_and_sales_management_ver1.Models
         public int numberOfCopies { get; set; }
         [NotMapped] 
         public int typeOfLabel { get; set; }
-
+        [NotMapped]
+        public string typeOfPrintMedia { get; set; }
     }
 }

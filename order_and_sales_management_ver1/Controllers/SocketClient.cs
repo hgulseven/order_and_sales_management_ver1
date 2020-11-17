@@ -14,9 +14,9 @@ namespace order_and_sales_management_ver1.Controllers
     {
         public void StartClient(string data)
         {
-            //  string Print_Server_IP_Address = "192.168.1.50";
+             string Print_Server_IP_Address = "192.168.1.50";
 
-            string Print_Server_IP_Address = "127.0.0.1";
+            // string Print_Server_IP_Address = "127.0.0.1";
 
             byte[] bytes = new byte[1024];
 
@@ -27,7 +27,7 @@ namespace order_and_sales_management_ver1.Controllers
                 // In this case, we get one IP address of localhost that is IP : 127.0.0.1  
                 // If a host has multiple addresses, you will get a list of addresses  
                 IPAddress ipAddress = IPAddress.Parse(Print_Server_IP_Address);
-                IPEndPoint remoteEP = new IPEndPoint(ipAddress, 11000);
+                IPEndPoint remoteEP = new IPEndPoint(ipAddress, 12000);
 
                 // Create a TCP/IP  socket.    
                 Socket sender = new System.Net.Sockets.Socket(ipAddress.AddressFamily,

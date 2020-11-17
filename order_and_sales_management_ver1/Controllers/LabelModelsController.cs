@@ -97,12 +97,19 @@ namespace order_and_sales_management_ver1.Controllers
                     if (labelModel != null)
                         labelModel.recordExists = "yes";
                     else
+                    {
+                        labelModel = new LabelModel();
                         labelModel.recordExists = "no";
+                        barcodeController barcode = new barcodeController(_context);
+                        labelModel.productBarcodID = barcode.getFirstAvailableBarcode();
+                    }
                 }
                 else
                 {
                     labelModel.recordExists = "no";
-                }
+                    barcodeController barcode = new barcodeController(_context);
+                    labelModel.productBarcodID = barcode.getFirstAvailableBarcode();
+            }
             return View(labelModel);
         }
 
@@ -121,6 +128,10 @@ namespace order_and_sales_management_ver1.Controllers
                     {
                         _context.Update(labelModel);
                         await _context.SaveChangesAsync();
+                        ProductModel product = new ProductModel();
+                        product = _context.productmodels.FirstOrDefault<ProductModel>(x => x.productID == labelModel.productID);
+                        product.productBarcodeID = labelModel.productBarcodID;
+                        _context.Update(product);
                         return RedirectToAction(nameof(Index));
                     }
                     catch (DbUpdateConcurrencyException)
@@ -246,6 +257,18 @@ namespace order_and_sales_management_ver1.Controllers
             return View(labelModel);
         }
 
+        public class LabelData
+        {
+            public string typeOfPrintMedia { get; set; }
+            public List<string> headerLines { get; set; }
+            public List<string> detailLines { get; set; }
+            public List<string> footerLines { get; set; }
+            public string barcode { get; set; }
+            public int numberOfCopies { get; set; }
+            public int typeOfLabel { get; set; }
+        }
+
+
         // POST: LabelModels/Delete/5
         [HttpPost, ActionName("Print")]
         [ValidateAntiForgeryToken]
@@ -254,8 +277,28 @@ namespace order_and_sales_management_ver1.Controllers
             int numberOfCopies = labelModel.numberOfCopies;
             var printModel = await _context.labelmodels.FindAsync(labelModel.productID);
             printModel.numberOfCopies= labelModel.numberOfCopies;
+            LabelData labelData = new LabelData();
+            labelData.numberOfCopies = numberOfCopies;
+            labelData.headerLines = new List<string>();
+            labelData.detailLines = new List<string>();
+            labelData.footerLines = new List<string>();
+            labelData.barcode = printModel.productBarcodID;
+            labelData.typeOfPrintMedia = "Label";
+            labelData.typeOfLabel = printModel.typeOfLabel;
+            labelData.headerLines.Add(printModel.productName);
+            labelData.headerLines.Add(printModel.productAmount);
+            labelData.detailLines.Add(printModel.productContents);
+            labelData.detailLines.Add(printModel.productLawStr);
+            labelData.detailLines.Add(printModel.productStoringCond);
+            labelData.detailLines.Add(printModel.alerji);
+            labelData.detailLines.Add(printModel.productLotNo);
+            labelData.detailLines.Add(printModel.mensei);
+            labelData.detailLines.Add("İMALAT TARİHİ : " + DateTime.Now.ToString("dd-MM-yyyy"));
+            labelData.detailLines.Add(printModel.productShelfLife);
+
+            labelData.footerLines.Add(printModel.companyInfo);
             SocketClient socketClient = new SocketClient();
-            string jsonStr = JsonConvert.SerializeObject(printModel);
+            string jsonStr = JsonConvert.SerializeObject(labelData);
             socketClient.StartClient(jsonStr);
             return RedirectToAction(nameof(Index));
         }

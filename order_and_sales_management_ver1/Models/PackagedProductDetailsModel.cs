@@ -24,7 +24,7 @@ namespace order_and_sales_management_ver1.Models
         public double Amount { get; set; }
 
         public int productID { get; set; }
-
+        public int customerID { get; set; }
         public virtual ProductModel ProductModel { get; set; }
     }
 }

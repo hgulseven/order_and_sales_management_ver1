@@ -118,7 +118,8 @@ namespace order_and_sales_management_ver1.Migrations
                 {
                     packedId = table.Column<int>(nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    packedProductName = table.Column<string>(nullable: true)
+                    packedProductName = table.Column<string>(nullable: true),
+                    barcodProductId = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -306,6 +307,7 @@ namespace order_and_sales_management_ver1.Migrations
                 {
                     packedId = table.Column<int>(nullable: false),
                     contentLineNo = table.Column<int>(nullable: false),
+                    barcodProductId = table.Column<string>(nullable: true),
                     baseId = table.Column<int>(nullable: false),
                     amount = table.Column<decimal>(nullable: false)
                 },

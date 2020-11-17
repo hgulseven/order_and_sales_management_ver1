@@ -124,6 +124,7 @@ namespace order_and_sales_management_ver1.Data
             modelBuilder.Entity<LabelModel>()
                 .HasKey(b => new { b.productID });
 
+ 
             modelBuilder.Entity<baseproduct>()
                     .HasKey(b => new { b.baseId });
 
@@ -142,9 +143,9 @@ namespace order_and_sales_management_ver1.Data
                                     .HasOne<baseproduct>(a => a.baseProduct)
                                     .WithMany(b => b.packedProductDetail)
                                     .HasForeignKey("baseId");
-                                   
 
-
+            modelBuilder.Entity<ProductModel>()
+                                    .HasIndex(b => b.productBarcodeID);
 
         }
 

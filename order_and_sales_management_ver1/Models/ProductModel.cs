@@ -19,6 +19,7 @@ namespace order_and_sales_management_ver1.Models
         [Display(Name = "Ürün Adý")]
         public string ProductName { get; set; }
         [Display(Name = "Ürün Barkodu")]
+        [StringLength(13)]
         public string productBarcodeID { get; set; }
         [Display(Name = "Perakende Satýþ Fiyatý")]
         public decimal productRetailPrice { get; set; }

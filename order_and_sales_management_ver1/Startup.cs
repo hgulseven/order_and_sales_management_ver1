@@ -141,7 +141,7 @@ namespace order_and_sales_management_ver1
                             name: "default",
                             pattern: "{controller=Home}/{action=Index}/{id?}");
                 endpoints.MapRazorPages();
-
+                endpoints.MapHub<RefreshSignalHub>("/RefreshSignalHub");
             });
 
 
@@ -151,12 +151,6 @@ namespace order_and_sales_management_ver1
             //                    name: "default",
             //                    template: "{controller=Home}/{action=Index}/{id?}");
             //            });
-
-            app.UseSignalR(routes =>
-            {
-                routes.MapHub<RefreshSignalHub>("/RefreshSignalHub");
-            });
-
 
         }
     }

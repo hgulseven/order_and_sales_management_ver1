@@ -9,8 +9,8 @@ using order_and_sales_management_ver1.Data;
 namespace order_and_sales_management_ver1.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20201108101725_updatepacked")]
-    partial class updatepacked
+    [Migration("20201110092511_daraadded")]
+    partial class daraadded
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -555,6 +555,9 @@ namespace order_and_sales_management_ver1.Migrations
                     b.Property<double>("Amount")
                         .HasColumnType("double");
 
+                    b.Property<int>("customerID")
+                        .HasColumnType("int");
+
                     b.Property<int>("productID")
                         .HasColumnType("int");
 
@@ -609,6 +612,9 @@ namespace order_and_sales_management_ver1.Migrations
                         .HasColumnType("int");
 
                     b.Property<float>("amount")
+                        .HasColumnType("float");
+
+                    b.Property<float>("dara")
                         .HasColumnType("float");
 
                     b.Property<float>("paidAmount")

@@ -9,8 +9,8 @@ using order_and_sales_management_ver1.Data;
 namespace order_and_sales_management_ver1.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20201107120300_barcodes")]
-    partial class barcodes
+    [Migration("20201109192349_packagedupdate")]
+    partial class packagedupdate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -554,6 +554,9 @@ namespace order_and_sales_management_ver1.Migrations
 
                     b.Property<double>("Amount")
                         .HasColumnType("double");
+
+                    b.Property<int>("customerID")
+                        .HasColumnType("int");
 
                     b.Property<int>("productID")
                         .HasColumnType("int");

@@ -65,7 +65,7 @@ namespace order_and_sales_management_ver1.Controllers
             {
                 _context.Add(packedproductdetail);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Create));
             }
             ViewData["baseId"] = new SelectList(_context.baseProducts, "baseId", "baseId", packedproductdetail.baseId);
             ViewData["packedId"] = new SelectList(_context.packedProducts, "packedId", "packedId", packedproductdetail.packedId);

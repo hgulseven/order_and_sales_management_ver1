@@ -19,7 +19,7 @@
         @Html.DisplayNameFor(model => model.productBarcodeID)
     </div>
     <div class="col-lg-2">
-        <input type="text" id="productBarcodeID" onblur="AddNewSaleItem()">
+        <input type="text" id="productBarcodeID"  onblur="AddNewSaleItem()">
     </div>
     <div class="col-lg-2">
         <input id="Guncelle" class="btn btn-primary btn-sm btn-block" type="button" value="Güncelle" style="font-size:12px" onclick="UpdateSales()">
@@ -125,57 +125,65 @@
         xmlhttp.send();
         window.location.href = "/DisplaySales";
     }
-
+     function onkeyup_1() {
+         var barcode = document.getElementById("productBarcodeID");
+         if (barcode.length >= 13) {
+             alert(barcode);
+         }
+     }
     function AddNewSaleItem() {
         var barcode = document.getElementById("productBarcodeID");
-        var salesID = document.getElementsByClassName("salesID")[0];
-        $.ajax({
-            type: 'GET',
-            url: '@Url.Action("getProductByBarcode", "SalesModels")',
-            data: {
-                "barcodeID": barcode.value,
-                "salesID" : salesID.innerHTML.trim()},
-            success: function (data) {
-                var saleTableBodyRef = document.getElementById("saleTable").getElementsByTagName('tbody')[0];
-                var newRow = saleTableBodyRef.insertRow();
+        if (barcode.value.length >= 13) {
+            var salesID = document.getElementsByClassName("salesID")[0];
+            $.ajax({
+                type: 'GET',
+                url: '@Url.Action("getProductByBarcode", "SalesModels")',
+                data: {
+                    "barcodeID": barcode.value,
+                    "salesID": salesID.innerHTML.trim()
+                },
+                success: function (data) {
+                    var saleTableBodyRef = document.getElementById("saleTable").getElementsByTagName('tbody')[0];
+                    var newRow = saleTableBodyRef.insertRow();
 
-                var newCell = newRow.insertCell();
-                var newText = document.createTextNode(data.salesID);
-                newCell.appendChild(newText);
+                    var newCell = newRow.insertCell();
+                    var newText = document.createTextNode(data.salesID);
+                    newCell.appendChild(newText);
 
-                var newCell = newRow.insertCell();
-                var newText = document.createTextNode(data.personelID);
-                newCell.appendChild(newText);
+                    var newCell = newRow.insertCell();
+                    var newText = document.createTextNode(data.personelID);
+                    newCell.appendChild(newText);
 
-                var newCell = newRow.insertCell();
-                newText = document.createTextNode(data.personelNameSurname);
-                newCell.appendChild(newText);
+                    var newCell = newRow.insertCell();
+                    newText = document.createTextNode(data.personelNameSurname);
+                    newCell.appendChild(newText);
 
-                var newCell = newRow.insertCell();
-                newText = document.createTextNode(data.productID);
-                newCell.appendChild(newText);
+                    var newCell = newRow.insertCell();
+                    newText = document.createTextNode(data.productID);
+                    newCell.appendChild(newText);
 
-                var newCell = newRow.insertCell();
-                newText = document.createTextNode(data.productBarcodeID);
-                newCell.appendChild(newText);
+                    var newCell = newRow.insertCell();
+                    newText = document.createTextNode(data.productBarcodeID);
+                    newCell.appendChild(newText);
 
-                newCell = newRow.insertCell();
-                newText = document.createTextNode(data.productModel.productName);
-                newCell.appendChild(newText)
+                    newCell = newRow.insertCell();
+                    newText = document.createTextNode(data.productModel.productName);
+                    newCell.appendChild(newText)
 
-                newCell = newRow.insertCell();
-                newText = document.createTextNode(data.amount);
-                newCell.appendChild(newText);
+                    newCell = newRow.insertCell();
+                    newText = document.createTextNode(data.amount);
+                    newCell.appendChild(newText);
 
-                var mytext = data.tutar.toFixed(2);
-                newCell = newRow.insertCell();
-                newCell.style = "text-align:right";
-                newText = document.createTextNode(mytext.trim());
-                newCell.appendChild(newText);
-            }
-        })
-        barcode.value = "";
-        barcode.focus();
+                    var mytext = data.tutar.toFixed(2);
+                    newCell = newRow.insertCell();
+                    newCell.style = "text-align:right";
+                    newText = document.createTextNode(mytext.trim());
+                    newCell.appendChild(newText);
+                }
+            })
+            barcode.value = "";
+            barcode.focus();
+        }
     }
 
   </script>
