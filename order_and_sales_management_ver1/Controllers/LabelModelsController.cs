@@ -132,6 +132,7 @@ namespace order_and_sales_management_ver1.Controllers
                         product = _context.productmodels.FirstOrDefault<ProductModel>(x => x.productID == labelModel.productID);
                         product.productBarcodeID = labelModel.productBarcodID;
                         _context.Update(product);
+                        await _context.SaveChangesAsync();
                         return RedirectToAction(nameof(Index));
                     }
                     catch (DbUpdateConcurrencyException)

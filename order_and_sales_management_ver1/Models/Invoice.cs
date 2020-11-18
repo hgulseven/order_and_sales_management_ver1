@@ -61,7 +61,8 @@ namespace order_and_sales_management_ver1.Models
             [NotMapped]
 
             public List<InvoiceLine> invoiceLines { get; set; }                    /* items on the invoice */
-
+            public ProductModel product { get; set; }
+            public List<ProductModel> products { get; set; }
         public Invoice()
         {
             /*this.invc= new InvoiceData();*/

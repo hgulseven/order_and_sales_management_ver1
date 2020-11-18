@@ -128,5 +128,20 @@ namespace order_and_sales_management_ver1.Controllers
             Invoice invoice = new Invoice();
             return View(invoice);
         }
+
+        public List<ProductModel> getProducts(string productName)
+        {
+            List<ProductModel> products = new List<ProductModel>();
+            if (!String.IsNullOrEmpty(productName))
+            {
+                products = _context.productmodels.Where(x => x.ProductName.Contains(productName)).ToList();
+            }
+            else
+            {
+                products = new List<ProductModel>();
+
+            }
+            return products;
+        }
     }
 }
