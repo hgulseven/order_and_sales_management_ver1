@@ -49,7 +49,7 @@ namespace order_and_sales_management_ver1.Controllers
             return View(labelModel);
         }
 
-        public string getData(string BarcodeID)
+        public string getProductData(string BarcodeID)
         {
             LabelModel labelModel;
             string jsonStr="";

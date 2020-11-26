@@ -45,7 +45,10 @@ namespace order_and_sales_management_ver1.Controllers
         // GET: productmodels/Create
         public IActionResult Create()
         {
-            return View();
+            ProductModel productModel = new ProductModel();
+            barcodeController barcode = new barcodeController(_context);
+            productModel.productBarcodeID= barcode.getFirstAvailableBarcode();
+            return View(productModel);
         }
 
         // POST: productmodels/Create

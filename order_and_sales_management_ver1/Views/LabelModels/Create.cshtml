@@ -6,7 +6,7 @@
 }
 
 <div class="panel-info">
-    <h1>Etiket Veri Hazırlama</h1>
+    <h5>Etiket Veri Hazırlama</h5>
 </div>
 <div class="alert alert-danger">
     @Html.ValidationSummary(false)
@@ -117,7 +117,6 @@
     </div>
 </form>
 
-
 <script>
     $(document).ready(function () {
         var recordExists = document.getElementById("recordExists")
@@ -131,6 +130,7 @@
             ProductID.style.color = "#c0c0c0";
         }
     });
+
     function validate() {
         var errors = "Etiket Düzenlemek istediğiniz ürün tanımlı değil. Lütfen önce ürünü tanımlayınız.";
         return errors;
@@ -140,9 +140,10 @@
         var BarcodeID = document.getElementById("productBarcodID");
         BarcodeID.readonly = true;
         BarcodeID.style.color = "#c0c0c0";
+        var urlPath=location.host+"/LabelModels/getProductData"
         $.ajax({
-            'url': 'getData',
-            'type': 'GET',
+            'url': 'getProductData',
+            'type': 'Get',
             'data': {
                 'BarcodeID': BarcodeID.value,
             },
