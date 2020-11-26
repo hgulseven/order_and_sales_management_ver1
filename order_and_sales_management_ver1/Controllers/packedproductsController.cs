@@ -54,11 +54,19 @@ namespace order_and_sales_management_ver1.Controllers
                 packedProduct.packedProductDetails = new List<packedproductdetail>();
                 packedProduct =  _context.packedProducts.Include(s=>s.packedProductDetails)
                                                 .FirstOrDefault(m => m.packedId == packedId);
-                foreach(packedproductdetail packedProductDetail in packedProduct.packedProductDetails )
+                if (packedProduct != null)
                 {
-                    packedProductDetail.baseProduct = _context.baseProducts.FirstOrDefault(s => s.baseId == packedProductDetail.baseId);
+                    foreach (packedproductdetail packedProductDetail in packedProduct.packedProductDetails)
+                    {
+                        packedProductDetail.baseProduct = _context.baseProducts.FirstOrDefault(s => s.baseId == packedProductDetail.baseId);
+                    }
+                    packedProduct.operation = "Update";
+                } else
+                {
+                    packedProduct = new packedproduct();
+                    packedProduct.packedProductDetails = new List<packedproductdetail>();
+                    packedProduct.operation = "Add";
                 }
-                packedProduct.operation = "Update";
             }
             else
             {
@@ -74,7 +82,7 @@ namespace order_and_sales_management_ver1.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("packedId,packedProductName,barcodProductId")] packedproduct packedproduct)
+        public async Task<IActionResult> Create([Bind("packedId,packedProductName,barcodProductId,productRetailPrice,productWholesalePrice")] packedproduct packedproduct)
         {
             if (ModelState.IsValid)
             {
@@ -82,6 +90,8 @@ namespace order_and_sales_management_ver1.Controllers
                 var baseIds= HttpContext.Request.Form["item.baseProduct.baseId"].ToArray();
                 var amounts = HttpContext.Request.Form["packedproductdetails.amount"].ToArray();
                 var operation = HttpContext.Request.Form["operation"].ToString();
+                packedproduct.productRetailPrice = decimal.Parse(HttpContext.Request.Form["productRetailPrice"].ToString().Replace('.', ','));
+                packedproduct.productWholesalePrice = decimal.Parse(HttpContext.Request.Form["productWholesalePrice"].ToString().Replace('.', ','));
                 for (int i=0; i<baseIds.Length;i++ )
                 {
                     packedproductdetail item = new packedproductdetail();
@@ -99,7 +109,7 @@ namespace order_and_sales_management_ver1.Controllers
                     _context.Update(packedproduct);
                 }
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Create",new { packedId = packedproduct.packedId + 1 });
             }
             return View(packedproduct);
         }

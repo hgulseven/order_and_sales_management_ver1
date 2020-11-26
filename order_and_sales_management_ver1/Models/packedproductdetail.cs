@@ -17,9 +17,11 @@ namespace order_and_sales_management_ver1.Models
         public int contentLineNo { get; set; }
 
         public string barcodProductId {get;set;}
+        [Display(Name = "Ürün Kodu")]
         public int baseId { get; set; }
         public virtual baseproduct baseProduct { get; set; }
         [Display(Name = "Miktar")]
+        [DisplayFormat(ApplyFormatInEditMode=true, DataFormatString = "{0:0.###}")]
         public decimal amount { get; set; }
         public virtual packedproduct packedProduct {get;set;}
     }

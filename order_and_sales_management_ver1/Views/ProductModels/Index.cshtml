@@ -3,52 +3,58 @@
 @{
     ViewData["Title"] = "Liste";
 }
-    <div class="panel-info">
-        <h1>Liste</h1>
-        <p>
-            <a asp-action="Create">Yeni Kayıt Ekle</a>
-        </p>
-    </div>
-        <table class="table table-striped table-curved">
-            <thead class="table-head">
-                <tr>
-                    <th>
-                        @Html.DisplayNameFor(model => model.ProductName)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.productBarcodeID)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.productRetailPrice)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.productWholesalePrice)
-                    </th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var item in Model)
-                {
-                    <tr>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.ProductName)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.productBarcodeID)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.productRetailPrice)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.productWholesalePrice)
-                        </td>
-                        <td align="right">
-                            <a asp-action="Edit" asp-route-id="@item.productID"><button type="button" class="btn btn-primary">Düzenle</button></a>
-                            <a asp-action="Details" asp-route-id="@item.productID"><button type="button" class="btn btn-secondary">Kaydı Görüntüle</button></a>
-                            <a asp-action="Delete" asp-route-id="@item.productID"><button type="button" class="btn btn-danger">Sil</button></a>
-                        </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
+<div class="panel-info">
+    <h5>_ Ürün Listesi</h5>
+</div>
+<div class="alert alert-danger">
+    @Html.ValidationSummary(true)
+</div>
+<hr />
+<div class="col-md-2">
+    @Html.ActionLink("Yeni Kayıt Ekle", "Create", "productmodels", new { id = 0 }, new { @class = "btn btn-primary  btn-sm btn-block", @style = "font-size:12px", })
+</div>
+<div class="col-md-10">
+</div>
+<table class="table table-striped table-curved" style="font-size:0.7em">
+    <thead class="table-head">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.ProductName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.productBarcodeID)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.productRetailPrice)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.productWholesalePrice)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ProductName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.productBarcodeID)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.productRetailPrice)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.productWholesalePrice)
+                </td>
+                <td align="right">
+                    <a asp-action="Edit" asp-route-id="@item.productID"><button type="button" class="btn btn-primary" style=" font-size:12px">Düzenle</button></a>
+                    <a asp-action="Details" asp-route-id="@item.productID"><button type="button" class="btn btn-secondary" style=" font-size:12px">Kaydı Görüntüle</button></a>
+                    <a asp-action="Delete" asp-route-id="@item.productID"><button type="button" class="btn btn-danger" style=" font-size:12px" >Sil</button></a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

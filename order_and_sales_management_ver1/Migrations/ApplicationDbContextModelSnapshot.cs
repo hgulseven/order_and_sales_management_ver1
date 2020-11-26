@@ -695,6 +695,9 @@ namespace order_and_sales_management_ver1.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
+                    b.Property<string>("barcodeID")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
                     b.Property<int>("detailsId")
                         .HasColumnType("int");
 
@@ -754,6 +757,12 @@ namespace order_and_sales_management_ver1.Migrations
 
                     b.Property<string>("packedProductName")
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<decimal>("productRetailPrice")
+                        .HasColumnType("decimal(65,30)");
+
+                    b.Property<decimal>("productWholesalePrice")
+                        .HasColumnType("decimal(65,30)");
 
                     b.HasKey("packedId");
 

@@ -57,7 +57,8 @@ namespace order_and_sales_management_ver1.Migrations
                     wholeSalePrice = table.Column<decimal>(nullable: false),
                     name = table.Column<string>(nullable: true),
                     sellersID = table.Column<string>(nullable: true),
-                    detailsId = table.Column<int>(nullable: false)
+                    detailsId = table.Column<int>(nullable: false),
+                    barcodeID = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -119,7 +120,9 @@ namespace order_and_sales_management_ver1.Migrations
                     packedId = table.Column<int>(nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     packedProductName = table.Column<string>(nullable: true),
-                    barcodProductId = table.Column<string>(nullable: true)
+                    barcodProductId = table.Column<string>(nullable: true),
+                    productRetailPrice = table.Column<decimal>(nullable: false),
+                    productWholesalePrice = table.Column<decimal>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -133,7 +136,7 @@ namespace order_and_sales_management_ver1.Migrations
                     productID = table.Column<int>(nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     ProductName = table.Column<string>(nullable: true),
-                    productBarcodeID = table.Column<string>(nullable: true),
+                    productBarcodeID = table.Column<string>(maxLength: 13, nullable: true),
                     productRetailPrice = table.Column<decimal>(nullable: false),
                     productWholesalePrice = table.Column<decimal>(nullable: false),
                     recStatus = table.Column<int>(nullable: false),
@@ -337,7 +340,8 @@ namespace order_and_sales_management_ver1.Migrations
                     recStatus = table.Column<int>(nullable: false),
                     recDate = table.Column<DateTime>(nullable: false),
                     Amount = table.Column<double>(nullable: false),
-                    productID = table.Column<int>(nullable: false)
+                    productID = table.Column<int>(nullable: false),
+                    customerID = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -525,7 +529,8 @@ namespace order_and_sales_management_ver1.Migrations
                     amount = table.Column<float>(nullable: false),
                     paidAmount = table.Column<float>(nullable: false),
                     typeOfCollection = table.Column<int>(nullable: false),
-                    productBarcodeID = table.Column<string>(maxLength: 13, nullable: true)
+                    productBarcodeID = table.Column<string>(maxLength: 13, nullable: true),
+                    dara = table.Column<float>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -665,6 +670,11 @@ namespace order_and_sales_management_ver1.Migrations
                 name: "IX_packedProductDetails_baseId",
                 table: "packedProductDetails",
                 column: "baseId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_productmodels_productBarcodeID",
+                table: "productmodels",
+                column: "productBarcodeID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_salesmodels_locationID",

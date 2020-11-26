@@ -9,12 +9,22 @@ namespace order_and_sales_management_ver1.Models
 {
     public class packedproduct
     {
+        [Display(Name = "Paket Ürün Kodu")]
         [Key]
         public int packedId { get; set; }
 
         [Display(Name ="Ürün Adı")]
         public string packedProductName { get; set; }
+        [Display(Name="Barkod")]
         public string barcodProductId { get; set; }
+
+        [Display(Name ="Perakende Fiyatı")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:#.##}")]
+
+        public decimal productRetailPrice { get; set; }
+        [Display(Name = "Toptan Fiyatı")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:#.##}")]
+        public decimal productWholesalePrice { get; set; }
         public virtual List<packedproductdetail> packedProductDetails{ get; set; }
 
         [NotMapped]

@@ -9,8 +9,8 @@ using order_and_sales_management_ver1.Data;
 namespace order_and_sales_management_ver1.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20201110092511_daraadded")]
-    partial class daraadded
+    [Migration("20201124180947_initial")]
+    partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -578,7 +578,8 @@ namespace order_and_sales_management_ver1.Migrations
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
 
                     b.Property<string>("productBarcodeID")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(13) CHARACTER SET utf8mb4")
+                        .HasMaxLength(13);
 
                     b.Property<decimal>("productRetailPrice")
                         .HasColumnType("decimal(65,30)");
@@ -593,6 +594,8 @@ namespace order_and_sales_management_ver1.Migrations
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
 
                     b.HasKey("productID");
+
+                    b.HasIndex("productBarcodeID");
 
                     b.ToTable("productmodels");
                 });
@@ -694,6 +697,9 @@ namespace order_and_sales_management_ver1.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
+                    b.Property<string>("barcodeID")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
                     b.Property<int>("detailsId")
                         .HasColumnType("int");
 
@@ -753,6 +759,12 @@ namespace order_and_sales_management_ver1.Migrations
 
                     b.Property<string>("packedProductName")
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<decimal>("productRetailPrice")
+                        .HasColumnType("decimal(65,30)");
+
+                    b.Property<decimal>("productWholesalePrice")
+                        .HasColumnType("decimal(65,30)");
 
                     b.HasKey("packedId");
 

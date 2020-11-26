@@ -160,7 +160,10 @@ body {
     .mynav_dropdown:hover .mynav_dropdown-content {
         display: block;
     }
-
+.table-sm th,
+.table-sm td {
+    padding: 0.2rem;
+}
 .table-curved th:first-child {
     border-radius: 6px 0 0 0;
 }
@@ -210,8 +213,8 @@ div.pager {
 .logo {
     display: inline-block;
     vertical-align: middle;
-    width: 150px;
-    height: 103px;
+    width: 109px;
+    height: 61px;
     margin-left:35%;
     margin-top: 5px; /* if you want it vertically middle of the navbar. */
     margin-bottom:5px;
