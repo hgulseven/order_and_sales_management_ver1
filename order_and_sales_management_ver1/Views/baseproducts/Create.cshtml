@@ -1,18 +1,27 @@
 ﻿@model order_and_sales_management_ver1.Models.baseproduct
 
 @{
-    ViewData["Title"] = "Create";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Yeni Kayıt Yarat";
 }
-
-<h1>Create</h1>
-
-<h4>baseproduct</h4>
+<div class="panel-info">
+    <h5>Yeni Kayıt Yaratma Ekranı</h5>
+</div>
 <hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="name" class="control-label"></label>
+                <input asp-for="name" class="form-control" />
+                <span asp-validation-for="name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="barcodeID" class="control-label"></label>
+                <input asp-for="barcodeID" class="form-control" readonly/>
+                <input asp-for="barcodeID" hidden />
+                <span asp-validation-for="barcodeID" class="text-danger"></span>
+            </div>
             <div class="form-group">
                 <label asp-for="retailPrice" class="control-label"></label>
                 <input asp-for="retailPrice" class="form-control" />
@@ -24,29 +33,14 @@
                 <span asp-validation-for="wholeSalePrice" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="name" class="control-label"></label>
-                <input asp-for="name" class="form-control" />
-                <span asp-validation-for="name" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="sellersID" class="control-label"></label>
-                <input asp-for="sellersID" class="form-control" />
-                <span asp-validation-for="sellersID" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="detailsId" class="control-label"></label>
-                <input asp-for="detailsId" class="form-control" />
-                <span asp-validation-for="detailsId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="Yeni Kayıt Yarat" class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index">Liste Ekranına Geri Dönüş</a>
 </div>
 
 @section Scripts {

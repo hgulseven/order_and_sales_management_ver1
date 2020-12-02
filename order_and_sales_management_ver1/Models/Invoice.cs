@@ -172,7 +172,6 @@ namespace order_and_sales_management_ver1.Models
         public string getInvoiceValueForKey(string key, string atrib)
         {
             string value = "";
-            int i;
 
             foreach (KeyValuePairs pair in this.basicInvoiceKeyValePairs)
             {
@@ -188,7 +187,6 @@ namespace order_and_sales_management_ver1.Models
         public string getInvoiceLineValueForKey(string key, int lineID, string attrib)
         {
             string value = "";
-            int i;
             List<KeyValuePairs> line;
             if (lineID < this.invoiceLinesKeyValuePairs.Count)
             {

@@ -70,16 +70,19 @@ public class SalesModelsController : Controller
             SalesModel sale_item= new SalesModel();
             int personelID= int.Parse(HttpContext.User.Claims.Where(c => c.Type == "personelID").FirstOrDefault().Value.ToString());
             sale_item.employeesmodels = _context.employeesmodels.Where(c => c.personelID == personelID).FirstOrDefault();
-            sale_item.ProductModel = _context.productmodels.Where(x => x.productBarcodeID == barcodeID).FirstOrDefault();
-            if (sale_item.ProductModel != null)
+            products productsView = _context.Products.Where(x => x.productBarcodeID == barcodeID).FirstOrDefault();
+            if (productsView != null)
             {
                 sale_item.salesID = int.Parse(salesID);
                 sale_item.personelID = sale_item.employeesmodels.personelID;
                 sale_item.productBarcodeID = barcodeID;
                 sale_item.personelNameSurname = sale_item.employeesmodels.persName+" "+ sale_item.employeesmodels.persSurName;
-                sale_item.productID = sale_item.ProductModel.productID;
+                sale_item.productID = productsView.productID;
                 sale_item.amount = 1;
-                sale_item.tutar = (decimal)sale_item.amount * sale_item.ProductModel.productRetailPrice;
+                sale_item.tutar = (decimal)(sale_item.amount * productsView.productRetailPrice);
+                sale_item.ProductModel = new ProductModel();
+                sale_item.ProductModel.ProductName = productsView.productName;
+                sale_item.ProductModel.productID= productsView.productID;
             }
             return sale_item;
         }

@@ -10,6 +10,7 @@ namespace order_and_sales_management_ver1.Models
     public class baseproduct
     {
         [Key]
+        [Display(Name = "Ürün No")]
         public int baseId { get; set; }
         [Display(Name = "Perakende Fiyatı")]
         public decimal retailPrice { get; set; }
@@ -18,12 +19,12 @@ namespace order_and_sales_management_ver1.Models
         [Display(Name = "Ürün Adı")]
 
         public string name { get; set; }
-        [Display(Name = "Teadrikçi Kodu")]
+        [Display(Name = "Tedarikçi Kodu")]
         public string sellersID { get; set; }
         public int detailsId { get; set; }
-        [Display(Name = "Ürün Barcod")]
+        [Display(Name = "Ürün Barkod")]
+        [StringLength(13)]
         public string barcodeID { get; set; }
-
         public virtual ICollection<packedproductdetail> packedProductDetail { get; set; }  
     }
 }

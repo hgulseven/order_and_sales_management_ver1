@@ -82,8 +82,10 @@ namespace order_and_sales_management_ver1.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("packedId,packedProductName,barcodProductId,productRetailPrice,productWholesalePrice")] packedproduct packedproduct)
+        public IActionResult Create([Bind("packedId,packedProductName,barcodeID,productRetailPrice,productWholesalePrice")] packedproduct packedproduct)
         {
+            int initialProductID = 317;
+
             if (ModelState.IsValid)
             {
                 packedproduct.packedProductDetails = new List<packedproductdetail>();
@@ -92,6 +94,11 @@ namespace order_and_sales_management_ver1.Controllers
                 var operation = HttpContext.Request.Form["operation"].ToString();
                 packedproduct.productRetailPrice = decimal.Parse(HttpContext.Request.Form["productRetailPrice"].ToString().Replace('.', ','));
                 packedproduct.productWholesalePrice = decimal.Parse(HttpContext.Request.Form["productWholesalePrice"].ToString().Replace('.', ','));
+                if (packedproduct.barcodeID== null || packedproduct.barcodeID.Length != 13)
+                {
+                    barcodeController barcode = new barcodeController(_context);
+                    packedproduct.barcodeID= barcode.getFirstAvailableBarcode(ref initialProductID);
+                }
                 for (int i=0; i<baseIds.Length;i++ )
                 {
                     packedproductdetail item = new packedproductdetail();
@@ -104,11 +111,27 @@ namespace order_and_sales_management_ver1.Controllers
                 if (operation == "Add")
                 {
                     _context.Add(packedproduct);
+                    _context.SaveChanges();
+                    ProductModel product = new ProductModel();
+                    product.productBarcodeID = packedproduct.barcodeID;
+                    product.ProductName = packedproduct.packedProductName;
+                    product.productRetailPrice = packedproduct.productRetailPrice;
+                    product.productWholesalePrice = packedproduct.productWholesalePrice;
+                    product.recStatus = 1;
+                    _context.Add(product);
+                    _context.SaveChanges();
+                    CrossTable crossTable = new CrossTable();
+                    crossTable.pname = packedproduct.packedProductName;
+                    crossTable.baseID = 0;
+                    crossTable.packedID = packedproduct.packedId;
+                    crossTable.productID = product.productID;
+                    _context.Add(crossTable);
+                    _context.SaveChanges();
                 } else
                 {
                     _context.Update(packedproduct);
+                    _context.SaveChanges();
                 }
-                await _context.SaveChangesAsync();
                 return RedirectToAction("Create",new { packedId = packedproduct.packedId + 1 });
             }
             return View(packedproduct);

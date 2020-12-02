@@ -16,7 +16,8 @@ namespace order_and_sales_management_ver1.Models
         [Display(Name ="Ürün Adı")]
         public string packedProductName { get; set; }
         [Display(Name="Barkod")]
-        public string barcodProductId { get; set; }
+        [StringLength(13)]
+        public string barcodeID{ get; set; }
 
         [Display(Name ="Perakende Fiyatı")]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:#.##}")]

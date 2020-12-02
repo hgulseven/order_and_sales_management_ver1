@@ -63,6 +63,7 @@
                     <h5>
                         @Html.EditorFor(Model => Model.packedProductName, new { htmlAttributes = new {  size = "40"} })
                         @Html.HiddenFor(Model => Model.packedId)
+                        @Html.HiddenFor(Model=>Model.barcodeID)
                     </h5>
                 </div>
                 <div class="col-md-3">

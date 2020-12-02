@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using order_and_sales_management_ver1.Data;
 
 namespace order_and_sales_management_ver1.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20201129110836_barcodeupdated")]
+    partial class barcodeupdated
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -211,26 +213,6 @@ namespace order_and_sales_management_ver1.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens");
-                });
-
-            modelBuilder.Entity("order_and_sales_management_ver1.Models.CrossTable", b =>
-                {
-                    b.Property<string>("pname")
-                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4")
-                        .HasMaxLength(255);
-
-                    b.Property<int>("baseID")
-                        .HasColumnType("int");
-
-                    b.Property<int>("packedID")
-                        .HasColumnType("int");
-
-                    b.Property<int>("productID")
-                        .HasColumnType("int");
-
-                    b.HasKey("pname");
-
-                    b.ToTable("CrossTable");
                 });
 
             modelBuilder.Entity("order_and_sales_management_ver1.Models.EmployeesModels", b =>
@@ -575,10 +557,6 @@ namespace order_and_sales_management_ver1.Migrations
 
                     b.Property<int>("customerID")
                         .HasColumnType("int");
-
-                    b.Property<string>("productBarcodeID")
-                        .HasColumnType("varchar(13) CHARACTER SET utf8mb4")
-                        .HasMaxLength(13);
 
                     b.Property<int>("productID")
                         .HasColumnType("int");

@@ -101,14 +101,12 @@ namespace order_and_sales_management_ver1.Controllers
                         labelModel = new LabelModel();
                         labelModel.recordExists = "no";
                         barcodeController barcode = new barcodeController(_context);
-                        labelModel.productBarcodID = barcode.getFirstAvailableBarcode();
                     }
                 }
                 else
                 {
                     labelModel.recordExists = "no";
                     barcodeController barcode = new barcodeController(_context);
-                    labelModel.productBarcodID = barcode.getFirstAvailableBarcode();
             }
             return View(labelModel);
         }
@@ -130,7 +128,6 @@ namespace order_and_sales_management_ver1.Controllers
                         await _context.SaveChangesAsync();
                         ProductModel product = new ProductModel();
                         product = _context.productmodels.FirstOrDefault<ProductModel>(x => x.productID == labelModel.productID);
-                        product.productBarcodeID = labelModel.productBarcodID;
                         _context.Update(product);
                         await _context.SaveChangesAsync();
                         return RedirectToAction(nameof(Index));

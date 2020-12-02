@@ -65,6 +65,8 @@
     <Compile Remove="Migrations\20201107094429_productchange.Designer.cs" />
     <Compile Remove="Migrations\20201113065906_productbarcode.cs" />
     <Compile Remove="Migrations\20201113065906_productbarcode.Designer.cs" />
+    <Compile Remove="Migrations\20201130065422_barcodeupdates.cs" />
+    <Compile Remove="Migrations\20201130065422_barcodeupdates.Designer.cs" />
   </ItemGroup>
 
 

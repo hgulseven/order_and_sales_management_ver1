@@ -33,22 +33,23 @@ namespace order_and_sales_management_ver1.Controllers
             int cDigit = (10 - (digitsTotal % 10)) % 10;
             return (cDigit.ToString("D1"));
         }
-         public string getFirstAvailableBarcode()
+         public string getFirstAvailableBarcode(ref int initialProductID)
         {
             string barcodeString="";
             Boolean available = false;
-            int productCode = 1;
+            int productCode = initialProductID;
             while (available==false)
             {
                 productCode.ToString("D5");
                 barcodeString = gulsevenPrefix + productCode.ToString("D5");
                 barcodeString = barcodeString + calcCheckDigit(barcodeString);
-                ProductModel pModel = _context.productmodels.FirstOrDefault(x => x.productBarcodeID == barcodeString);
+                products pModel = _context.Products.FirstOrDefault(x => x.productBarcodeID == barcodeString);
                 if (pModel != null)
                     productCode = productCode + 1;
                 else
                     available = true;
             }
+            initialProductID = productCode;
             return barcodeString;
         }
     }

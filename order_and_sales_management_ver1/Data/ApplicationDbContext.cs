@@ -36,6 +36,10 @@ namespace order_and_sales_management_ver1.Data
         public DbSet<packedproduct> packedProducts{ get; set; }
         public DbSet<packedproductdetail> packedProductDetails{ get; set; }
 
+        public DbSet<products> Products { get; set; }
+
+        public DbSet<CrossTable> CrossTable { get; set; }
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -147,6 +151,10 @@ namespace order_and_sales_management_ver1.Data
             modelBuilder.Entity<ProductModel>()
                                     .HasIndex(b => b.productBarcodeID);
 
+            modelBuilder.Entity<products>()
+                            .HasNoKey();
+            modelBuilder.Entity<products>().ToView("products");
+            modelBuilder.Entity<CrossTable>().HasKey("pname");
         }
 
 
