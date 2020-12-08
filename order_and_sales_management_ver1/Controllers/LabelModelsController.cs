@@ -70,7 +70,7 @@ namespace order_and_sales_management_ver1.Controllers
                         labelModel.productLawStr = "BU ÜRÜN TÜRK GIDA KODEKSİ YÖNETMELİĞİ LOKUM TEBLİĞİNE  UYGUN OLARAK ÜRETİLMİŞTİR.";
                         labelModel.productStoringCond = "16 - 20°C ARASINDA KOKUSUZ BİR YERDE MUHAFAZA EDİNİZ.IŞIK ,HAVA VE NEMDEN KORUYUNUZ.";
                         labelModel.productLotNo = "İMALATA TARİHİ PARTİ NUMARASIDIR.";
-                        labelModel.productShelfLife = "6 AY İÇİNDE TÜKETİLMESİ TAVSİYE OLUNUR.";
+                        labelModel.productShelfLife = "";
                         labelModel.mensei = "MENŞEİ TÜRKİYE";
                         labelModel.recordExists = "no";
                     } else
@@ -98,6 +98,7 @@ namespace order_and_sales_management_ver1.Controllers
                         labelModel.recordExists = "yes";
                     else
                     {
+                        ModelState.AddModelError("helper","LÜTFEN ETİKET TANIMLANACAK ÜRÜNÜN BARKOD NUMARASINI GİRİNİZ. PAKETLİ ÜRÜN LİSTESİNDEN BARKODU KOPYALAYABİLİRSİNİZ");
                         labelModel = new LabelModel();
                         labelModel.recordExists = "no";
                         barcodeController barcode = new barcodeController(_context);
@@ -105,7 +106,8 @@ namespace order_and_sales_management_ver1.Controllers
                 }
                 else
                 {
-                    labelModel.recordExists = "no";
+                ModelState.AddModelError("helper", "LÜTFEN ETİKET TANIMLANACAK ÜRÜNÜN BARKOD NUMARASINI GİRİNİZ. PAKETLİ ÜRÜN LİSTESİNDEN BARKODU KOPYALAYABİLİRSİNİZ");
+                labelModel.recordExists = "no";
                     barcodeController barcode = new barcodeController(_context);
             }
             return View(labelModel);

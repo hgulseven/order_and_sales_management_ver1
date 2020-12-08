@@ -17,7 +17,7 @@
         <div class="row">
             <div class="col-md-2">
                 @Html.LabelFor(modelitem => Model.productBarcodID)
-            </div>
+             </div>
             <div class="col-md-4">
                 @Html.TextBoxFor(modelitem => Model.productBarcodID, null, new { onblur = "getRecordDetails()" })
             </div>
@@ -89,8 +89,11 @@
             <div class="col-md-2">
                 @Html.LabelFor(modelitem => Model.productShelfLife)
             </div>
-            <div class="col-md-10">
-                @Html.TextBoxFor(modelitem => Model.productShelfLife, new { @class = "w-100" })
+            <div class="col-md-2">
+                <input type="number" id="duration" size=4 onblur="calculateProductValidtyDate()"/>
+            </div>
+            <div class="col-md-8">
+                @Html.TextBoxFor(modelitem => Model.productShelfLife, new {@class = "w-100" })
             </div>
         </div>
         <div class="row">
@@ -164,9 +167,22 @@
                 alert("Request: " + JSON.stringify(request));
             }
         });
+        var validation = document.getElementsByClassName("validation-summary-errors");
+        validation[0].style = "display:none";
         var ProductID = document.getElementById("productID");
         ProductID.readonly = true;
         ProductID.style.color = "#c0c0c0";
+    }
+
+    function calculateProductValidtyDate() {
+        var shelfLife = document.getElementById("productShelfLife");
+        var duration = document.getElementById("duration");
+        var intDuration = parseInt(duration.value);
+        if (intDuration != NaN) {
+            var today = new Date();
+            var productValidityDate = today.setMonth(today.getMonth() + intDuration);
+            shelfLife.value = "SON KULLANMA TARİHİ : " + new Intl.DateTimeFormat('tr-TR').format(productValidityDate).replaceAll('.','-');
+        }
     }
 </script>
 
