@@ -39,6 +39,9 @@
                         <th>
                             @Html.DisplayNameFor(model => model.packedProductName)
                         </th>
+                        <th align="right">
+                            @Html.DisplayNameFor(model => model.productRetailPrice)
+                        </th>
                         <th>
                             @Html.DisplayNameFor(model => model.barcodeID)
                         </th>
@@ -50,27 +53,30 @@
                 <tbody>
                     @foreach (var item in Model)
                     {
-                        <tr class="table-row-height">
-                            <td>
-                                @Html.DisplayFor(modelItem => item.packedId)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.packedProductName)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.barcodeID)
-                            </td>
-                            <td>
-                            <td width="75">
-                                @Html.ActionLink("Güncelle", "Create", "packedproducts", new { packedId = item.packedId }, new { @class = "btn btn-primary  btn-sm btn-block", @style = "font-size:12px" })
-                            </td>
-                            <td width="120">
-                                @Html.ActionLink("Detaylar", "Details", "packedproducts", new { packedId = item.packedId }, new { @class = "btn btn-primary btn-sm btn-block", @style = "font-size:12px" })
-                            </td>
-                            <td width="75">
-                                @Html.ActionLink("Sil", "Delete", "packedproducts", new { packedId = item.packedId }, new { @class = "btn btn-danger btn-sm btn-block", @style = "font-size:12px" })
-                            </td>
-                        </tr>
+                    <tr class="table-row-height">
+                        <td>
+                            @Html.DisplayFor(modelItem => item.packedId)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.packedProductName)
+                        </td>
+                        <td align="right" style="padding-right:6em" >
+                            @Html.DisplayFor(modelItem => item.productRetailPrice)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.barcodeID)
+                        </td>
+                        <td>
+                        <td width="75">
+                            @Html.ActionLink("Güncelle", "Create", "packedproducts", new { packedId = item.packedId }, new { @class = "btn btn-primary  btn-sm btn-block", @style = "font-size:12px" })
+                        </td>
+                        <td width="120">
+                            @Html.ActionLink("Detaylar", "Details", "packedproducts", new { packedId = item.packedId }, new { @class = "btn btn-primary btn-sm btn-block", @style = "font-size:12px" })
+                        </td>
+                        <td width="75">
+                            @Html.ActionLink("Sil", "Delete", "packedproducts", new { packedId = item.packedId }, new { @class = "btn btn-danger btn-sm btn-block", @style = "font-size:12px" })
+                        </td>
+                    </tr>
                     }
                 </tbody>
 

@@ -71,6 +71,7 @@ namespace order_and_sales_management_ver1.Controllers
                         labelModel.productStoringCond = "16 - 20°C ARASINDA KOKUSUZ BİR YERDE MUHAFAZA EDİNİZ.IŞIK ,HAVA VE NEMDEN KORUYUNUZ.";
                         labelModel.productLotNo = "İMALATA TARİHİ PARTİ NUMARASIDIR.";
                         labelModel.productShelfLife = "";
+                        labelModel.productDuration = 3;
                         labelModel.mensei = "MENŞEİ TÜRKİYE";
                         labelModel.recordExists = "no";
                     } else
@@ -118,7 +119,7 @@ namespace order_and_sales_management_ver1.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("productID,productName,productAmount,productContents,productLawStr, productStoringCond,productLotNo,productShelfLife,productBarcodID,recordExists,companyInfo,mensei,alerji")] LabelModel labelModel)
+        public async Task<IActionResult> Create([Bind("productID,productName,productAmount,productContents,productLawStr, productDuration,  productStoringCond,productLotNo,productShelfLife,productBarcodID,recordExists,companyInfo,mensei,alerji")] LabelModel labelModel)
         {
             if (ModelState.IsValid)
             {
@@ -175,6 +176,7 @@ namespace order_and_sales_management_ver1.Controllers
         // POST: LabelModels/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+/*
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("productID,productName,productAmount,productContents,productLawStr, productStoringCond,productLotNo,productShelfLife,productBarcodID,recordExists,mensei, alerji")] LabelModel labelModel)
@@ -206,7 +208,7 @@ namespace order_and_sales_management_ver1.Controllers
             }
             return View(labelModel);
         }
-
+*/
         // GET: LabelModels/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
@@ -253,7 +255,7 @@ namespace order_and_sales_management_ver1.Controllers
             {
                 return NotFound();
             }
-
+            labelModel.productShelfLife = "SON KULLANMA TARİHİ : " + DateTime.Now.AddMonths(labelModel.productDuration).ToString("dd-MM-yyyy");
             return View(labelModel);
         }
 
@@ -294,6 +296,7 @@ namespace order_and_sales_management_ver1.Controllers
             labelData.detailLines.Add(printModel.productLotNo);
             labelData.detailLines.Add(printModel.mensei);
             labelData.detailLines.Add("İMALAT TARİHİ : " + DateTime.Now.ToString("dd-MM-yyyy"));
+            printModel.productShelfLife = "SON KULLANMA TARİHİ : " + DateTime.Now.AddMonths(printModel.productDuration).ToString("dd-MM-yyyy");
             labelData.detailLines.Add(printModel.productShelfLife);
 
             labelData.footerLines.Add(printModel.companyInfo);

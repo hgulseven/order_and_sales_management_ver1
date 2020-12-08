@@ -20,11 +20,11 @@ namespace order_and_sales_management_ver1.Models
         public string barcodeID{ get; set; }
 
         [Display(Name ="Perakende Fiyatı")]
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:#.##}")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:F2}")]
 
         public decimal productRetailPrice { get; set; }
         [Display(Name = "Toptan Fiyatı")]
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:#.##}")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:F2}")]
         public decimal productWholesalePrice { get; set; }
         public virtual List<packedproductdetail> packedProductDetails{ get; set; }
 

@@ -34,7 +34,7 @@ namespace order_and_sales_management_ver1.Controllers
                 return NotFound();
             }
 
-            var packedproduct = await _context.packedProducts
+            var packedproduct = await _context.packedProducts.Include(s => s.packedProductDetails).ThenInclude(s=> s.baseProduct)
                 .FirstOrDefaultAsync(m => m.packedId == packedId);
             if (packedproduct == null)
             {
@@ -106,29 +106,39 @@ namespace order_and_sales_management_ver1.Controllers
                     item.amount = decimal.Parse(amounts[i].Replace('.', ','));
                     item.contentLineNo = i + 1;
                     item.packedId = packedproduct.packedId;
+                    item.baseProduct = _context.baseProducts.First(s => s.baseId == item.baseId);
                     packedproduct.packedProductDetails.Add(item);
                 }
                 if (operation == "Add")
                 {
-                    _context.Add(packedproduct);
-                    _context.SaveChanges();
+                    _context.packedProducts.Add(packedproduct);
                     ProductModel product = new ProductModel();
                     product.productBarcodeID = packedproduct.barcodeID;
                     product.ProductName = packedproduct.packedProductName;
                     product.productRetailPrice = packedproduct.productRetailPrice;
                     product.productWholesalePrice = packedproduct.productWholesalePrice;
                     product.recStatus = 1;
-                    _context.Add(product);
+                    _context.productmodels.Add(product);
                     _context.SaveChanges();
                     CrossTable crossTable = new CrossTable();
                     crossTable.pname = packedproduct.packedProductName;
                     crossTable.baseID = 0;
                     crossTable.packedID = packedproduct.packedId;
                     crossTable.productID = product.productID;
-                    _context.Add(crossTable);
+                    _context.CrossTable.Add(crossTable);
                     _context.SaveChanges();
                 } else
                 {
+                    for (int i = 0; i < packedproduct.packedProductDetails.Count; i++)
+                    {
+                        if (_context.packedProductDetails.Any(s=>s.packedId== packedproduct.packedProductDetails[i].packedId && s.contentLineNo== packedproduct.packedProductDetails[i].contentLineNo))
+                        {
+                            _context.packedProductDetails.Update(packedproduct.packedProductDetails[i]);
+                        } else
+                        {
+                            _context.packedProductDetails.Add(packedproduct.packedProductDetails[i]);
+                        }
+                    }
                     _context.Update(packedproduct);
                     _context.SaveChanges();
                 }
@@ -145,7 +155,7 @@ namespace order_and_sales_management_ver1.Controllers
                 return NotFound();
             }
 
-            var packedproduct = await _context.packedProducts
+            var packedproduct = await _context.packedProducts.Include(s=>s.packedProductDetails).ThenInclude(s=>s.baseProduct)
                 .FirstOrDefaultAsync(m => m.packedId == packedId);
             if (packedproduct == null)
             {
@@ -158,11 +168,18 @@ namespace order_and_sales_management_ver1.Controllers
         // POST: packedproducts/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int packedId)
+        public IActionResult DeleteConfirmed(int packedId)
         {
-            var packedproduct = await _context.packedProducts.FindAsync(packedId);
+            var packedproduct = _context.packedProducts.FirstOrDefault(s=>s.packedId==packedId);
+            List<packedproductdetail> packedProductDetails = _context.packedProductDetails.Where(s => s.packedId == packedId).ToList();
+            CrossTable crossTable = _context.CrossTable.FirstOrDefault(s => s.packedID == packedId);
+            ProductModel products = _context.productmodels.FirstOrDefault(s => s.productID== crossTable.productID);
             _context.packedProducts.Remove(packedproduct);
-            await _context.SaveChangesAsync();
+            for (int i=0; i< packedProductDetails.Count;i++ )
+                _context.packedProductDetails.Remove(packedProductDetails[i]);
+            _context.CrossTable.Remove(crossTable);
+            _context.productmodels.Remove(products);
+            _context.SaveChanges();
             return RedirectToAction(nameof(Index));
         }
 
