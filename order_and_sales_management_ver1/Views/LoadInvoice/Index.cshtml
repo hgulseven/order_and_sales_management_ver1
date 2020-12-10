@@ -270,9 +270,9 @@
                     var newCell2 = row.insertCell(1);
                     var newCell3 = row.insertCell(2)
                     var newCell4 = row.insertCell(3);
-                    newCell1.innerHTML = data[i].productID;
-                    newCell2.innerHTML = data[i].productName;
-                    newCell3.innerHTML = data[i].productWholesalePrice.toString();
+                    newCell1.innerHTML = data[i].barcodeID;
+                    newCell2.innerHTML = data[i].name;
+                    newCell3.innerHTML = data[i].wholeSalePrice.toString();
                     newCell4.innerHTML = '<input type="checkbox" id="selected" onclick="fnSelect()" />'
                 }
                 var lastItem = table.rows.length - numofRows+1;

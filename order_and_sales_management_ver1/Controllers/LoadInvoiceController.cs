@@ -55,10 +55,10 @@ namespace order_and_sales_management_ver1.Controllers
                         for (int i = 0; i < invoice.invoiceLines.Count; i++)
                         {
                             string sellersKey = invoice.suplier + "-" + invoice.invoiceLines.ElementAt(i).sellersIDForItem;
-                            ProductModel prdct = _context.productmodels.FirstOrDefault(x => x.sellersID == sellersKey);
+                            baseproduct prdct = _context.baseProducts.FirstOrDefault(x => x.sellersID == sellersKey);
                             if (prdct != null)
                             {
-                                invoice.invoiceLines.ElementAt(i).urunKodu = prdct.productID.ToString();
+                                invoice.invoiceLines.ElementAt(i).urunKodu = prdct.barcodeID;
                             }
                         }
                     }
@@ -100,12 +100,12 @@ namespace order_and_sales_management_ver1.Controllers
                 {
                     if (urunKodları[i] != "")
                     {
-                        ProductModel prdct = _context.productmodels.FirstOrDefault(x => x.productID == int.Parse(urunKodları[i]));
+                        baseproduct prdct = _context.baseProducts.FirstOrDefault(x => x.barcodeID == urunKodları[i]);
                         if (prdct != null)
                         {
                             prdct.sellersID = invoice.suplier + "-" + sellersIDForItems[i];
-                            prdct.productWholesalePrice = decimal.Parse(itemPrices[i]);
-                            _context.productmodels.Update(prdct);
+                            prdct.wholeSalePrice= decimal.Parse(itemPrices[i]);
+                            _context.baseProducts.Update(prdct);
                             _context.SaveChanges();
                         }
                         else
@@ -129,16 +129,16 @@ namespace order_and_sales_management_ver1.Controllers
             return View(invoice);
         }
 
-        public List<ProductModel> getProducts(string productName)
+        public List<baseproduct> getProducts(string productName)
         {
-            List<ProductModel> products = new List<ProductModel>();
+            List<baseproduct> products = new List<baseproduct>();
             if (!String.IsNullOrEmpty(productName))
             {
-                products = _context.productmodels.Where(x => x.ProductName.Contains(productName)).ToList();
+                products = _context.baseProducts.Where(x => x.name.Contains(productName)).ToList();
             }
             else
             {
-                products = new List<ProductModel>();
+                products = new List<baseproduct>();
 
             }
             return products;

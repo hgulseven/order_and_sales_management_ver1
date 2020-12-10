@@ -59,13 +59,13 @@ namespace order_and_sales_management_ver1.Controllers
                 labelModel = _context.labelmodels.FirstOrDefault<LabelModel>(x => x.productBarcodID == BarcodeID);
                 if (labelModel == null)
                 {
-                    ProductModel product = _context.productmodels.FirstOrDefault<ProductModel>(x => x.productBarcodeID == BarcodeID);
+                    products product = _context.Products.FirstOrDefault<products>(x => x.productBarcodeID == BarcodeID);
                     if (product != null)
                     {
                         labelModel = new LabelModel();
                         labelModel.productBarcodID = BarcodeID;
                         labelModel.productID = product.productID;
-                        labelModel.productName = product.ProductName;
+                        labelModel.productName = product.productName;
                         labelModel.productContents = "İÇİNDEKİLER: ŞEKER,MISIR NİŞASTASI, A.FISTIĞIASİTLİĞİ DÜZENLEYİCİ SİTRİK ASİT(E-330)";
                         labelModel.productLawStr = "BU ÜRÜN TÜRK GIDA KODEKSİ YÖNETMELİĞİ LOKUM TEBLİĞİNE  UYGUN OLARAK ÜRETİLMİŞTİR.";
                         labelModel.productStoringCond = "16 - 20°C ARASINDA KOKUSUZ BİR YERDE MUHAFAZA EDİNİZ.IŞIK ,HAVA VE NEMDEN KORUYUNUZ.";
@@ -102,14 +102,14 @@ namespace order_and_sales_management_ver1.Controllers
                         ModelState.AddModelError("helper","LÜTFEN ETİKET TANIMLANACAK ÜRÜNÜN BARKOD NUMARASINI GİRİNİZ. PAKETLİ ÜRÜN LİSTESİNDEN BARKODU KOPYALAYABİLİRSİNİZ");
                         labelModel = new LabelModel();
                         labelModel.recordExists = "no";
-                        barcodeController barcode = new barcodeController(_context);
+//                        barcodeController barcode = new barcodeController(_context);
                     }
                 }
                 else
                 {
                 ModelState.AddModelError("helper", "LÜTFEN ETİKET TANIMLANACAK ÜRÜNÜN BARKOD NUMARASINI GİRİNİZ. PAKETLİ ÜRÜN LİSTESİNDEN BARKODU KOPYALAYABİLİRSİNİZ");
                 labelModel.recordExists = "no";
-                    barcodeController barcode = new barcodeController(_context);
+   //                 barcodeController barcode = new barcodeController(_context);
             }
             return View(labelModel);
         }
@@ -128,10 +128,6 @@ namespace order_and_sales_management_ver1.Controllers
                     try
                     {
                         _context.Update(labelModel);
-                        await _context.SaveChangesAsync();
-                        ProductModel product = new ProductModel();
-                        product = _context.productmodels.FirstOrDefault<ProductModel>(x => x.productID == labelModel.productID);
-                        _context.Update(product);
                         await _context.SaveChangesAsync();
                         return RedirectToAction(nameof(Index));
                     }

@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using order_and_sales_management_ver1.Data;
 
 namespace order_and_sales_management_ver1.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20201209072522_barcodeIDsadd")]
+    partial class barcodeIDsadd
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -645,9 +647,6 @@ namespace order_and_sales_management_ver1.Migrations
                     b.Property<float>("dara")
                         .HasColumnType("float");
 
-                    b.Property<float>("dueAmount")
-                        .HasColumnType("float");
-
                     b.Property<float>("paidAmount")
                         .HasColumnType("float");
 
@@ -787,6 +786,10 @@ namespace order_and_sales_management_ver1.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
+                    b.Property<string>("barcodeID")
+                        .HasColumnType("varchar(13) CHARACTER SET utf8mb4")
+                        .HasMaxLength(13);
+
                     b.Property<string>("packedProductBarcodeID")
                         .HasColumnType("varchar(13) CHARACTER SET utf8mb4")
                         .HasMaxLength(13);
@@ -815,6 +818,9 @@ namespace order_and_sales_management_ver1.Migrations
 
                     b.Property<decimal>("amount")
                         .HasColumnType("decimal(65,30)");
+
+                    b.Property<string>("barcodProductId")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
 
                     b.Property<int>("baseId")
                         .HasColumnType("int");

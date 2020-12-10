@@ -213,17 +213,17 @@ namespace order_and_sales_management_ver1.Controllers
             packedproduct = _context.packedProducts.ToList<packedproduct>();
             foreach (packedproduct pprod in packedproduct)
             {
-                if (pprod.barcodeID != null && pprod.barcodeID.Length == 13)
+                if (pprod.packedProductBarcodeID!= null && pprod.packedProductBarcodeID.Length == 13)
                 {
-                    string checkDigit = barcode.calcCheckDigit(pprod.barcodeID.Substring(0, 12));
-                    if (checkDigit != pprod.barcodeID.Substring(12, 1))
+                    string checkDigit = barcode.calcCheckDigit(pprod.packedProductBarcodeID.Substring(0, 12));
+                    if (checkDigit != pprod.packedProductBarcodeID.Substring(12, 1))
                     {
                         packedProductWithWrongBarcode.Add(pprod);
                     }
                 }
                 else
                 {
-                        pprod.barcodeID = barcode.getFirstAvailableBarcode(ref initialProductID);
+                        pprod.packedProductBarcodeID= barcode.getFirstAvailableBarcode(ref initialProductID);
                         _context.packedProducts.Update(pprod);
                         _context.SaveChanges();
                 }

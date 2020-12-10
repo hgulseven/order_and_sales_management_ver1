@@ -15,9 +15,12 @@ namespace order_and_sales_management_ver1.Models
         [Key]
         [Column(Order = 1)]
         public int contentLineNo { get; set; }
-
-        public string barcodProductId {get;set;}
-        [Display(Name = "Ürün Kodu")]
+        [StringLength(13)]
+        [Display(Name = "Ana Ürün Barkod")]
+        public string baseProductBarcodeID { get; set; }
+        [StringLength(13)]
+        [Display(Name = "Paketli Ürün Barkod")]
+        public string packedProductBarcodeID { get; set; }
         public int baseId { get; set; }
         public virtual baseproduct baseProduct { get; set; }
         [Display(Name = "Miktar")]

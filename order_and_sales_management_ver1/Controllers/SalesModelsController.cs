@@ -29,10 +29,10 @@ public class SalesModelsController : Controller
             var saleList = _context.salesmodels.Where(x => x.salesID==salesID && x.saleDate == DateTime.Today && x.locationID == location).ToList();
             foreach (SalesModel sale_item in saleList)
             {
-                sale_item.ProductModel = _context.productmodels.Where(x => x.productID == sale_item.productID).FirstOrDefault();
+                sale_item.Products= _context.Products.Where(x => x.productBarcodeID == sale_item.productBarcodeID).FirstOrDefault();
                 sale_item.employeesmodels = _context.employeesmodels.Where(x => x.personelID == sale_item.personelID).FirstOrDefault();
                 sale_item.personelNameSurname = sale_item.employeesmodels.persName + " " + sale_item.employeesmodels.persSurName;
-                sale_item.tutar = (((decimal) sale_item.amount) * sale_item.ProductModel.productRetailPrice);
+                sale_item.tutar =(decimal) (sale_item.amount * sale_item.Products.productRetailPrice);
             }
             return View(saleList);
         }
@@ -55,6 +55,7 @@ public class SalesModelsController : Controller
                 salesModel.productID = item.productID;
                 salesModel.saleDate = DateTime.Today;
                 salesModel.salesID = item.salesID;
+                salesModel.dueAmount = item.tutar;
                 salesModel.salesLineId = i;
                 salesModel.typeOfCollection = 0;
                 if (_context.salesmodels.Find(salesModel.saleDate,salesModel.salesID,salesModel.salesLineId,salesModel.locationID) == null)
@@ -80,9 +81,10 @@ public class SalesModelsController : Controller
                 sale_item.productID = productsView.productID;
                 sale_item.amount = 1;
                 sale_item.tutar = (decimal)(sale_item.amount * productsView.productRetailPrice);
-                sale_item.ProductModel = new ProductModel();
-                sale_item.ProductModel.ProductName = productsView.productName;
-                sale_item.ProductModel.productID= productsView.productID;
+                sale_item.dueAmount = sale_item.amount * productsView.productRetailPrice;
+                sale_item.Products= new products();
+                sale_item.Products.productName = productsView.productName;
+                sale_item.Products.productID= productsView.productID;
             }
             return sale_item;
         }

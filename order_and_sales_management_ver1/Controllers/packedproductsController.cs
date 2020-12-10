@@ -52,14 +52,16 @@ namespace order_and_sales_management_ver1.Controllers
             if (packedId != null && packedId != 0)
             {
                 packedProduct.packedProductDetails = new List<packedproductdetail>();
-                packedProduct =  _context.packedProducts.Include(s=>s.packedProductDetails)
+                packedProduct = _context.packedProducts.Include(s => s.packedProductDetails).ThenInclude(s => s.baseProduct)
                                                 .FirstOrDefault(m => m.packedId == packedId);
                 if (packedProduct != null)
                 {
+/*
                     foreach (packedproductdetail packedProductDetail in packedProduct.packedProductDetails)
                     {
                         packedProductDetail.baseProduct = _context.baseProducts.FirstOrDefault(s => s.baseId == packedProductDetail.baseId);
                     }
+*/
                     packedProduct.operation = "Update";
                 } else
                 {
@@ -82,7 +84,7 @@ namespace order_and_sales_management_ver1.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create([Bind("packedId,packedProductName,barcodeID,productRetailPrice,productWholesalePrice")] packedproduct packedproduct)
+        public IActionResult Create([Bind("packedId,packedProductName,packedProductBarcodeID,productRetailPrice,productWholesalePrice")] packedproduct packedproduct)
         {
             int initialProductID = 317;
 
@@ -94,10 +96,10 @@ namespace order_and_sales_management_ver1.Controllers
                 var operation = HttpContext.Request.Form["operation"].ToString();
                 packedproduct.productRetailPrice = decimal.Parse(HttpContext.Request.Form["productRetailPrice"].ToString().Replace('.', ','));
                 packedproduct.productWholesalePrice = decimal.Parse(HttpContext.Request.Form["productWholesalePrice"].ToString().Replace('.', ','));
-                if (packedproduct.barcodeID== null || packedproduct.barcodeID.Length != 13)
+                if (packedproduct.packedProductBarcodeID== null || packedproduct.packedProductBarcodeID.Length != 13)
                 {
                     barcodeController barcode = new barcodeController(_context);
-                    packedproduct.barcodeID= barcode.getFirstAvailableBarcode(ref initialProductID);
+                    packedproduct.packedProductBarcodeID= barcode.getFirstAvailableBarcode(ref initialProductID);
                 }
                 for (int i=0; i<baseIds.Length;i++ )
                 {
@@ -106,14 +108,16 @@ namespace order_and_sales_management_ver1.Controllers
                     item.amount = decimal.Parse(amounts[i].Replace('.', ','));
                     item.contentLineNo = i + 1;
                     item.packedId = packedproduct.packedId;
+                    item.packedProductBarcodeID = packedproduct.packedProductBarcodeID;
                     item.baseProduct = _context.baseProducts.First(s => s.baseId == item.baseId);
+                    item.baseProductBarcodeID = item.baseProduct.barcodeID;
                     packedproduct.packedProductDetails.Add(item);
                 }
                 if (operation == "Add")
                 {
                     _context.packedProducts.Add(packedproduct);
                     ProductModel product = new ProductModel();
-                    product.productBarcodeID = packedproduct.barcodeID;
+                    product.productBarcodeID = packedproduct.packedProductBarcodeID;
                     product.ProductName = packedproduct.packedProductName;
                     product.productRetailPrice = packedproduct.productRetailPrice;
                     product.productWholesalePrice = packedproduct.productWholesalePrice;

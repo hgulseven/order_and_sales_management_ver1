@@ -41,13 +41,13 @@
                         @Html.DisplayNameFor(model => model.personelNameSurname)
                     </th>
                     <th>
-                        @Html.DisplayNameFor(model => model.ProductModel.productID)
+                        @Html.DisplayNameFor(model => model.Products.productID)
                     </th>
                     <th>
-                        @Html.DisplayNameFor(model => model.ProductModel.productBarcodeID)
+                        @Html.DisplayNameFor(model => model.Products.productBarcodeID)
                     </th>
                     <th>
-                        @Html.DisplayNameFor(model => model.ProductModel.ProductName)
+                        @Html.DisplayNameFor(model => model.Products.productName)
                     </th>
                     <th>
                         @Html.DisplayNameFor(model => model.amount)
@@ -71,14 +71,14 @@
                         @Html.DisplayFor(modelItem => item.personelNameSurname)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.ProductModel.productID)
+                        @Html.DisplayFor(modelItem => item.Products.productID)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.ProductModel.productBarcodeID)
+                        @Html.DisplayFor(modelItem => item.Products.productBarcodeID)
                     </td>
 
                     <td>
-                        @Html.DisplayFor(modelItem => item.ProductModel.ProductName)
+                        @Html.DisplayFor(modelItem => item.Products.productName)
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.amount)
@@ -104,6 +104,7 @@
                     "personelID": row.cells.item(1).innerHTML.trim(),
                     "productID": row.cells.item(3).innerHTML.trim(),
                     "productBarcodeID": row.cells.item(4).innerHTML.trim(),
+                    "tutar": row.cells.item(7).innerHTML.trim().replace(',','.'),
                     "amount": row.cells.item(6).innerHTML.trim()
                 });
             }
@@ -159,7 +160,7 @@
                     newCell.appendChild(newText);
 
                     var newCell = newRow.insertCell();
-                    newText = document.createTextNode(data.productID);
+                    newText = document.createTextNode(data.products.productID);
                     newCell.appendChild(newText);
 
                     var newCell = newRow.insertCell();
@@ -167,7 +168,7 @@
                     newCell.appendChild(newText);
 
                     newCell = newRow.insertCell();
-                    newText = document.createTextNode(data.productModel.productName);
+                    newText = document.createTextNode(data.products.productName);
                     newCell.appendChild(newText)
 
                     newCell = newRow.insertCell();

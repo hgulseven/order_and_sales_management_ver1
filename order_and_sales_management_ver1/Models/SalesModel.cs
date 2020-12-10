@@ -28,6 +28,8 @@ namespace order_and_sales_management_ver1.Models
 
         [Display(Name = "Miktar")]
         public float amount { get; set; }
+
+        public float dueAmount { get; set; }
         public float paidAmount { get; set; }
 
         [NotMapped]
@@ -48,7 +50,8 @@ namespace order_and_sales_management_ver1.Models
         public string productBarcodeID { get; set; }
         public virtual EmployeesModels employeesmodels { get; set; }
         public virtual ProductModel ProductModel { get; set; }
-
+        [NotMapped]
+        public virtual products Products { get; set; }
         public virtual stocklocationmodel location { get; set; }
 
         public float dara { get; set; }
@@ -65,10 +68,14 @@ namespace order_and_sales_management_ver1.Models
         public int productID { get; set; }
 
         [JsonProperty("productBarcodeID")]
+        [StringLength(13)]
         public string productBarcodeID { get; set; }
 
         [JsonProperty("amount")]
         public float amount { get; set; }
+ 
+        [JsonProperty("tutar")]
+        public float tutar { get; set; }
     }
 
 }
