@@ -10,9 +10,30 @@ using Newtonsoft;
 using Newtonsoft.Json.Linq;
 using System.Globalization;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
+using System.Net.Sockets;
+using System.IO;
+using System.Threading;
 
 namespace order_and_sales_management_ver1.Controllers
 {
+    public class ColumnData
+    {
+        public int Width { get; set; }
+        public string Alignment { get; set; } 
+        public string Col_value { get; set; }
+    }
+
+    public class Columns
+    {
+        public List<ColumnData> Cols { get; set; } 
+    }
+    public class PrintData
+    {
+        public string Header { get; set; }
+        public List<Columns> Lines{ get; set; }
+    }
+
     public class SiparisModelController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -23,9 +44,13 @@ namespace order_and_sales_management_ver1.Controllers
         }
 
         [HttpGet]
-        public ActionResult Liste()
+        public ActionResult Liste(string? err)
         {
             List<OrderModel> siparis = new List<OrderModel>();
+            if (err != null && err != "")
+            {
+                ModelState.AddModelError("error", err);
+            }
 
             if (User.Identity.IsAuthenticated)
             {
@@ -53,7 +78,7 @@ namespace order_and_sales_management_ver1.Controllers
                 foreach (OrderModel order in siparis)
                 {
                     foreach (OrderDetailsModel orderDetails in order.orderdetailsmodels)
-                        orderDetails.ProductModel = _context.productmodels.FirstOrDefault(e => e.productID == orderDetails.productID);
+                        orderDetails.Product= _context.Products.FirstOrDefault(e => e.productBarcodeID== orderDetails.productBarcodeID);
                 }
             } else
             {
@@ -75,11 +100,11 @@ namespace order_and_sales_management_ver1.Controllers
                 siparis.orderLocation = _context.stocklocationmodel.FirstOrDefault(e => e.locationID == employees.locationID);
                 if (!String.IsNullOrEmpty(productName))
                 {
-                    siparis.products = _context.productmodels.Where(x => x.ProductName.Contains(productName)).ToList();
+                    siparis.Products = _context.Products.Where(x => x.productName.Contains(productName)).ToList();
                 }
                 else
                 {
-                    siparis.products = new List<ProductModel>();
+                    siparis.Products = new List<products>();
 
                 }
                 siparis.operation = "Add";
@@ -92,8 +117,12 @@ namespace order_and_sales_management_ver1.Controllers
         }
         
         [HttpGet]
-        public ActionResult Guncelle(int orderID)
+        public ActionResult Guncelle(int orderID,string? error)
         {
+            if (error != null && error != "")
+            {
+                ModelState.AddModelError("error", error);
+            }
             OrderModel order = _context.OrderModel.Include(b => b.orderdetailsmodels)
                                                                                         .FirstOrDefault<OrderModel>(t => t.orderID == orderID && t.validTo == DateTime.Parse("2099-01-01"));
                                                                                          
@@ -107,14 +136,19 @@ namespace order_and_sales_management_ver1.Controllers
             EmployeesModels employees = _context.employeesmodels.FirstOrDefault(t=>t.personelID==siparis.orderOwner_personelID);
             siparis.orderLocation = _context.stocklocationmodel.FirstOrDefault(e => e.locationID == siparis.orderLocationID);
             foreach (OrderDetailsModel orderDetails in order.orderdetailsmodels)
-                orderDetails.ProductModel = _context.productmodels.FirstOrDefault(e => e.productID == orderDetails.productID);
+                orderDetails.Product= _context.Products.FirstOrDefault(e => e.productBarcodeID == orderDetails.productBarcodeID);
             siparis.orderdetailsmodels = order.orderdetailsmodels;
             siparis.operation = "Update";
             return View("Giris", siparis);
         }
+        public class Returnvalue {
+            public int orderID { get; set; }
+            public string error { get; set; }
+
+        }
 
         [HttpPost]
-        public ActionResult Kaydet(string jsonSiparis, string jsonOrderDetails)
+        public Returnvalue Kaydet(string jsonSiparis, string jsonOrderDetails,Boolean printOrder)
         {
             JObject jobjSiparis;
             JArray jobjOrderDetails;
@@ -123,6 +157,9 @@ namespace order_and_sales_management_ver1.Controllers
             string Operation = "";
             ordercounter counter = new ordercounter ();
             DateTime validity = DateTime.Now;
+            Returnvalue returnvalue = new Returnvalue();
+            returnvalue.error = "";
+            returnvalue.orderID = 0;
 
             siparisnew.orderdetailsmodels = new List<OrderDetailsModel>();
             siparis.orderdetailsmodels = new List<OrderDetailsModel>();
@@ -195,11 +232,14 @@ namespace order_and_sales_management_ver1.Controllers
                                 case "orderLineNo":
                                     orderDetails.orderLineNo = int.Parse(value);
                                     break;
-                                case "productID":
-                                    orderDetails.productID = int.Parse(value);
+                                case "productBarcodeID":
+                                    orderDetails.productBarcodeID = value.Trim();
                                     break;
                                 case "productAmount":
                                     orderDetails.productAmount = float.Parse(value);
+                                    break;
+                                case "entryUserID":
+                                    orderDetails.EntryUserID = int.Parse(value);
                                     break;
                             }
                         }
@@ -216,23 +256,22 @@ namespace order_and_sales_management_ver1.Controllers
                 _context.Add(siparisnew);
                 _context.SaveChanges();
             }
-            return RedirectToAction(nameof(Giris), new { productName = "" });
+            if (printOrder)
+            {
+                returnvalue.error=Print(siparisnew.orderID);
+            }
+            returnvalue.orderID= siparisnew.orderID;
+            return returnvalue;
         }
 
-        public bool StockItemExists(int prodID, string lotID)
-        {
-            int locID = Program.Const_Production_Location;
-            return _context.stockitems.Any(e => e.productID == prodID && e.locationID == locID && e.productionLotID == lotID);
-        }
-
-        public stocklocationmodel getLocation(int employeeID)
+        public string getLocation(int employeeID)
         {
             EmployeesModels employee;
-            stocklocationmodel stocklocationmodel;
 
-            employee = _context.employeesmodels.FirstOrDefault(e => e.personelID == employeeID);
-            stocklocationmodel = _context.stocklocationmodel.FirstOrDefault(e => e.locationID == employee.locationID);
-            return stocklocationmodel;
+            employee = _context.employeesmodels.Include(e => e.empLocation).First(e => e.personelID == employeeID);
+            var serialize_Settings = new JsonSerializerSettings { PreserveReferencesHandling = PreserveReferencesHandling.Objects };
+            var myStr = JsonConvert.SerializeObject(employee.empLocation, serialize_Settings);
+            return myStr;
         }
 
         public SiparisModel getProducts(string productName)
@@ -240,11 +279,11 @@ namespace order_and_sales_management_ver1.Controllers
             SiparisModel siparis = new SiparisModel();
             if (!String.IsNullOrEmpty(productName))
             {
-                siparis.products = _context.productmodels.Where(x => x.ProductName.Contains(productName)).ToList();
+                siparis.Products = _context.Products.Where(x => x.productName.Contains(productName)).ToList();
             }
             else
             {
-                siparis.products = new List<ProductModel>();
+                siparis.Products = new List<products>();
 
             }
             return siparis;
@@ -266,7 +305,7 @@ namespace order_and_sales_management_ver1.Controllers
             foreach (OrderModel order in siparis)
             {
                 foreach (OrderDetailsModel orderDetails in order.orderdetailsmodels)
-                    orderDetails.ProductModel = _context.productmodels.FirstOrDefault(e => e.productID == orderDetails.productID);
+                    orderDetails.Product= _context.Products.FirstOrDefault(e => e.productBarcodeID== orderDetails.productBarcodeID);
             }
 
             return View(siparis);
@@ -283,8 +322,8 @@ namespace order_and_sales_management_ver1.Controllers
             siparis.orderOwnerEmployeeModel = _context.employeesmodels.FirstOrDefault<EmployeesModels>(t => t.personelID == siparis.personelID);
             foreach (OrderDetailsModel orderDetails in siparis.orderdetailsmodels)
             {
-                orderDetails.ProductModel = new ProductModel();
-                orderDetails.ProductModel = _context.productmodels.FirstOrDefault<ProductModel>(t => t.productID == orderDetails.productID);
+                orderDetails.Product= new products();
+                orderDetails.Product= _context.Products.FirstOrDefault<products>(t => t.productBarcodeID== orderDetails.productBarcodeID);
             }
             return View(siparis);
         }
@@ -350,8 +389,11 @@ namespace order_and_sales_management_ver1.Controllers
                                     case "orderLineNo":
                                         orderDetails.orderLineNo = int.Parse(value);
                                         break;
-                                    case "productID":
-                                        orderDetails.productID = int.Parse(value);
+                                    case "productBarcodeID":
+                                        orderDetails.productBarcodeID= value.Trim();
+                                        break;
+                                    case "entryUserID":
+                                        orderDetails.EntryUserID = int.Parse(value);
                                         break;
                                     case "productAmount":
                                         orderDetails.productAmount = float.Parse(value);
@@ -384,5 +426,107 @@ namespace order_and_sales_management_ver1.Controllers
             return View(siparis);
         }
 
+        public Columns add_line(string col1val, string col2val, string col3val,string col4val)
+        {
+            Columns line;
+            ColumnData col;
+            line = new Columns();
+            line.Cols = new List<ColumnData>();
+            col = new ColumnData();
+            col.Col_value = col1val;
+            col.Alignment = "Left";
+            col.Width = 9;
+            line.Cols.Add(col);
+            col = new ColumnData();
+            col.Col_value = col2val;
+            col.Alignment = "Right";
+            col.Width = 5;
+            line.Cols.Add(col);
+            col = new ColumnData();
+            col.Col_value = col3val;
+            col.Alignment = "Right";
+            col.Width = 6;
+            line.Cols.Add(col);
+            col = new ColumnData();
+            col.Col_value = col4val;
+            col.Alignment = "Right";
+            col.Width = 8;
+            line.Cols.Add(col);
+            return (line);
+        }
+        public string Print(int? orderID)
+         {
+            string responseData="TCPOK";
+            string printer_responseData="OK";
+            string error = "";
+            PrintData printData = new PrintData();
+            printData.Lines = new List<Columns>();
+            Columns line;
+            string pName;
+            OrderModel orderModel = _context.OrderModel.Include(b=>b.orderdetailsmodels)
+                                                                                                    .Include(b=>b.orderLocation)
+                                                                                                    .Include(b=>b.orderOwnerEmployeeModel).FirstOrDefault(x => x.orderID == orderID);
+            printData.Header = orderModel.orderLocation.locationName+ " Lokasyonu\nSipariş No : " + orderModel.orderID + "\nSiparişi Veren : "+orderModel.orderOwnerEmployeeModel.persName + " "+ orderModel.orderOwnerEmployeeModel.persSurName;
+            int i = 0;
+            var toplam = 0.0;
+            foreach (OrderDetailsModel orderDetails in orderModel.orderdetailsmodels)
+            {
+                orderDetails.Product = _context.Products.FirstOrDefault(b=>b.productBarcodeID==orderDetails.productBarcodeID);
+                if (orderDetails.Product.productName.Length > 9)
+                    pName = orderDetails.Product.productName.Substring(0, 9);
+                else
+                    pName = orderDetails.Product.productName;
+                line = add_line(    pName,
+                                               orderDetails.productAmount.ToString("N0", CultureInfo.GetCultureInfo("tr-TR")),
+                                               orderDetails.Product.productWholesalePrice.ToString("N2", CultureInfo.GetCultureInfo("tr-TR")),
+                                               (orderDetails.Product.productWholesalePrice * orderDetails.productAmount).ToString("N2", CultureInfo.GetCultureInfo("tr-TR")));
+                printData.Lines.Add(line);
+                toplam = toplam + orderDetails.Product.productWholesalePrice * orderDetails.productAmount;
+            }
+            line = add_line("", "", "", "--------");
+            printData.Lines.Add(line);
+            line = add_line("Toplam", "", "",toplam.ToString("N2", CultureInfo.GetCultureInfo("tr-TR")));
+            printData.Lines.Add(line);
+            var myStr = JsonConvert.SerializeObject(printData);
+            Int32 port = 65432;
+            string server = "192.168.1.46";
+            try
+            {
+                TcpClient client = new TcpClient(server, port);
+                Byte[] data = System.Text.Encoding.UTF8.GetBytes(myStr);
+                NetworkStream stream = client.GetStream();
+                var lengthInfo = myStr.Length.ToString() + '#';
+                stream.Write(System.Text.Encoding.UTF8.GetBytes(lengthInfo), 0, lengthInfo.Length);
+                stream.Flush();
+                stream.Write(data, 0, data.Length);
+                stream.Flush();
+                data = new Byte[4096];
+                responseData = String.Empty;
+                do
+                {
+                    stream.Read(data, 0, 5);
+                } while (data.Length < 5 && stream.CanRead);
+                responseData = System.Text.Encoding.UTF8.GetString(data);
+                responseData=responseData.Replace("\0", string.Empty);
+                printer_responseData = String.Empty;
+                do
+                {
+                    stream.Read(data, 0, 1024);
+                } while (data.Length == 0 && stream.CanRead);
+                printer_responseData = System.Text.Encoding.UTF8.GetString(data);
+                printer_responseData=printer_responseData.Replace("\0", string.Empty);
+                client.Close();
+            }
+            catch (Exception  ex)
+            {
+                responseData = ex.ToString();
+            }
+
+            if (responseData != "TCPOK")
+                error = "Yazıcı sunucusundan cevap alınamadı " + responseData;
+            if (printer_responseData != "OK")
+                error = printer_responseData;
+            return error;
+        }
     }
  }

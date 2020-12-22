@@ -32,7 +32,13 @@
         public string productName { get; set; }
         [Display(Name = "Ürün Kodu")]
         public int productID { get; set; }
-        public virtual ICollection<ProductModel> products { get; set; }
+        //        public virtual ICollection<ProductModel> products { get; set; }
+
+        [Display(Name = "Ürün Barkod")]
+        [StringLength(13)]
+        public string productBarcodeID { get; set; }
+
+        public virtual ICollection<products> Products { get; set; }
         [Display(Name = "Üretim Lot No")]
         public string productionLotID { get; set; }
         [Display(Name = "Miktar")]

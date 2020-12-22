@@ -23,8 +23,6 @@ namespace order_and_sales_management_ver1.Models
         public int salesLineId { get; set; }
         [Display(Name = "Personel No")]
         public int personelID { get; set; }
-        [Display(Name = "Ürün No")]
-        public int productID { get; set; }
 
         [Display(Name = "Miktar")]
         public float amount { get; set; }
@@ -38,9 +36,6 @@ namespace order_and_sales_management_ver1.Models
         [NotMapped]
         [Display(Name ="Personel")]
         public string personelNameSurname { get; set; }
-        [NotMapped]
-        [Display(Name = "Ürün Barkodu")]
-        public string barcodID { get; set; }
         public int typeOfCollection { get; set; }
         [Key]
         [Column(Order = 3)]
@@ -49,7 +44,7 @@ namespace order_and_sales_management_ver1.Models
         [Display(Name = "Ürün Barkod")]
         public string productBarcodeID { get; set; }
         public virtual EmployeesModels employeesmodels { get; set; }
-        public virtual ProductModel ProductModel { get; set; }
+
         [NotMapped]
         public virtual products Products { get; set; }
         public virtual stocklocationmodel location { get; set; }
@@ -64,8 +59,6 @@ namespace order_and_sales_management_ver1.Models
         public int salesID { get; set; }
         [JsonProperty("personelID")]
         public int personelID { get; set; }
-        [JsonProperty("productID")]
-        public int productID { get; set; }
 
         [JsonProperty("productBarcodeID")]
         [StringLength(13)]

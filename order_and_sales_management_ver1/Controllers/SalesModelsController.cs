@@ -52,12 +52,12 @@ public class SalesModelsController : Controller
                 salesModel.productBarcodeID = item.productBarcodeID;
                 salesModel.locationID = location;
                 salesModel.personelID = item.personelID;
-                salesModel.productID = item.productID;
                 salesModel.saleDate = DateTime.Today;
                 salesModel.salesID = item.salesID;
                 salesModel.dueAmount = item.tutar;
                 salesModel.salesLineId = i;
                 salesModel.typeOfCollection = 0;
+                salesModel.saleTime = DateTime.Now;
                 if (_context.salesmodels.Find(salesModel.saleDate,salesModel.salesID,salesModel.salesLineId,salesModel.locationID) == null)
                 {
                     _context.salesmodels.Add(salesModel);
@@ -78,13 +78,11 @@ public class SalesModelsController : Controller
                 sale_item.personelID = sale_item.employeesmodels.personelID;
                 sale_item.productBarcodeID = barcodeID;
                 sale_item.personelNameSurname = sale_item.employeesmodels.persName+" "+ sale_item.employeesmodels.persSurName;
-                sale_item.productID = productsView.productID;
                 sale_item.amount = 1;
                 sale_item.tutar = (decimal)(sale_item.amount * productsView.productRetailPrice);
                 sale_item.dueAmount = sale_item.amount * productsView.productRetailPrice;
                 sale_item.Products= new products();
                 sale_item.Products.productName = productsView.productName;
-                sale_item.Products.productID= productsView.productID;
             }
             return sale_item;
         }
@@ -117,7 +115,7 @@ public class SalesModelsController : Controller
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("saleDate,saleTime,salesID,salesLineId,personelID,productID,amount,paidAmount,typeOfCollection,locationID,productBarcodeID")] SalesModel salesModel)
+        public async Task<IActionResult> Create([Bind("saleDate,saleTime,salesID,salesLineId,personelID,amount,paidAmount,typeOfCollection,locationID,productBarcodeID")] SalesModel salesModel)
         {
             if (ModelState.IsValid)
             {
@@ -149,7 +147,7 @@ public class SalesModelsController : Controller
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(DateTime id, [Bind("saleDate,saleTime,salesID,salesLineId,personelID,productID,amount,paidAmount,typeOfCollection,locationID,productBarcodeID")] SalesModel salesModel)
+        public async Task<IActionResult> Edit(DateTime id, [Bind("saleDate,saleTime,salesID,salesLineId,personelID,amount,paidAmount,typeOfCollection,locationID,productBarcodeID")] SalesModel salesModel)
         {
             if (id != salesModel.saleDate)
             {

@@ -213,26 +213,6 @@ namespace order_and_sales_management_ver1.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("order_and_sales_management_ver1.Models.CrossTable", b =>
-                {
-                    b.Property<string>("pname")
-                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4")
-                        .HasMaxLength(255);
-
-                    b.Property<int>("baseID")
-                        .HasColumnType("int");
-
-                    b.Property<int>("packedID")
-                        .HasColumnType("int");
-
-                    b.Property<int>("productID")
-                        .HasColumnType("int");
-
-                    b.HasKey("pname");
-
-                    b.ToTable("CrossTable");
-                });
-
             modelBuilder.Entity("order_and_sales_management_ver1.Models.EmployeesModels", b =>
                 {
                     b.Property<int>("personelID")
@@ -341,40 +321,10 @@ namespace order_and_sales_management_ver1.Migrations
                     b.Property<int>("change50TL")
                         .HasColumnType("int");
 
+                    b.Property<int>("change5KRS")
+                        .HasColumnType("int");
+
                     b.Property<int>("change5TL")
-                        .HasColumnType("int");
-
-                    b.Property<int>("diger100TL")
-                        .HasColumnType("int");
-
-                    b.Property<int>("diger10KRS")
-                        .HasColumnType("int");
-
-                    b.Property<int>("diger10TL")
-                        .HasColumnType("int");
-
-                    b.Property<int>("diger1TL")
-                        .HasColumnType("int");
-
-                    b.Property<int>("diger200TL")
-                        .HasColumnType("int");
-
-                    b.Property<int>("diger20TL")
-                        .HasColumnType("int");
-
-                    b.Property<int>("diger25KRS")
-                        .HasColumnType("int");
-
-                    b.Property<int>("diger50KRS")
-                        .HasColumnType("int");
-
-                    b.Property<int>("diger50TL")
-                        .HasColumnType("int");
-
-                    b.Property<int>("diger5TL")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("employeepersonelID")
                         .HasColumnType("int");
 
                     b.Property<float>("krediKartıToplam")
@@ -410,6 +360,9 @@ namespace order_and_sales_management_ver1.Migrations
                     b.Property<int>("nakit50TL")
                         .HasColumnType("int");
 
+                    b.Property<int>("nakit5KRS")
+                        .HasColumnType("int");
+
                     b.Property<int>("nakit5TL")
                         .HasColumnType("int");
 
@@ -427,16 +380,16 @@ namespace order_and_sales_management_ver1.Migrations
 
                     b.HasKey("mutabakatTimeStamp", "locationID", "typeOfMutabakat");
 
-                    b.HasIndex("employeepersonelID");
+                    b.HasIndex("personelID");
 
                     b.ToTable("kasamutabakat");
                 });
 
             modelBuilder.Entity("order_and_sales_management_ver1.Models.LabelModel", b =>
                 {
-                    b.Property<int>("productID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                    b.Property<string>("productBarcodeID")
+                        .HasColumnType("varchar(13) CHARACTER SET utf8mb4")
+                        .HasMaxLength(13);
 
                     b.Property<string>("alerji")
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
@@ -448,9 +401,6 @@ namespace order_and_sales_management_ver1.Migrations
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
 
                     b.Property<string>("productAmount")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
-
-                    b.Property<string>("productBarcodID")
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
 
                     b.Property<string>("productContents")
@@ -474,7 +424,7 @@ namespace order_and_sales_management_ver1.Migrations
                     b.Property<string>("productStoringCond")
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
 
-                    b.HasKey("productID");
+                    b.HasKey("productBarcodeID");
 
                     b.ToTable("labelmodels");
                 });
@@ -490,6 +440,9 @@ namespace order_and_sales_management_ver1.Migrations
                     b.Property<DateTime>("validTo")
                         .HasColumnType("datetime(6)");
 
+                    b.Property<int>("EntryUserID")
+                        .HasColumnType("int");
+
                     b.Property<float>("loadedProductAmount")
                         .HasColumnType("float");
 
@@ -501,6 +454,10 @@ namespace order_and_sales_management_ver1.Migrations
 
                     b.Property<float>("productAmount")
                         .HasColumnType("float");
+
+                    b.Property<string>("productBarcodeID")
+                        .HasColumnType("varchar(13) CHARACTER SET utf8mb4")
+                        .HasMaxLength(13);
 
                     b.Property<int>("productID")
                         .HasColumnType("int");
@@ -518,8 +475,6 @@ namespace order_and_sales_management_ver1.Migrations
                         .HasColumnType("datetime(6)");
 
                     b.HasKey("orderID", "orderLineNo", "validTo");
-
-                    b.HasIndex("productID");
 
                     b.HasIndex("orderID", "validTo");
 
@@ -583,46 +538,9 @@ namespace order_and_sales_management_ver1.Migrations
                         .HasColumnType("varchar(13) CHARACTER SET utf8mb4")
                         .HasMaxLength(13);
 
-                    b.Property<int>("productID")
-                        .HasColumnType("int");
-
                     b.HasKey("PackedProductID", "PackagedProductLineNo", "recDate", "recStatus");
 
-                    b.HasIndex("productID");
-
                     b.ToTable("PackagedProductDetailsModel");
-                });
-
-            modelBuilder.Entity("order_and_sales_management_ver1.Models.ProductModel", b =>
-                {
-                    b.Property<int>("productID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    b.Property<string>("ProductName")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
-
-                    b.Property<string>("productBarcodeID")
-                        .HasColumnType("varchar(13) CHARACTER SET utf8mb4")
-                        .HasMaxLength(13);
-
-                    b.Property<decimal>("productRetailPrice")
-                        .HasColumnType("decimal(65,30)");
-
-                    b.Property<decimal>("productWholesalePrice")
-                        .HasColumnType("decimal(65,30)");
-
-                    b.Property<int>("recStatus")
-                        .HasColumnType("int");
-
-                    b.Property<string>("sellersID")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
-
-                    b.HasKey("productID");
-
-                    b.HasIndex("productBarcodeID");
-
-                    b.ToTable("productmodels");
                 });
 
             modelBuilder.Entity("order_and_sales_management_ver1.Models.SalesModel", b =>
@@ -658,9 +576,6 @@ namespace order_and_sales_management_ver1.Migrations
                         .HasColumnType("varchar(13) CHARACTER SET utf8mb4")
                         .HasMaxLength(13);
 
-                    b.Property<int>("productID")
-                        .HasColumnType("int");
-
                     b.Property<DateTime>("saleTime")
                         .HasColumnType("datetime(6)");
 
@@ -673,42 +588,12 @@ namespace order_and_sales_management_ver1.Migrations
 
                     b.HasIndex("personelID");
 
-                    b.HasIndex("productID");
-
                     b.ToTable("salesmodels");
-                });
-
-            modelBuilder.Entity("order_and_sales_management_ver1.Models.StockItem", b =>
-                {
-                    b.Property<int>("productID")
-                        .HasColumnType("int");
-
-                    b.Property<int>("locationID")
-                        .HasColumnType("int");
-
-                    b.Property<string>("productionLotID")
-                        .HasColumnType("varchar(10) CHARACTER SET utf8mb4")
-                        .HasMaxLength(10);
-
-                    b.Property<int>("recStatus")
-                        .HasColumnType("int");
-
-                    b.Property<double>("stockAmount")
-                        .HasColumnType("double");
-
-                    b.HasKey("productID", "locationID", "productionLotID");
-
-                    b.HasIndex("locationID");
-
-                    b.ToTable("stockitems");
                 });
 
             modelBuilder.Entity("order_and_sales_management_ver1.Models.TeraziScreenMapping", b =>
                 {
                     b.Property<int>("teraziID")
-                        .HasColumnType("int");
-
-                    b.Property<int>("productID")
                         .HasColumnType("int");
 
                     b.Property<string>("barcodeID")
@@ -718,9 +603,20 @@ namespace order_and_sales_management_ver1.Migrations
                     b.Property<int?>("screenSeqNo")
                         .HasColumnType("int");
 
-                    b.HasKey("teraziID", "productID");
+                    b.HasKey("teraziID", "barcodeID");
 
                     b.ToTable("TeraziScreenMapping");
+                });
+
+            modelBuilder.Entity("order_and_sales_management_ver1.Models.availableBarcodes", b =>
+                {
+                    b.Property<string>("barcodeID")
+                        .HasColumnType("varchar(13) CHARACTER SET utf8mb4")
+                        .HasMaxLength(13);
+
+                    b.HasKey("barcodeID");
+
+                    b.ToTable("AvailableBarcodes");
                 });
 
             modelBuilder.Entity("order_and_sales_management_ver1.Models.baseproduct", b =>
@@ -730,6 +626,7 @@ namespace order_and_sales_management_ver1.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("barcodeID")
+                        .IsRequired()
                         .HasColumnType("varchar(13) CHARACTER SET utf8mb4")
                         .HasMaxLength(13);
 
@@ -738,6 +635,9 @@ namespace order_and_sales_management_ver1.Migrations
 
                     b.Property<string>("name")
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<decimal>("productKDV")
+                        .HasColumnType("decimal(65,30)");
 
                     b.Property<decimal>("retailPrice")
                         .HasColumnType("decimal(65,30)");
@@ -749,6 +649,8 @@ namespace order_and_sales_management_ver1.Migrations
                         .HasColumnType("decimal(65,30)");
 
                     b.HasKey("baseId");
+
+                    b.HasAlternateKey("barcodeID");
 
                     b.ToTable("baseProducts");
                 });
@@ -788,6 +690,7 @@ namespace order_and_sales_management_ver1.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("packedProductBarcodeID")
+                        .IsRequired()
                         .HasColumnType("varchar(13) CHARACTER SET utf8mb4")
                         .HasMaxLength(13);
 
@@ -801,6 +704,8 @@ namespace order_and_sales_management_ver1.Migrations
                         .HasColumnType("decimal(65,30)");
 
                     b.HasKey("packedId");
+
+                    b.HasAlternateKey("packedProductBarcodeID");
 
                     b.ToTable("packedProducts");
                 });
@@ -824,10 +729,13 @@ namespace order_and_sales_management_ver1.Migrations
                         .HasMaxLength(13);
 
                     b.Property<string>("packedProductBarcodeID")
+                        .IsRequired()
                         .HasColumnType("varchar(13) CHARACTER SET utf8mb4")
                         .HasMaxLength(13);
 
                     b.HasKey("packedId", "contentLineNo");
+
+                    b.HasAlternateKey("packedProductBarcodeID", "contentLineNo");
 
                     b.HasIndex("baseId");
 
@@ -948,18 +856,14 @@ namespace order_and_sales_management_ver1.Migrations
             modelBuilder.Entity("order_and_sales_management_ver1.Models.KasaMutabakat", b =>
                 {
                     b.HasOne("order_and_sales_management_ver1.Models.EmployeesModels", "employee")
-                        .WithMany()
-                        .HasForeignKey("employeepersonelID");
+                        .WithMany("kasamutabakat")
+                        .HasForeignKey("personelID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("order_and_sales_management_ver1.Models.OrderDetailsModel", b =>
                 {
-                    b.HasOne("order_and_sales_management_ver1.Models.ProductModel", "ProductModel")
-                        .WithMany("orderdetailsmodels")
-                        .HasForeignKey("productID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("order_and_sales_management_ver1.Models.OrderModel", "OrderModel")
                         .WithMany("orderdetailsmodels")
                         .HasForeignKey("orderID", "validTo")
@@ -982,15 +886,6 @@ namespace order_and_sales_management_ver1.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("order_and_sales_management_ver1.Models.PackagedProductDetailsModel", b =>
-                {
-                    b.HasOne("order_and_sales_management_ver1.Models.ProductModel", "ProductModel")
-                        .WithMany("packagedproductdetailsmodels")
-                        .HasForeignKey("productID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("order_and_sales_management_ver1.Models.SalesModel", b =>
                 {
                     b.HasOne("order_and_sales_management_ver1.Models.stocklocationmodel", "location")
@@ -1002,27 +897,6 @@ namespace order_and_sales_management_ver1.Migrations
                     b.HasOne("order_and_sales_management_ver1.Models.EmployeesModels", "employeesmodels")
                         .WithMany("sales")
                         .HasForeignKey("personelID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("order_and_sales_management_ver1.Models.ProductModel", "ProductModel")
-                        .WithMany("salesmodels")
-                        .HasForeignKey("productID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("order_and_sales_management_ver1.Models.StockItem", b =>
-                {
-                    b.HasOne("order_and_sales_management_ver1.Models.stocklocationmodel", "stocklocationmodel")
-                        .WithMany()
-                        .HasForeignKey("locationID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("order_and_sales_management_ver1.Models.ProductModel", "product")
-                        .WithMany()
-                        .HasForeignKey("productID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

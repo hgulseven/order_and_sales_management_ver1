@@ -20,14 +20,11 @@ namespace order_and_sales_management_ver1.Models
         [Key]
         [Column(Order = 3)]
         public DateTime recDate { get; set; }
-
         public double Amount { get; set; }
-
-        public int productID { get; set; }
         [StringLength(13)]
         public string productBarcodeID { get; set; }
         public int customerID { get; set; }
-        public virtual ProductModel ProductModel { get; set; }
-
+        [NotMapped]
+        public virtual products Products { get; set; }
     }
 }

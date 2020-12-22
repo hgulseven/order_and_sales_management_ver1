@@ -18,7 +18,6 @@ namespace order_and_sales_management_ver1.Controllers
     public class LabelModelsController : Controller
     {
         private readonly ApplicationDbContext _context;
-        private string error="";
 
         public LabelModelsController(ApplicationDbContext context)
         {
@@ -32,7 +31,7 @@ namespace order_and_sales_management_ver1.Controllers
         }
 
         // GET: LabelModels/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Details(string? id)
         {
             if (id == null)
             {
@@ -40,7 +39,7 @@ namespace order_and_sales_management_ver1.Controllers
             }
 
             var labelModel = await _context.labelmodels
-                .FirstOrDefaultAsync(m => m.productID == id);
+                .FirstOrDefaultAsync(m => m.productBarcodeID== id);
             if (labelModel == null)
             {
                 return NotFound();
@@ -56,15 +55,14 @@ namespace order_and_sales_management_ver1.Controllers
 
             if (BarcodeID != null)
             {
-                labelModel = _context.labelmodels.FirstOrDefault<LabelModel>(x => x.productBarcodID == BarcodeID);
+                labelModel = _context.labelmodels.FirstOrDefault<LabelModel>(x => x.productBarcodeID == BarcodeID);
                 if (labelModel == null)
                 {
                     products product = _context.Products.FirstOrDefault<products>(x => x.productBarcodeID == BarcodeID);
                     if (product != null)
                     {
                         labelModel = new LabelModel();
-                        labelModel.productBarcodID = BarcodeID;
-                        labelModel.productID = product.productID;
+                        labelModel.productBarcodeID = BarcodeID;
                         labelModel.productName = product.productName;
                         labelModel.productContents = "İÇİNDEKİLER: ŞEKER,MISIR NİŞASTASI, A.FISTIĞIASİTLİĞİ DÜZENLEYİCİ SİTRİK ASİT(E-330)";
                         labelModel.productLawStr = "BU ÜRÜN TÜRK GIDA KODEKSİ YÖNETMELİĞİ LOKUM TEBLİĞİNE  UYGUN OLARAK ÜRETİLMİŞTİR.";
@@ -89,12 +87,12 @@ namespace order_and_sales_management_ver1.Controllers
         }
 
         // GET: LabelModels/Create
-        public IActionResult Create(int id)
+        public IActionResult Create(string id)
         {
             LabelModel labelModel = new LabelModel();
-                if (id != 0)
+                if (id != null && id != "")
                 {
-                    labelModel = _context.labelmodels.FirstOrDefault<LabelModel>(x => x.productID == id);
+                    labelModel = _context.labelmodels.FirstOrDefault<LabelModel>(x => x.productBarcodeID== id);
                     if (labelModel != null)
                         labelModel.recordExists = "yes";
                     else
@@ -119,7 +117,7 @@ namespace order_and_sales_management_ver1.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("productID,productName,productAmount,productContents,productLawStr, productDuration,  productStoringCond,productLotNo,productShelfLife,productBarcodID,recordExists,companyInfo,mensei,alerji")] LabelModel labelModel)
+        public async Task<IActionResult> Create([Bind("productName,productAmount,productContents,productLawStr, productDuration,  productStoringCond,productLotNo,productShelfLife,productBarcodeID,recordExists,companyInfo,mensei,alerji")] LabelModel labelModel)
         {
             if (ModelState.IsValid)
             {
@@ -133,7 +131,7 @@ namespace order_and_sales_management_ver1.Controllers
                     }
                     catch (DbUpdateConcurrencyException)
                     {
-                        if (!LabelModelExists(labelModel.productID))
+                        if (!LabelModelExists(labelModel.productBarcodeID))
                         {
                             return NotFound();
                         }
@@ -154,14 +152,14 @@ namespace order_and_sales_management_ver1.Controllers
         }
 
         // GET: LabelModels/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Edit(string? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var labelModel = await _context.labelmodels.FindAsync(id);
+            var labelModel = await _context.labelmodels.FirstOrDefaultAsync(m=>m.productBarcodeID==id);
             if (labelModel == null)
             {
                 return NotFound();
@@ -169,44 +167,8 @@ namespace order_and_sales_management_ver1.Controllers
             return View(labelModel);
         }
 
-        // POST: LabelModels/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-/*
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("productID,productName,productAmount,productContents,productLawStr, productStoringCond,productLotNo,productShelfLife,productBarcodID,recordExists,mensei, alerji")] LabelModel labelModel)
-        {
-            if (id != labelModel.productID)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(labelModel);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!LabelModelExists(labelModel.productID))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            return View(labelModel);
-        }
-*/
         // GET: LabelModels/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        public async Task<IActionResult> Delete(string? id)
         {
             if (id == null)
             {
@@ -214,7 +176,7 @@ namespace order_and_sales_management_ver1.Controllers
             }
 
             var labelModel = await _context.labelmodels
-                .FirstOrDefaultAsync(m => m.productID == id);
+                .FirstOrDefaultAsync(m => m.productBarcodeID == id);
             if (labelModel == null)
             {
                 return NotFound();
@@ -226,19 +188,19 @@ namespace order_and_sales_management_ver1.Controllers
         // POST: LabelModels/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> DeleteConfirmed(string id)
         {
-            var labelModel = await _context.labelmodels.FindAsync(id);
+            var labelModel = await _context.labelmodels.FirstOrDefaultAsync(m=>m.productBarcodeID == id);
             _context.labelmodels.Remove(labelModel);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool LabelModelExists(int id)
+        private bool LabelModelExists(string id)
         {
-            return _context.labelmodels.Any(e => e.productID == id);
+            return _context.labelmodels.Any(e => e.productBarcodeID == id);
         }
-        public async Task<IActionResult> Print(int? id)
+        public async Task<IActionResult> Print(string? id)
         {
             if (id == null)
             {
@@ -246,7 +208,7 @@ namespace order_and_sales_management_ver1.Controllers
             }
 
             var labelModel = await _context.labelmodels
-                .FirstOrDefaultAsync(m => m.productID == id);
+                .FirstOrDefaultAsync(m => m.productBarcodeID == id);
             if (labelModel == null)
             {
                 return NotFound();
@@ -270,17 +232,17 @@ namespace order_and_sales_management_ver1.Controllers
         // POST: LabelModels/Delete/5
         [HttpPost, ActionName("Print")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> PrintConfirmed(int id, [Bind("productID,numberOfCopies")] LabelModel labelModel)
+        public async Task<IActionResult> PrintConfirmed(string id, [Bind("productBarcodeID,numberOfCopies")] LabelModel labelModel)
         {
             int numberOfCopies = labelModel.numberOfCopies;
-            var printModel = await _context.labelmodels.FindAsync(labelModel.productID);
+            var printModel = await _context.labelmodels.FirstOrDefaultAsync(m=>m.productBarcodeID==labelModel.productBarcodeID);
             printModel.numberOfCopies= labelModel.numberOfCopies;
             LabelData labelData = new LabelData();
             labelData.numberOfCopies = numberOfCopies;
             labelData.headerLines = new List<string>();
             labelData.detailLines = new List<string>();
             labelData.footerLines = new List<string>();
-            labelData.barcode = printModel.productBarcodID;
+            labelData.barcode = printModel.productBarcodeID;
             labelData.typeOfPrintMedia = "Label";
             labelData.typeOfLabel = printModel.typeOfLabel;
             labelData.headerLines.Add(printModel.productName);
@@ -298,8 +260,12 @@ namespace order_and_sales_management_ver1.Controllers
             labelData.footerLines.Add(printModel.companyInfo);
             SocketClient socketClient = new SocketClient();
             string jsonStr = JsonConvert.SerializeObject(labelData);
-            socketClient.StartClient(jsonStr);
-            return RedirectToAction(nameof(Index));
+            string error = socketClient.StartClient(jsonStr);
+            if (error != "")
+                ModelState.AddModelError("yazıcı", error);
+            else
+                return RedirectToAction(nameof(Index));
+            return View(printModel);
         }
     }
     

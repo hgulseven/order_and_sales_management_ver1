@@ -34,7 +34,7 @@
         </div>
     </div>
     <div class="table-responsive">
-        <table class="table table-striped table-curved table-row-height" style="font-size:0.9em;height:30px">
+        <table class="table table-striped table-curved table-sm" style="font-size:0.9em">
             <tr>
                 <th><label asp-for="suplier" style="height:25px" class="control-label"></label></th>
                 <td>
@@ -64,96 +64,103 @@
         </table>
     </div>
     <div class="table-responsive">
-        <table class="table table-striped table-curved table-row-height" style="font-size:0.9em;height:30px" id="sellersView">
-            <thead class="table-head">
-                <tr>
-                    <th>
-                        <label asp-for="invoiceLines[0].sellersIDForItem" style="font-size:0.8em; height:25px" class="control-label"></label>
-                    </th>
-                    <th>
-                        <label asp-for="invoiceLines[0].itemName" style="font-size:0.8em; height:25px" class="control-label"></label>
-                    </th>
-                    <th>
-                        <label asp-for="invoiceLines[0].itemDesc" style="font-size:0.8em; height:25px" class="control-label"></label>
-                    </th>
-                    <th>
-                        <label asp-for="invoiceLines[0].invoicedQuantity" style="font-size:0.8em; height:25px" class="control-label"></label>
-                    </th>
-                    <th>
-                        <label asp-for="invoiceLines[0].itemPrice" style="font-size:0.8em; height:25px" class="control-label"></label>
-                    </th>
-                    <th>
-                        <label asp-for="invoiceLines[0].urunKodu" style="font-size:0.8em; height:25px" class="control-label"></label>
-                    </th>
-                    <th></th>
-                </tr>
-            </thead>
-            @foreach (var item in Model.invoiceLines)
-            {
-                <tr id=@item.orderID style="border-bottom: 1px solid #cdd0d4;">
-                    <td>
-                        <input asp-for=@item.sellersIDForItem readonly style="font-size:0.8em; height:25px" class="form-control" >
-                    </td>
-                    <td>
-                        <input asp-for=@item.itemName style="font-size:0.8em; height:25px" readonly class="form-control">
-                    </td>
-                    <td>
-                        <input asp-for=@item.itemDesc readonly style="font-size:0.8em; height:25px" class="form-control" >
-                    </td>
-                    <td>
-                        <input asp-for=@item.invoicedQuantity style="font-size:0.8em; height:25px" readonly class="form-control" >
-                    </td>
-                    <td>
-                        <input asp-for=@item.itemPrice readonly style="font-size:0.8em; height:25px" class="form-control" >
-                    </td>
-                    <td>
-                        <input asp-for=@item.urunKodu style="font-size:0.8em; height:25px" class="form-control" id="urunKodu_@item.sellersIDForItem">
-                    </td>
-                    <td>
-                        <input type="button" class="btn btn-danger" value="Ürün Ara" onclick="searchProductId('@item.itemDesc','@item.sellersIDForItem')" />
-                    </td>
-                </tr>
-
-            }
-        </table>
-        <div id="searchView" title="Edit Data" hidden="hidden">
-            <div class="row">
-                <div class="col-md-6">
-                    <input asp-for="product.ProductName" id="product" class="form-control" />
-                </div>
-                <div class="col-md-6">
-                    <input type="button" value="Ürün Ara" class="btn btn-primary btn" onclick="getProducts()">
-                    <input hidden="hidden" id="selectedRowForSearch" value="" />
-                </div>
-            </div>
-            <table class="table table-striped table-curved table_data" style="font-size:0.7em" id="products">
+            <table class="table table-striped table-curved table-sm" style="font-size:0.9em" id="sellersView">
                 <thead class="table-head">
                     <tr>
                         <th>
-                            @Html.DisplayName("Ürün Id")
+                            <label asp-for="invoiceLines[0].sellersIDForItem" style="font-size:0.9em" class="control-label"></label>
                         </th>
                         <th>
-                            @Html.DisplayName("Ürün Adı")
+                            <label asp-for="invoiceLines[0].itemName" style="font-size:0.9em" class="control-label"></label>
                         </th>
-                        <th>@Html.DisplayName("Ürün Fiyatı")</th>
+                        <th>
+                            <label asp-for="invoiceLines[0].itemDesc" style="font-size:0.9em" class="control-label"></label>
+                        </th>
+                        <th>
+                            <label asp-for="invoiceLines[0].invoicedQuantity" style="font-size:0.9em" class="control-label"></label>
+                        </th>
+                        <th>
+                            <label asp-for="invoiceLines[0].itemPrice" style="font-size:0.9em" class="control-label"></label>
+                        </th>
+                        <th>
+                            <label asp-for="invoiceLines[0].productKDV" style="font-size:0.9em" class="control-label"></label>
+                        </th>
+
+                        <th>
+                            <label asp-for="invoiceLines[0].urunKodu" style="font-size:0.9em" class="control-label"></label>
+                        </th>
                         <th></th>
                     </tr>
                 </thead>
-                <tbody>
-                    <tr>
-                        <td>
-                        </td>
-                        <td>
-                        </td>
-                        <td>
-                        </td>
-                        <td>
-                        </td>
-                    </tr>
-                </tbody>
+                @foreach (var item in Model.invoiceLines)
+                {
+            <tr id=@item.orderID style="border-bottom: 1px solid #cdd0d4;">
+                <td>
+                    <input asp-for=@item.sellersIDForItem readonly style="font-size:0.9em; height:25px" class="form-control">
+                </td>
+                <td>
+                    <input asp-for=@item.itemName style="font-size:0.9em; height:25px" readonly class="form-control">
+                </td>
+                <td>
+                    <input asp-for=@item.itemDesc readonly style="font-size:0.9em; height:25px" class="form-control">
+                </td>
+                <td>
+                    <input asp-for=@item.invoicedQuantity style="font-size:0.9em; height:25px" readonly class="form-control">
+                </td>
+                <td>
+                    <input asp-for=@item.itemPrice readonly style="font-size:0.9em; height:25px" class="form-control">
+                </td>
+                <td>
+                    <input asp-for=@item.productKDV readonly style="font-size:0.9em; height:25px" class="form-control">
+                </td>
+                <td>
+                    <input asp-for=@item.urunKodu style="font-size:0.9em; height:25px" class="form-control" id="urunKodu_@item.sellersIDForItem">
+                </td>
+                <td>
+                    <input type="button" class="btn btn-danger btn-sm" value="Ürün Ara" onclick="searchProductId('@item.itemDesc','@item.sellersIDForItem')" />
+                </td>
+            </tr>
+
+                }
             </table>
-        </div>
-    </div>
+            <div id="searchView" title="Edit Data" hidden="hidden">
+                <div class="row">
+                    <div class="col-md-6">
+                        <input asp-for="Product.productName" id="product" class="form-control" />
+                    </div>
+                    <div class="col-md-6">
+                        <input type="button" value="Ürün Ara" class="btn btn-primary btn" onclick="getProducts()">
+                        <input hidden="hidden" id="selectedRowForSearch" value="" />
+                    </div>
+                </div>
+                <table class="table table-striped table-curved table_data" style="font-size:0.7em" id="products">
+                    <thead class="table-head">
+                        <tr>
+                            <th>
+                                @Html.DisplayName("Ürün Id")
+                            </th>
+                            <th>
+                                @Html.DisplayName("Ürün Adı")
+                            </th>
+                            <th>@Html.DisplayName("Ürün Fiyatı")</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                            </td>
+                            <td>
+                            </td>
+                            <td>
+                            </td>
+                            <td>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+</div>
 </form>
 <script>
     function searchProductId(pName,urunKodu) {

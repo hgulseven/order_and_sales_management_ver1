@@ -28,7 +28,7 @@ namespace order_and_sales_management_ver1.Models
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:F2}")]
         public decimal productWholesalePrice { get; set; }
         public virtual List<packedproductdetail> packedProductDetails{ get; set; }
-
+      
         [NotMapped]
         public string operation { get; set; }
     }

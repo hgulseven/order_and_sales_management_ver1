@@ -18,7 +18,5 @@ namespace order_and_sales_management_ver1.Models
         public int baseID { get; set; }
         public int packedID { get; set; }
 
-        public int productID { get; set; }
-
     }
 }

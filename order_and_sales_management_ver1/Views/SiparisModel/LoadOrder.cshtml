@@ -36,17 +36,20 @@
                     </div> 
                  </div>
                 <div class="row">
-                    <table class="table table-striped table-curved table-row-height" style="font-size:0.8em" id="orderDetails">
+                    <table class="table table-striped table-curved table-row-height" style="font-size:0.9em" id="orderDetails">
                         <thead class="table-head">
                             <tr>
                                 <th width="10">
                                     @Html.LabelFor(modelItem => Model.orderdetailsmodels.FirstOrDefault().orderLineNo)
                                 </th>
                                 <th width="15">
-                                    @Html.LabelFor(modelItem => Model.orderdetailsmodels.FirstOrDefault().productID)
+                                    @Html.LabelFor(modelItem => Model.orderdetailsmodels.FirstOrDefault().productBarcodeID)
+                                </th>
+                                <th width="10">
+                                    @Html.LabelFor(modelItem => Model.orderdetailsmodels.FirstOrDefault().EntryUserID)
                                 </th>
                                 <th width="40">
-                                    @Html.LabelFor(modelItem => Model.orderdetailsmodels.FirstOrDefault().ProductModel.ProductName)
+                                    @Html.LabelFor(modelItem => Model.orderdetailsmodels.FirstOrDefault().Product.productName)
                                 </th>
                                 <th width="10">
                                     @Html.LabelFor(modelItem => Model.orderdetailsmodels.FirstOrDefault().productAmount)
@@ -62,25 +65,28 @@
                         <tbody>
                             @foreach (var item in Model.orderdetailsmodels)
                             {
-                                <tr>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.orderLineNo)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.ProductModel.productID)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.ProductModel.ProductName)
-                                    </td>
-                                    <td>
-                                        @Html.EditorFor(modelItem => item.productAmount, new { htmlAttributes = new { @class = "form-control", @disabled = "disabled", @style = "height:25px", id = "productAmount" + item.orderLineNo } })
-                                    </td>
-                                    <td>
-                                        @Html.EditorFor(modelItem => item.loadedProductAmount, new { htmlAttributes = new { @class = "form-control", @style = "height:25px", id = "loadedProductAmount" + item.orderLineNo } })
-                                    </td>
-                                    <td align="left">
-                                    </td>
-                                </tr>
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.orderLineNo)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Product.productBarcodeID)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.EntryUserID)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Product.productName)
+                                </td>
+                                <td>
+                                    @Html.EditorFor(modelItem => item.productAmount, new { htmlAttributes = new { @class = "form-control", @disabled = "disabled", @style = "height:25px", id = "productAmount" + item.orderLineNo } })
+                                </td>
+                                <td>
+                                    @Html.EditorFor(modelItem => item.loadedProductAmount, new { htmlAttributes = new { @class = "form-control", @style = "height:25px", id = "loadedProductAmount" + item.orderLineNo } })
+                                </td>
+                                <td align="left">
+                                </td>
+                            </tr>
                             }
                         </tbody>
                     </table>
@@ -139,13 +145,15 @@
             var orderModelDetails = [];
             for (i = 1; i < table.rows.length; i++) {
                 if (table.rows[i].cells[0].innerText.trim() != "") {
-                    orderLineNo=table.rows[i].cells[0].innerText,
-                    productID= table.rows[i].cells[1].innerText,
+                     orderLineNo=table.rows[i].cells[0].innerText,
+                     productBarcodeID = table.rows[i].cells[1].innerText,
+                     entryUserID = table.rows[i].cells[2].innerText,
                     productAmount= document.getElementById("productAmount" + table.rows[i].cells[0].innerText).value,
                     loadedProductAmount= document.getElementById("loadedProductAmount" + table.rows[i].cells[0].innerText).value
                     var obj = {
                         orderLineNo,
-                        productID,
+                        entryUserID,
+                        productBarcodeID,
                         productAmount,
                         loadedProductAmount
                     }

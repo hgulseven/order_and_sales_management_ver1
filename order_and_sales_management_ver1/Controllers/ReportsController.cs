@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using order_and_sales_management_ver1.Models;
 using Newtonsoft.Json;
 using MySql.Data.MySqlClient;
-
+using management_ver1.Controllers;
 
 namespace order_and_sales_management_ver1.Controllers
 {

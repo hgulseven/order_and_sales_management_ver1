@@ -37,6 +37,8 @@ namespace order_and_sales_management_ver1.Models
             [Display(Name = "Gülseven Ürün Kodu")]
             [BindRequired]
             public string urunKodu { get; set; }
+            [Display(Name = "KDV Oranı")]
+            public decimal productKDV { get; set; }
 
         }
 
@@ -61,8 +63,9 @@ namespace order_and_sales_management_ver1.Models
             [NotMapped]
 
             public List<InvoiceLine> invoiceLines { get; set; }                    /* items on the invoice */
-            public ProductModel product { get; set; }
-            public List<ProductModel> products { get; set; }
+            [NotMapped]
+            public products Product { get; set; }
+            public List<products> Products { get; set; }
         public Invoice()
         {
             /*this.invc= new InvoiceData();*/
@@ -93,7 +96,7 @@ namespace order_and_sales_management_ver1.Models
                     allowanceAmount = 0;
                 }
                 taxAmount = decimal.Parse(xmlKeyValuePairs.getInvoiceValueForKey("TaxTotal.TaxAmount", attrib).Replace('.', ','));
-                taxPercentage = decimal.Parse(xmlKeyValuePairs.getInvoiceValueForKey("TaxTotal.TaxSubtotal.Percent", attrib).Replace('.',','));
+                taxPercentage = decimal.Parse(xmlKeyValuePairs.getInvoiceValueForKey("TaxTotal.TaxSubtotal.Percent", attrib).Replace('.',','))/100;
                 amountBeforeTax = decimal.Parse(xmlKeyValuePairs.getInvoiceValueForKey("TaxTotal.TaxSubtotal.TaxableAmount", attrib).Replace('.', ','));
                 int numberOfInvoiceLines = xmlKeyValuePairs.getLineCountOfInvoice();
                 for (i = 0; i < numberOfInvoiceLines; i++)
@@ -115,10 +118,13 @@ namespace order_and_sales_management_ver1.Models
                     {
                         invoiceLine.taxableAmount = decimal.Parse(xmlKeyValuePairs.getInvoiceLineValueForKey("InvoiceLine.TaxTotal.TaxSubtotal.TaxableAmount", i, attrib).Replace('.', ','));
                         invoiceLine.taxAmount = decimal.Parse(xmlKeyValuePairs.getInvoiceLineValueForKey("InvoiceLine.TaxTotal.TaxSubtotal.TaxAmount", i, attrib).Replace('.', ','));
-                    } catch (Exception ex)
+                        invoiceLine.productKDV = decimal.Parse(xmlKeyValuePairs.getInvoiceLineValueForKey("InvoiceLine.TaxTotal.TaxSubtotal.Percent", i, attrib)) / 100;
+                    }
+                    catch (Exception ex)
                     {
                         invoiceLine.taxAmount = 0;
                         invoiceLine.taxableAmount = 0;
+                        invoiceLine.productKDV = taxPercentage;
                     }
                     invoiceLine.itemName = xmlKeyValuePairs.getInvoiceLineValueForKey("InvoiceLine.Item.Name", i, attrib);
                     invoiceLine.itemDesc = xmlKeyValuePairs.getInvoiceLineValueForKey("InvoiceLine.Item.Description", i, attrib);

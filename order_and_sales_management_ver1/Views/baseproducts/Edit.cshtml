@@ -10,43 +10,81 @@
     @Html.ValidationSummary(true)
 </div>
 <hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+<form asp-action="Edit">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="row">
+        <div class="col-md-2">
+            <label asp-for="name" class="control-label" style="font-weight:bold"></label>
             <input type="hidden" asp-for="baseId" />
-            <div class="form-group">
-                <label asp-for="name" class="control-label"></label>
-                <input asp-for="name" class="form-control" />
-                <span asp-validation-for="name" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="barcodeID" class="control-label"></label>
-                <input asp-for="barcodeID" class="form-control" readonly />
-                <input asp-for="barcodeID" class="form-control" hidden/>
-                <span asp-validation-for="barcodeID" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="retailPrice" class="control-label"></label>
-                <input asp-for="retailPrice" class="form-control" />
-                <span asp-validation-for="retailPrice" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="wholeSalePrice" class="control-label"></label>
-                <input asp-for="wholeSalePrice" class="form-control" />
-                <span asp-validation-for="wholeSalePrice" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Kaydet" class="btn btn-primary" />
-            </div>
-        </form>
+        </div>
+        <div class="col-md-4">
+            <input asp-for="name" class="form-control" />
+            <span asp-validation-for="name" class="text-danger"></span>
+        </div>
+        <div class="col-md-2">
+            <label asp-for="barcodeID" class="control-label" style="font-weight:bold"></label>
+        </div>
+        <div class="col-md-4">
+            <input asp-for="barcodeID" class="form-control"/>
+            <span asp-validation-for="barcodeID" class="text-danger"></span>
+        </div>
     </div>
-</div>
+    <br />
+    <div class="row">
+        <div class="col-md-2">
+            <label asp-for="wholeSalePrice" class="control-label" style="font-weight:bold"></label>
+        </div>
+        <div class="col-md-4">
+            <input asp-for="wholeSalePrice" class="form-control" />
+            <span asp-validation-for="wholeSalePrice" class="text-danger"></span>
+        </div>
+        <div class="col-md-6">
+        </div>
+    </div>
+    <br />
 
-<div>
-    <a asp-action="Index">Liste Ekranına Geri Dönüş</a>
-</div>
+    <div class="row">
+        <div class="col-md-2">
+            <label asp-for="retailPrice" class="control-label" style="font-weight:bold"></label>
+        </div>
+        <div class="col-md-4">
+            <input asp-for="retailPrice" class="form-control" />
+            <span asp-validation-for="retailPrice" class="text-danger"></span>
+        </div>
+        <div class="col-md-6">
+        </div>
+    </div>
+    <br />
 
+    <div class="row">
+        <div class="col-md-2">
+            <label asp-for="productKDV" class="control-label" style="font-weight:bold"></label>
+        </div>
+        <div class="col-md-4">
+            <input asp-for="productKDV" class="form-control" />
+            <span asp-validation-for="productKDV" class="text-danger"></span>
+        </div>
+        <div class="col-md-6">
+        </div>
+    </div>
+    <br />
+    <div class="row">
+        <div class="col-md-2">
+            <label asp-for="sellersID" class="control-label" style="font-weight:bold"></label>
+        </div>
+        <div class="col-md-6">
+            <input asp-for="sellersID" class="form-control" />
+            <span asp-validation-for="sellersID" class="text-danger"></span>
+        </div>
+        <div class="col-md-4">
+        </div>
+    </div>
+    <br />
+    <div class="form-group">
+        <input type="submit" value="Kaydet" class="btn btn-primary" />
+        @Html.ActionLink("Liste", "Index", "baseproducts", new { }, new { @class = "btn btn-secondary" })
+    </div>
+</form>
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }

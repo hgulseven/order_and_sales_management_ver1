@@ -12,9 +12,10 @@ namespace order_and_sales_management_ver1.Controllers
 {
     public class SocketClient
     {
-        public void StartClient(string data)
+        public string StartClient(string data)
         {
              string Print_Server_IP_Address = "192.168.1.50";
+            string error = "";
 
             // string Print_Server_IP_Address = "127.0.0.1";
 
@@ -60,21 +61,26 @@ namespace order_and_sales_management_ver1.Controllers
                 catch (ArgumentNullException ane)
                 {
                     Console.WriteLine("ArgumentNullException : {0}", ane.ToString());
+                    error = "Bilinmeyen Hata" + ane.ToString();
                 }
                 catch (SocketException se)
                 {
                     Console.WriteLine("SocketException : {0}", se.ToString());
+                    error = "Yazıcya Ulaşılamadı. -- " + se.ToString();
                 }
                 catch (Exception e)
                 {
                     Console.WriteLine("Unexpected exception : {0}", e.ToString());
+                    error = "Yazıcya Ulaşılamadı. -- " + e.ToString();
                 }
 
             }
             catch (Exception e)
             {
                 Console.WriteLine(e.ToString());
+                error = "Yazıcya Ulaşılamadı. -- " + e.ToString();
             }
+            return error;
         }
     }
 }

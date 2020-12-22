@@ -14,18 +14,15 @@ namespace order_and_sales_management_ver1.Data
             : base(options)
         {
         }
-        public virtual DbSet<ProductModel> productmodels { get; set; }
         public virtual DbSet<OrderDetailsModel> orderdetailsmodels { get; set; }
         public virtual DbSet<PackagedProductDetailsModel> packagedproductdetailsmodels { get; set; }
         public virtual DbSet<SalesModel> salesmodels { get; set; }
-        public virtual DbSet<StockItem> stockitems { get; set; }
         public virtual DbSet<TeraziScreenMapping> teraziscreenmappings { get; set; }
         public DbSet<EmployeesModels> employeesmodels { get; set; }
         public DbSet<stocklocationmodel> stocklocationmodel { get; set; }
         public DbSet<terazitable> terazitable { get; set; }
         public DbSet<salescounter> salescounter { get; set; }
         public DbSet<KasaMutabakat> kasamutabakat { get; set; }
-
         public DbSet<Expenditures> expenditures { get; set; }
         public DbSet<OrderModel> OrderModel { get; set; }
         public DbSet<PackagedProductDetailsModel> packagedProductDetails { get; set; }
@@ -35,10 +32,8 @@ namespace order_and_sales_management_ver1.Data
         public DbSet<baseproduct> baseProducts { get; set; }
         public DbSet<packedproduct> packedProducts{ get; set; }
         public DbSet<packedproductdetail> packedProductDetails{ get; set; }
-
         public DbSet<products> Products { get; set; }
-
-        public DbSet<CrossTable> CrossTable { get; set; }
+        public DbSet<availableBarcodes> AvailableBarcodes { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -76,12 +71,7 @@ namespace order_and_sales_management_ver1.Data
 
             modelBuilder.Entity<OrderDetailsModel>()
                                     .HasKey(b => new { b.orderID, b.orderLineNo, b.validTo });
-
-            modelBuilder.Entity<OrderDetailsModel>()
-                                      .HasOne<ProductModel>(a => a.ProductModel)
-                                      .WithMany(b => b.orderdetailsmodels)
-                                      .HasForeignKey(a => a.productID);
-
+  
             modelBuilder.Entity<OrderDetailsModel>()
                                       .HasOne(a => a.OrderModel)
                                       .WithMany(b => b.orderdetailsmodels)
@@ -96,11 +86,6 @@ namespace order_and_sales_management_ver1.Data
                                     .HasForeignKey("personelID");
 
             modelBuilder.Entity<SalesModel>()
-                                    .HasOne(a => a.ProductModel)
-                                    .WithMany(b => b.salesmodels)
-                                    .HasForeignKey("productID");
-
-            modelBuilder.Entity<SalesModel>()
                         .HasOne(a => a.location)
                         .WithMany(b => b.sales)
                         .HasForeignKey("locationID");
@@ -111,23 +96,22 @@ namespace order_and_sales_management_ver1.Data
             modelBuilder.Entity<PackagedProductDetailsModel>()
                 .HasKey(b => new { b.PackedProductID, b.PackagedProductLineNo, b.recDate, b.recStatus });
 
-            modelBuilder.Entity<PackagedProductDetailsModel>()
-                                    .HasOne<ProductModel>(a => a.ProductModel)
-                                    .WithMany(b => b.packagedproductdetailsmodels)
-                                    .HasForeignKey("productID");
-
-            modelBuilder.Entity<StockItem>()
-                .HasKey(b => new { b.productID, b.locationID, b.productionLotID });
             modelBuilder.Entity<TeraziScreenMapping>()
-                .HasKey(b => new { b.teraziID, b.productID });
+                .HasKey(b => new { b.teraziID, b.barcodeID});
 
             modelBuilder.Entity<KasaMutabakat>()
                 .HasKey(b => new { b.mutabakatTimeStamp, b.locationID, b.typeOfMutabakat });
+
+            modelBuilder.Entity<KasaMutabakat>()
+                                    .HasOne<EmployeesModels>(a => a.employee)
+                                    .WithMany(b => b.kasamutabakat)
+                                    .HasForeignKey("personelID");
+
             modelBuilder.Entity<Expenditures>()
                 .HasKey(b => new { b.opDate, b.locationID });
-            modelBuilder.Entity<LabelModel>()
-                .HasKey(b => new { b.productID });
 
+            modelBuilder.Entity<LabelModel>()
+                .HasKey(b => new { b.productBarcodeID});
  
             modelBuilder.Entity<baseproduct>()
                     .HasKey(b => new { b.baseId });
@@ -148,16 +132,15 @@ namespace order_and_sales_management_ver1.Data
                                     .WithMany(b => b.packedProductDetail)
                                     .HasForeignKey("baseId");
 
-            modelBuilder.Entity<ProductModel>()
-                                    .HasIndex(b => b.productBarcodeID);
-
             modelBuilder.Entity<products>()
                             .HasNoKey();
+
             modelBuilder.Entity<products>().ToView("products");
-            modelBuilder.Entity<CrossTable>().HasKey("pname");
+
+            modelBuilder.Entity<baseproduct>().HasAlternateKey("barcodeID");
+            modelBuilder.Entity<packedproduct>().HasAlternateKey("packedProductBarcodeID");
+            modelBuilder.Entity<packedproductdetail>().HasAlternateKey(b => new { b.packedProductBarcodeID, b.contentLineNo });
+            modelBuilder.Entity<LabelModel>().HasAlternateKey("productBarcodeID");
         }
-
-
-
     }
 }

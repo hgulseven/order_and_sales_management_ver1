@@ -23,7 +23,7 @@ namespace order_and_sales_management_ver1.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.employeesmodels.Include(e => e.empLocation);
+            var applicationDbContext = _context.employeesmodels.Include(e => e.empLocation).Where(x=>x.recStatus==0);
             return View(await applicationDbContext.ToListAsync());
         }
 
@@ -148,14 +148,15 @@ namespace order_and_sales_management_ver1.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var employeesmodels = await _context.employeesmodels.FindAsync(id);
-            _context.employeesmodels.Remove(employeesmodels);
+            employeesmodels.recStatus = 1;
+            _context.employeesmodels.Update(employeesmodels);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool employeesmodelsExists(int id)
         {
-            return _context.employeesmodels.Any(e => e.personelID == id);
+            return _context.employeesmodels.Any(e => e.personelID == id && e.recStatus==0);
         }
     }
 }

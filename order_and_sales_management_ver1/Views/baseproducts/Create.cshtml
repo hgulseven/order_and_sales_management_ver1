@@ -6,11 +6,13 @@
 <div class="panel-info">
     <h5>Yeni Kayıt Yaratma Ekranı</h5>
 </div>
+<div class="alert alert-danger">
+    @Html.ValidationSummary(false)
+</div>
 <hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="name" class="control-label"></label>
                 <input asp-for="name" class="form-control" />
@@ -18,9 +20,12 @@
             </div>
             <div class="form-group">
                 <label asp-for="barcodeID" class="control-label"></label>
-                <input asp-for="barcodeID" class="form-control" readonly/>
-                <input asp-for="barcodeID" hidden />
+                <label>(Otomatik Barkod Ata  .</label>
+                <input type="checkbox" id="getbarcode" onchange="getBarcode()" />
+                <label>)</label>
+                <input id="dispBarcodeID" class="form-control" onblur="updateAspFileld()" />
                 <span asp-validation-for="barcodeID" class="text-danger"></span>
+                <input asp-for="barcodeID" hidden />
             </div>
             <div class="form-group">
                 <label asp-for="retailPrice" class="control-label"></label>
@@ -33,16 +38,47 @@
                 <span asp-validation-for="wholeSalePrice" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <label asp-for="productKDV" class="control-label"></label>
+                <input asp-for="productKDV" class="form-control" />
+                <span asp-validation-for="productKDV" class="text-danger"></span>
+            </div>
+            <div class="form-group">
                 <input type="submit" value="Yeni Kayıt Yarat" class="btn btn-primary" />
+                @Html.ActionLink("Liste", "Index", "baseproducts", new { }, new { @class = "btn btn-secondary" })
             </div>
         </form>
     </div>
 </div>
-
-<div>
-    <a asp-action="Index">Liste Ekranına Geri Dönüş</a>
-</div>
-
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
+<script>
+    function updateAspFileld() {
+        var dispField = document.getElementById("dispBarcodeID");
+        var aspField = document.getElementById("barcodeID");
+        aspField.value = dispField.value;
+    }
+
+    function getBarcode() {
+        var elemCheckBox = document.getElementById("getbarcode")
+        var aspField = document.getElementById("barcodeID");
+        var dispField = document.getElementById("dispBarcodeID");
+        if (elemCheckBox.checked) {
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("getBarcode", "baseproducts")',
+                    data: {},
+                    success: function (data) {
+                        aspField.value = data;
+                        dispField.value = data;
+                        dispField.readOnly = true;
+                    }
+                });
+        } else {
+            elem.value = "";
+            elem.readOnly = false;
+        }
+            return false;
+        }
+
+</script>

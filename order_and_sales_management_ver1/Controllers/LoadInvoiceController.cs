@@ -18,7 +18,6 @@ namespace order_and_sales_management_ver1.Controllers
     public class LoadInvoiceController : Controller
     {
         private readonly ApplicationDbContext _context;
-        private string error = "";
 
         public LoadInvoiceController(ApplicationDbContext context)
         {
@@ -81,6 +80,7 @@ namespace order_and_sales_management_ver1.Controllers
                 var invoicedQuantities = HttpContext.Request.Form["item.invoicedQuantity"].ToArray();
                 var itemNames= HttpContext.Request.Form["item.itemName"].ToArray();
                 var itemDescs = HttpContext.Request.Form["item.itemDesc"].ToArray();
+                var itemKDVs = HttpContext.Request.Form["item.productKDV"].ToArray();
                 for (int i=0; i < sellersIDForItems.Length;i++)
                 {
                     Invoice.InvoiceLine line = new Invoice.InvoiceLine();
@@ -105,6 +105,7 @@ namespace order_and_sales_management_ver1.Controllers
                         {
                             prdct.sellersID = invoice.suplier + "-" + sellersIDForItems[i];
                             prdct.wholeSalePrice= decimal.Parse(itemPrices[i]);
+                            prdct.productKDV =decimal.Parse(itemKDVs[i]);
                             _context.baseProducts.Update(prdct);
                             _context.SaveChanges();
                         }

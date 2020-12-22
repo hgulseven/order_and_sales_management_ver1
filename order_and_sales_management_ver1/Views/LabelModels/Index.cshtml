@@ -16,67 +16,69 @@
 </div>
 <div class="col-md-10">
 </div>
+<div class="table-responsive table-wrapper-scroll-y my-custom-scrollbar">
 
-<table class="table table-striped table-curved" style="font-size:0.7em">
-    <colgroup>
-        <col style="width:20%">
-        <col style="width:10%">
-        <col style="width:40%">
-        <col style="width:10%">
-        <col style="width:5%">
-        <col style="width:5%">
-        <col style="width:5%">
-        <col style="width:5%">
-    </colgroup>
-    <thead class="table-head">
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.productName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.productAmount)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.productContents)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.productBarcodID)
-            </th>
-            <th></th>
-            <th></th>
-            <th></th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
+    <table class="table table-striped table-curved table-sm" style="font-size:0.9em">
+        <colgroup>
+            <col style="width:20%">
+            <col style="width:10%">
+            <col style="width:40%">
+            <col style="width:10%">
+            <col style="width:5%">
+            <col style="width:5%">
+            <col style="width:5%">
+            <col style="width:5%">
+        </colgroup>
+        <thead class="table-head">
             <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.productName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.productAmount)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.productContents)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.productBarcodID)
-                </td>
-                <td>
-                    @Html.ActionLink("Yazdır", "Print", "LabelModels", new { id = item.productID }, new { @class = "btn btn-primary  btn-sm btn-block", @style = "font-size:12px", })
-                </td>
-                <td>
-                    @Html.ActionLink("Düzenle", "Create", "LabelModels", new { id = item.productID }, new { @class = "btn btn-secondary  btn-sm btn-block", @style = "font-size:12px", })
-                </td>
-                <td>
-                    @Html.ActionLink("Detaylar", "Details", "LabelModels", new { id = item.productID }, new { @class = "btn btn-secondary  btn-sm btn-block", @style = "font-size:12px", })
-                </td>
-                <td>
-                    @Html.ActionLink("Sil", "Delete", "LabelModels", new { id = item.productID }, new { @class = "btn btn-danger  btn-sm btn-block", @style = "font-size:12px", })
-                </td>
+                <th>
+                    @Html.DisplayNameFor(model => model.productName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.productAmount)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.productContents)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.productBarcodeID)
+                </th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.productName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.productAmount)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.productContents)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.productBarcodeID)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Yazdır", "Print", "LabelModels", new { id = item.productBarcodeID}, new { @class = "btn btn-primary  btn-sm btn-block", @style = "font-size:12px", })
+                    </td>
+                    <td>
+                        @Html.ActionLink("Düzenle", "Create", "LabelModels", new { id = item.productBarcodeID}, new { @class = "btn btn-secondary  btn-sm btn-block", @style = "font-size:12px", })
+                    </td>
+                    <td>
+                        @Html.ActionLink("Detaylar", "Details", "LabelModels", new { id = item.productBarcodeID}, new { @class = "btn btn-secondary  btn-sm btn-block", @style = "font-size:12px", })
+                    </td>
+                    <td>
+                        @Html.ActionLink("Sil", "Delete", "LabelModels", new { id = item.productBarcodeID }, new { @class = "btn btn-danger  btn-sm btn-block", @style = "font-size:12px", })
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

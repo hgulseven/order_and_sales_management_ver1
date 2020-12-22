@@ -9,9 +9,11 @@
     {
         [Display(Name = "Ürün Adı")]
         public string productName{get;set;}
-        public int productID { get; set; }
+        [StringLength(13)]
+        [Display(Name = "Ürün Barkod")]
+        public string productBarcodeID{ get; set; }
 
-        public virtual ICollection<ProductModel> products{ get; set; }
+        public virtual ICollection<products> products{ get; set; }
 
         [Display(Name = "Üretim Lot No")]
         public string productionLotID { get; set; }

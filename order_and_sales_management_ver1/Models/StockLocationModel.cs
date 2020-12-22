@@ -11,7 +11,6 @@ namespace order_and_sales_management_ver1.Models
         public string locationName { get; set; }
         public virtual ICollection<EmployeesModels> employees { get; set; }
         public virtual ICollection<OrderModel> orders { get; set; }
-
         public virtual ICollection<SalesModel> sales { get; set; }
 
 

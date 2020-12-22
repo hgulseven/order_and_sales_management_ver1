@@ -9,8 +9,9 @@ using order_and_sales_management_ver1.Models;
 using Newtonsoft.Json;
 using MySql.Data.MySqlClient;
 using System.Threading;
+using order_and_sales_management_ver1;
 
-namespace order_and_sales_management_ver1.Controllers
+namespace management_ver1.Controllers
 {
 
 
@@ -31,35 +32,32 @@ namespace order_and_sales_management_ver1.Controllers
     public class DisplaySalesController : Controller
     {
 
-        public const string SelectLastCustomerWhoDidPayment = "select max(salesID) as salesID from order_and_sales.salesmodels where typeOfCollection>0 and saleDate = @saleDate and locationID=@locationID"; /* Get maximum sales id which is paid on given date */
-        public const string UpdateLastCustomerAsNotPaid = "update order_and_sales.salesmodels set typeOfCollection = 0 where saleDate=@saleDate and salesID=@salesID and locationID=@locationID";
+        public const string SelectLastCustomerWhoDidPayment = "select max(salesID) as salesID from salesmodels where typeOfCollection>0 and saleDate = @saleDate and locationID=@locationID"; /* Get maximum sales id which is paid on given date */
+        public const string UpdateLastCustomerAsNotPaid = "update salesmodels set typeOfCollection = 0 where saleDate=@saleDate and salesID=@salesID and locationID=@locationID";
         public const string SelectCustomersWhichSentToCashier = "select  salesID,sum(amount*productRetailPrice) as tutar,max(paidAmount) as paidTutar " +
-                                                                                                                    "from order_and_sales.salesmodels left outer join order_and_sales.employeesmodels  on (salesmodels.personelID = employeesmodels.personelID) " +
-                                                                                                                    "left outer join order_and_sales.products on(salesmodels.productID=products.productID) " +
+                                                                                                                    "from salesmodels left outer join employeesmodels  on (salesmodels.personelID = employeesmodels.personelID) " +
+                                                                                                                    "left outer join products on(salesmodels.productBarcodeID=products.productBarcodeID) " +
                                                                                                                     "where typeOfCollection = 0  and salesmodels.locationID=@locationID and saleDate=@saleDate group by salesID";
 
         public const string SelectSalesDetail = "select salesmodels.personelID,salesLineID,CONCAT(persName,' ',persSurname) as employee, productName, amount, (amount*productRetailPrice) as tutar " +
-                                                                                    "from order_and_sales.salesmodels left outer join order_and_sales.employeesmodels  on (salesmodels.personelID = employeesmodels.personelID) " +
-                                                                                    "left outer join order_and_sales.products on (salesmodels.productID=products.productID) " +
+                                                                                    "from salesmodels left outer join employeesmodels  on (salesmodels.personelID = employeesmodels.personelID) " +
+                                                                                    "left outer join products on (salesmodels.productBarcodeID=products.productBarcodeID) " +
                                                                                     "where typeOfCollection = 0  and salesmodels.salesID=@salesID  and salesmodels.locationID=@locationID  and saleDate=@saleDate " +
                                                                                     "order by salesLineID";
-        public const string UpdateSalesAsPaid = "Update order_and_sales.salesmodels set typeOfCollection=@typeOfCollection, saleTime=@saleTime " +
+        public const string UpdateSalesAsPaid = "Update salesmodels set typeOfCollection=@typeOfCollection, saleTime=@saleTime " +
                                                                                    "where typeOfCollection = 0  and salesID=@salesID and saleDate = @saleDate and locationID=@locationID";
 
-        public const string UpdatePaidAmount = "Update order_and_sales.salesmodels set paidAmount=@paidTutar " +
+        public const string UpdatePaidAmount = "Update salesmodels set paidAmount=@paidTutar " +
                                                                                     "where salesID=@salesID and saleDate=@salesDate and locationID=@locationID";
         public const string EndOFDayReport = "select sum(round(paidAmount,2)) as totalPaidAmount, " +
-                                                                                           "sum(round(amount* productmodels.productRetailPrice,2)) as totalCalculatedAmount," +
+                                                                                           "sum(round(dueAmount,2)) as totalCalculatedAmount," +
                                                                                             "case salesmodels.typeOfCollection " +
                                                                                                         "when 1 then 'Nakit'  " +
                                                                                                         "when 2 then 'Kredi Kartı' " +
                                                                                                         "when 3 then 'Diğer' " +
                                                                                                         "else 'Bilinmeyen' " +
                                                                                             "end as salesType " +
-                                                                                "from order_and_sales.salesmodels " +
-                                                                                "left outer join " +
-                                                                                "order_and_sales.products" +
-                                                                                "on salesmodels.productID = products.productID " +
+                                                                                "from salesmodels " +
                                                                                 "where saleDate =@saleDate  " +
                                                                                 "group by salesType";
 
@@ -69,6 +67,7 @@ namespace order_and_sales_management_ver1.Controllers
             List<DisplaySales> displaySales = new List<DisplaySales>();
             float floatVal = 0;
             MySqlConnection cnn;
+
 
             if (User.Identity.IsAuthenticated)
             {

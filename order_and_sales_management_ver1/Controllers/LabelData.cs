@@ -39,7 +39,7 @@ namespace order_and_sales_management_ver1.Controllers
             else
                 labelData.typeOfLabel = 0;
             labelData.detailLines.Add(label.mensei);
-            labelData.barcode = label.productBarcodID;
+            labelData.barcode = label.productBarcodeID;
             labelData.numberOfCopies = label.numberOfCopies;
             String jsonOutput = JsonConvert.SerializeObject(labelData, Formatting.Indented);
             return (jsonOutput);

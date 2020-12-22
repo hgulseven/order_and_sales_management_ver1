@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
@@ -53,9 +54,13 @@ namespace order_and_sales_management_ver1
         public const int Const_Record_Active = 1;
         public const int Const_Record_Deleted=-1;
         public static string Connection_String;
-
+        public static string Program_Version;
+     
         public static void Main(string[] args)
         {
+            var thisApp = Assembly.GetExecutingAssembly();
+            AssemblyName name = new AssemblyName(thisApp.FullName);
+            Program_Version = "v. " + name.Version;
             Const_Valid_To_Date = DateTime.Parse("2099-01-01");
             CreateWebHostBuilder(args).Build().Run();
 

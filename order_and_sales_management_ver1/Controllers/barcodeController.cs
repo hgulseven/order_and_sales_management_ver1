@@ -3,7 +3,7 @@ using order_and_sales_management_ver1.Models;
 using System;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
-
+using System.Collections.Generic;
 
 namespace order_and_sales_management_ver1.Controllers
 {
@@ -13,6 +13,8 @@ namespace order_and_sales_management_ver1.Controllers
         private string barcode { get; set; }
 
         private readonly ApplicationDbContext _context;
+
+        private readonly List<int>  barcodesUsed;
 
         public barcodeController(ApplicationDbContext context)
         {
@@ -33,7 +35,22 @@ namespace order_and_sales_management_ver1.Controllers
             int cDigit = (10 - (digitsTotal % 10)) % 10;
             return (cDigit.ToString("D1"));
         }
-         public string getFirstAvailableBarcode(ref int initialProductID)
+        public IActionResult fillAvailableBarcodesTable()
+        {
+            int productCode = 1;
+
+            while (productCode <20000)
+            {
+                availableBarcodes avail = new availableBarcodes();
+                avail.barcodeID = getFirstAvailableFromProductBarcode(ref productCode);
+                _context.Add(avail);
+                _context.SaveChanges();
+                productCode = productCode + 1;
+            }
+            
+            return View();
+        }
+         public string getFirstAvailableFromProductBarcode(ref int initialProductID)
         {
             string barcodeString="";
             Boolean available = false;
@@ -43,6 +60,7 @@ namespace order_and_sales_management_ver1.Controllers
                 productCode.ToString("D5");
                 barcodeString = gulsevenPrefix + productCode.ToString("D5");
                 barcodeString = barcodeString + calcCheckDigit(barcodeString);
+
                 products pModel = _context.Products.FirstOrDefault(x => x.productBarcodeID == barcodeString);
                 if (pModel != null)
                     productCode = productCode + 1;
@@ -52,5 +70,17 @@ namespace order_and_sales_management_ver1.Controllers
             initialProductID = productCode;
             return barcodeString;
         }
+
+        public string getFirstAvailableBarcode()
+        {
+            string barcodeString = "";
+            availableBarcodes avail = new availableBarcodes();
+            avail = _context.AvailableBarcodes.FirstOrDefault();
+            barcodeString = avail.barcodeID;
+            _context.AvailableBarcodes.Remove(avail);
+            _context.SaveChanges();
+            return barcodeString;
+        }
+
     }
 }

@@ -44,11 +44,11 @@
 <body>
     <div class="container-fluid">
         <nav class="mynav_navbar navbar-fixed-top">
-            <div class="navbar-header navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse" >
-                Fonksiyonlar                                                                                          
+            <div class="navbar-header navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                Fonksiyonlar
             </div>
-           <img class="logo" src="~/images/logo.png" width="109" height="61">
-            <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">Gülseven Sipariş Ve Satış Yönetimi</a>
+            <img class="logo" src="~/images/logo.png" width="109" height="61">
+            <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">Gülseven Sipariş Ve Satış Yönetimi @order_and_sales_management_ver1.Program.Program_Version</a>
             <div class="navbar-collapse collapse" id="navbarResponsive">
                 <ul class="navbar-nav ml-auto">
                     <li><a asp-area="" asp-controller="DisplaySales" asp-action="Index">Satış Görüntüleme</a></li>
@@ -93,7 +93,7 @@
                             </ul>
                         </div>
                 </ul>
-                <partial name="_LoginPartial"/>
+                <partial name="_LoginPartial" />
             </div>
         </nav>
         <main role="main" class="pb-3">
@@ -103,7 +103,7 @@
 
     <footer class="border-top footer text-muted">
         <div class="container">
-            &copy; 2019 - Gülseven Sipariş ve Satış Yönetimi <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            &copy; 2019 - Gülseven Sipariş ve Satış Yönetimi  <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
     </footer>
 
@@ -115,9 +115,9 @@
 
         $.validator.methods.number = function (value, element) {
             var result1 = /[0-9]+[.,]?[0-9]*/.test(value);
-            var result2 = this.optional(element); 
-            return  /[0-9]+[.,]?[0-9]*/.test(value);
-            
+            var result2 = this.optional(element);
+            return /[0-9]+[.,]?[0-9]*/.test(value);
+
         }
     </script>
 </body>

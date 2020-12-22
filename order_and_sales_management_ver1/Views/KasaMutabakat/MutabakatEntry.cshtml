@@ -3,16 +3,14 @@
 @{
     ViewData["Title"] = "Create";
 }
-
-<h4>Kasa Mutabakat</h4>
+<div class="panel-info">
+    <h5>_Kasa Mutabakat</h5>
+</div>
 
 <div class="alert alert-danger">
     @Html.ValidationSummary(false)
 </div>
-
 <hr />
-
-
 <form asp-controller="KasaMutabakat" asp-action="MutabakatEntry" method="post">
     <div class="row">
         <div class="col-md-3">
@@ -36,158 +34,115 @@
         </div>
 
     </div>
-    <br />
-    <h4 style="color:white; background-color: #870c0c">Bozuk Para</h4>
+    <h6 style="color:white; background-color: #870c0c">Bozuk Para</h6>
     <div class="row">
         <div class="col-md-1">
+            <label class="control-label">@Html.DisplayNameFor(model => model.change5KRS)</label>
+            @Html.TextBoxFor(model => model.change5KRS, new { @class = "form-control calc", @style = "font-size:0.9em",@type="number", onblur = "calculateTotal()" })
+        </div>
+        <div class="col-md-1">
             <label class="control-label">@Html.DisplayNameFor(model => model.change10KRS)</label>
-            @Html.TextBoxFor(model => model.change10KRS, new { @class = "form-control calc", @type = "number", onblur = "calculateTotal()" })
+            @Html.TextBoxFor(model => model.change10KRS, new { @class = "form-control calc", @style = "font-size:0.9em",@type="number", onblur = "calculateTotal()" })
         </div>
         <div class="col-md-1">
             <label class="control-label">@Html.DisplayNameFor(model => model.change25KRS)</label>
-            @Html.TextBoxFor(model => model.change25KRS, new { @class = "form-control calc", @type = "number", onblur = "calculateTotal()" })
+            @Html.TextBoxFor(model => model.change25KRS, new { @class = "form-control calc", @style = "font-size:0.9em",@type="number", onblur = "calculateTotal()" })
         </div>
         <div class="col-md-1">
             <label class="control-label">@Html.DisplayNameFor(model => model.change50KRS)</label>
-            @Html.TextBoxFor(model => model.change50KRS, new { @class = "form-control calc", @type = "number", onblur = "calculateTotal()" })
+            @Html.TextBoxFor(model => model.change50KRS, new { @class = "form-control calc", @style = "font-size:0.9em",@type="number", onblur = "calculateTotal()" })
         </div>
         <div class="col-md-1">
             <label class="control-label">@Html.DisplayNameFor(model => model.change1TL)</label>
-            @Html.TextBoxFor(model => model.change1TL, new { @class = "form-control calc", @type = "number", onblur = "calculateTotal()" })
+            @Html.TextBoxFor(model => model.change1TL, new { @class = "form-control calc", @style = "font-size:0.9em",@type="number", onblur = "calculateTotal()" })
         </div>
         <div class="col-md-1">
             <label class="control-label">@Html.DisplayNameFor(model => model.change5TL)</label>
-            @Html.TextBoxFor(model => model.change5TL, new { @class = "form-control calc", @type = "number", onblur = "calculateTotal()" })
+            @Html.TextBoxFor(model => model.change5TL, new { @class = "form-control calc", @style = "font-size:0.9em",@type="number", onblur = "calculateTotal()" })
         </div>
         <div class="col-md-1">
             <label class="control-label">@Html.DisplayNameFor(model => model.change10TL)</label>
-            @Html.TextBoxFor(model => model.change10TL, new { @class = "form-control calc", @type = "number", onblur = "calculateTotal()" })
+            @Html.TextBoxFor(model => model.change10TL, new { @class = "form-control calc", @style = "font-size:0.9em",@type="number", onblur = "calculateTotal()" })
         </div>
         <div class="col-md-1">
             <label class="control-label">@Html.DisplayNameFor(model => model.change20TL)</label>
-            @Html.TextBoxFor(model => model.change20TL, new { @class = "form-control calc", @type = "number", onblur = "calculateTotal()" })
+            @Html.TextBoxFor(model => model.change20TL, new { @class = "form-control calc", @style = "font-size:0.9em",@type="number", onblur = "calculateTotal()" })
         </div>
         <div class="col-md-1">
             <label class="control-label">@Html.DisplayNameFor(model => model.change50TL)</label>
-            @Html.TextBoxFor(model => model.change50TL, new { @class = "form-control calc", @type = "number", onblur = "calculateTotal()" })
+            @Html.TextBoxFor(model => model.change50TL, new { @class = "form-control calc", @style = "font-size:0.9em",@type="number", onblur = "calculateTotal()" })
         </div>
         <div class="col-md-1">
             <label class="control-label">@Html.DisplayNameFor(model => model.change100TL)</label>
-            @Html.TextBoxFor(model => model.change100TL, new { @class = "form-control calc", @type = "number", onblur = "calculateTotal()" })
+            @Html.TextBoxFor(model => model.change100TL, new { @class = "form-control calc", @style = "font-size:0.9em",@type="number", onblur = "calculateTotal()" })
         </div>
         <div class="col-md-1">
             <label class="control-label">@Html.DisplayNameFor(model => model.change200TL)</label>
-            @Html.TextBoxFor(model => model.change200TL, new { @class = "form-control calc", @type = "number", onblur = "calculateTotal()" })
+            @Html.TextBoxFor(model => model.change200TL, new { @class = "form-control calc", @style = "font-size:0.9em",@type="number", onblur = "calculateTotal()" })
         </div>
         <div class="col-md-1">
             <label class="control-label">Toplam</label>
-            <input class="form-control disabled" id="BozukParaToplam" disabled readonly value="0" />
+            <input class="form-control disabled" id="BozukParaToplam" style = "font-size:0.9em" disabled readonly value="0" />
         </div>
     </div>
-    <br />
-    <h4 style="color:white; background-color: #870c0c">Nakit</h4>
+    <h6 style="color:white; background-color: #870c0c">Nakit</h6>
     <div class="row">
         <div class="col-md-1">
+            <label class="control-label">@Html.DisplayNameFor(model => model.nakit5KRS)</label>
+            @Html.TextBoxFor(model => model.nakit5KRS, new { @class = "form-control calc", @style = "font-size:0.9em", @type = "number", onblur = "calculateTotal()" })
+        </div>
+        <div class="col-md-1">
             <label class="control-label">@Html.DisplayNameFor(model => model.nakit10KRS)</label>
-            @Html.TextBoxFor(model => model.nakit10KRS, new { @class = "form-control calc", @type = "number", onblur = "calculateTotal()" })
+            @Html.TextBoxFor(model => model.nakit10KRS, new { @class = "form-control calc", @style = "font-size:0.9em", @type = "number", onblur = "calculateTotal()" })
         </div>
         <div class="col-md-1">
             <label class="control-label">@Html.DisplayNameFor(model => model.nakit25KRS)</label>
-            @Html.TextBoxFor(model => model.nakit25KRS, new { @class = "form-control calc", @type = "number", onblur = "calculateTotal()" })
+            @Html.TextBoxFor(model => model.nakit25KRS, new { @class = "form-control calc", @style = "font-size:0.9em", @type = "number", onblur = "calculateTotal()" })
         </div>
         <div class="col-md-1">
             <label class="control-label">@Html.DisplayNameFor(model => model.nakit50KRS)</label>
-            @Html.TextBoxFor(model => model.nakit50KRS, new { @class = "form-control calc", @type = "number", onblur = "calculateTotal()" })
+            @Html.TextBoxFor(model => model.nakit50KRS, new { @class = "form-control calc", @style = "font-size:0.9em", @type = "number", onblur = "calculateTotal()" })
         </div>
         <div class="col-md-1">
             <label class="control-label">@Html.DisplayNameFor(model => model.nakit1TL)</label>
-            @Html.TextBoxFor(model => model.nakit1TL, new { @class = "form-control calc", @type = "number", onblur = "calculateTotal()" })
+            @Html.TextBoxFor(model => model.nakit1TL, new { @class = "form-control calc", @style = "font-size:0.9em", @type = "number", onblur = "calculateTotal()" })
         </div>
         <div class="col-md-1">
             <label class="control-label">@Html.DisplayNameFor(model => model.nakit5TL)</label>
-            @Html.TextBoxFor(model => model.nakit5TL, new { @class = "form-control calc", @type = "number", onblur = "calculateTotal()" })
+            @Html.TextBoxFor(model => model.nakit5TL, new { @class = "form-control calc", @style = "font-size:0.9em", @type = "number", onblur = "calculateTotal()" })
         </div>
         <div class="col-md-1">
             <label class="control-label">@Html.DisplayNameFor(model => model.nakit10TL)</label>
-            @Html.TextBoxFor(model => model.nakit10TL, new { @class = "form-control calc", @type = "number", onblur = "calculateTotal()" })
+            @Html.TextBoxFor(model => model.nakit10TL, new { @class = "form-control calc", @style = "font-size:0.9em", @type = "number", onblur = "calculateTotal()" })
         </div>
         <div class="col-md-1">
             <label class="control-label">@Html.DisplayNameFor(model => model.nakit20TL)</label>
-            @Html.TextBoxFor(model => model.nakit20TL, new { @class = "form-control calc", @type = "number", onblur = "calculateTotal()" })
+            @Html.TextBoxFor(model => model.nakit20TL, new { @class = "form-control calc", @style = "font-size:0.9em", @type = "number", onblur = "calculateTotal()" })
         </div>
         <div class="col-md-1">
             <label class="control-label">@Html.DisplayNameFor(model => model.nakit50TL)</label>
-            @Html.TextBoxFor(model => model.nakit50TL, new { @class = "form-control calc", @type = "number", onblur = "calculateTotal()" })
+            @Html.TextBoxFor(model => model.nakit50TL, new { @class = "form-control calc", @style = "font-size:0.9em", @type = "number", onblur = "calculateTotal()" })
         </div>
         <div class="col-md-1">
             <label class="control-label">@Html.DisplayNameFor(model => model.nakit100TL)</label>
-            @Html.TextBoxFor(model => model.nakit100TL, new { @class = "form-control calc", @type = "number", onblur = "calculateTotal()" })
+            @Html.TextBoxFor(model => model.nakit100TL, new { @class = "form-control calc", @style = "font-size:0.9em", @type = "number", onblur = "calculateTotal()" })
         </div>
         <div class="col-md-1">
             <label class="control-label">@Html.DisplayNameFor(model => model.nakit200TL)</label>
-            @Html.TextBoxFor(model => model.nakit200TL, new { @class = "form-control calc", @type = "number", onblur = "calculateTotal()" })
+            @Html.TextBoxFor(model => model.nakit200TL, new { @class = "form-control calc", @style = "font-size:0.9em", @type = "number", onblur = "calculateTotal()" })
         </div>
         <div class="col-md-1">
             <label class="control-label">Toplam</label>
-            <input class="form-control disabled" id="NakitToplam" disabled readonly value="0" />
+            <input class="form-control disabled" id="NakitToplam" style = "font-size:0.9em" disabled readonly value="0" />
         </div>
     </div>
-    <br />
-    <h4 style="color:white; background-color: #870c0c">Diğer</h4>
-    <div class="row">
-        <div class="col-md-1">
-            <label class="control-label">@Html.DisplayNameFor(model => model.diger10KRS)</label>
-            @Html.TextBoxFor(model => model.diger10KRS, new { @class = "form-control calc", @type = "number", onblur = "calculateTotal()" })
-        </div>
-        <div class="col-md-1">
-            <label class="control-label">@Html.DisplayNameFor(model => model.diger25KRS)</label>
-            @Html.TextBoxFor(model => model.diger25KRS, new { @class = "form-control calc", @type = "number", onblur = "calculateTotal()" })
-        </div>
-        <div class="col-md-1">
-            <label class="control-label">@Html.DisplayNameFor(model => model.diger50KRS)</label>
-            @Html.TextBoxFor(model => model.diger50KRS, new { @class = "form-control calc", @type = "number", onblur = "calculateTotal()" })
-        </div>
-        <div class="col-md-1">
-            <label class="control-label">@Html.DisplayNameFor(model => model.diger1TL)</label>
-            @Html.TextBoxFor(model => model.diger1TL, new { @class = "form-control calc", @type = "number", onblur = "calculateTotal()" })
-        </div>
-        <div class="col-md-1">
-            <label class="control-label">@Html.DisplayNameFor(model => model.diger5TL)</label>
-            @Html.TextBoxFor(model => model.diger5TL, new { @class = "form-control calc", @type = "number", onblur = "calculateTotal()" })
-        </div>
-        <div class="col-md-1">
-            <label class="control-label">@Html.DisplayNameFor(model => model.diger10TL)</label>
-            @Html.TextBoxFor(model => model.diger10TL, new { @class = "form-control calc", @type = "number", onblur = "calculateTotal()" })
-        </div>
-        <div class="col-md-1">
-            <label class="control-label">@Html.DisplayNameFor(model => model.diger20TL)</label>
-            @Html.TextBoxFor(model => model.diger20TL, new { @class = "form-control calc", @type = "number", onblur = "calculateTotal()" })
-        </div>
-        <div class="col-md-1">
-            <label class="control-label">@Html.DisplayNameFor(model => model.diger50TL)</label>
-            @Html.TextBoxFor(model => model.diger50TL, new { @class = "form-control calc", @type = "number", onblur = "calculateTotal()" })
-        </div>
-        <div class="col-md-1">
-            <label class="control-label">@Html.DisplayNameFor(model => model.diger100TL)</label>
-            @Html.TextBoxFor(model => model.diger100TL, new { @class = "form-control calc", @type = "number", onblur = "calculateTotal()" })
-        </div>
-        <div class="col-md-1">
-            <label class="control-label">@Html.DisplayNameFor(model => model.diger200TL)</label>
-            @Html.TextBoxFor(model => model.diger200TL, new { @class = "form-control calc", @type = "number", onblur = "calculateTotal()" })
-        </div>
-        <div class="col-md-1">
-            <label class="control-label">Toplam</label>
-            <input class="form-control disabled" id="DigerToplam" disabled readonly value="0" />
-        </div>
-    </div>
-    <h4 style="color:white; background-color: #870c0c">Kredi Kartı</h4>
+    <h6 style="color:white; background-color: #870c0c">Kredi Kartı</h6>
     <div class="row">
         <div class="col-md-12">
-            <label class="control-label">@Html.DisplayNameFor(model => model.krediKartıToplam)</label>
-            @Html.TextBoxFor(model => model.krediKartıToplam, new { @class = "form-control calc", @type = "number", onblur = "calculateTotal()" })
+            <label class="control-label" style = "font-size:0.9em">@Html.DisplayNameFor(model => model.krediKartıToplam)</label>
+            @Html.TextBoxFor(model => model.krediKartıToplam, new { @class = "form-control calc", @style = "font-size:0.9em", @type = "number", onblur = "calculateTotal()" })
         </div>
     </div>
-    <br />
     @Html.HiddenFor(model => model.sistemKrediKartıToplam, new { @class = "form-control" })
     @Html.HiddenFor(model => model.sistemDigerToplam, new { @class = "form-control" })
     @Html.HiddenFor(model => model.sistemNakitToplam, new { @class = "form-control" })
@@ -195,9 +150,10 @@
     @Html.HiddenFor(model => model.mutabakatDate, new { @class = "form-control" })
     
     <input asp-action="MutabakatSave" type="submit" value="Kaydet" class="btn btn-primary" id="submitForm" hidden />
-
+    <br/>
 
     <input type="hidden" id="GunBasiDone" value="@ViewBag.GunBasiDone" />
+    
     <input button class="btn btn-primary" value="Kaydet" onclick="checkMutabakatGunBasi()" />
     <input button class="btn btn-secondary" value="Mutabakat Yap" onclick="mutabakatYap()" />
 
@@ -245,16 +201,11 @@
         var bozukParaToplam = parseFloat(document.getElementById("BozukParaToplam").value.toString());
         var nakitToplam = parseFloat(document.getElementById("NakitToplam").value.toString());
         var krediKartıToplam = parseFloat(document.getElementById("krediKart_Toplam").value.toString());
-        var digerToplam = parseFloat(document.getElementById("DigerToplam").value.toString());
         var sistemNakitToplam = parseFloat(document.getElementById("sistemNakitToplam").value.toString());
-        var sistemDigerToplam = parseFloat(document.getElementById("sistemDigerToplam").value.toString());
         var sistemKrediToplam = parseFloat(document.getElementById("sistemKrediKart_Toplam").value.toString());
         var farkNakit = Math.abs(bozukParaToplam + sistemNakitToplam - nakitToplam) 
         mutabakat = true;
         if (farkNakit > 20)
-            mutabakat = false;
-        farkDiger = Math.abs(digerToplam - sistemDigerToplam);
-        if (farkDiger > 20)
             mutabakat = false;
         farkKredi = Math.abs(krediKartıToplam - sistemKrediToplam);
         if (farkKredi > 20)
@@ -300,7 +251,6 @@
 
         changeTotal = 0
         nakitTotal = 0
-        digerTotal=0
         var elements = document.getElementsByClassName("calc");
         for (var i = 0; i < elements.length; i++) {
             var elName = elements[i].name;
@@ -325,16 +275,6 @@
                     else
                         multiplier = parseInt(multiplierText);
                     break
-                case "dig":
-                    inputs = "diger";
-                    multiplierText = elName.substring(5, 8);
-                    while (checkIfNumeric(multiplierText) == false)
-                        multiplierText = multiplierText.substring(0, multiplierText.length - 1)
-                    if (elName.substring(elName.length - 1, elName.length) == "S")
-                        multiplier = parseInt(multiplierText) / 100;
-                    else
-                        multiplier = parseInt(multiplierText);
-                    break;
                 default:
                     inputs = "";
                     break;
@@ -349,11 +289,6 @@
                     nakitTotalElement = document.getElementById("NakitToplam");
                     nakitTotal = nakitTotal + parseInt(elements[i].value) * multiplier;
                     nakitTotalElement.value = nakitTotal.toString();
-                    break
-                case "diger":
-                    digerTotalElement = document.getElementById("DigerToplam");
-                    digerTotal = digerTotal + parseInt(elements[i].value) * multiplier;
-                    digerTotalElement.value = digerTotal.toString();
                     break
                 default:
                     break;

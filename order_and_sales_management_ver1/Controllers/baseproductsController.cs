@@ -22,7 +22,12 @@ namespace order_and_sales_management_ver1.Controllers
         // GET: baseproducts
         public async Task<IActionResult> Index()
         {
-            return View(await _context.baseProducts.ToListAsync());
+            var baseProducts = await _context.baseProducts.ToListAsync();
+            for (int i = 0; i < baseProducts.Count; i++)
+            {
+                baseProducts[i].wholeSalePrice = baseProducts[i].wholeSalePrice * (1 + baseProducts[i].productKDV);
+            }
+            return View(baseProducts);
         }
 
         // GET: baseproducts/Details/5
@@ -39,18 +44,13 @@ namespace order_and_sales_management_ver1.Controllers
             {
                 return NotFound();
             }
-
             return View(baseproduct);
         }
 
         // GET: baseproducts/Create
         public IActionResult Create()
         {
-            int initialProductID = 317;
-            baseproduct baseProduct= new baseproduct();
-            barcodeController barcode = new barcodeController(_context);
-            baseProduct.barcodeID= barcode.getFirstAvailableBarcode(ref initialProductID);
-            return View(baseProduct);
+            return View();
         }
 
         // POST: baseproducts/Create
@@ -58,28 +58,36 @@ namespace order_and_sales_management_ver1.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create([Bind("baseId,retailPrice,wholeSalePrice,barcodeID, name,sellersID,detailsId")] baseproduct baseproduct)
+        public IActionResult Create([Bind("baseId,retailPrice,wholeSalePrice,productKDV,barcodeID, name,sellersID,detailsId")] baseproduct baseproduct)
         {
+            string error_msg = "";
+
             if (ModelState.IsValid)
             {
-                _context.Add(baseproduct);
-                _context.SaveChanges();
-                ProductModel product = new ProductModel();
-                product.ProductName = baseproduct.name;
-                product.productRetailPrice = baseproduct.retailPrice;
-                product.productWholesalePrice = baseproduct.wholeSalePrice;
-                product.productBarcodeID = baseproduct.barcodeID;
-                product.recStatus = 1;
-                _context.Add(product);
-                _context.SaveChanges();
-                CrossTable crossTable = new CrossTable();
-                crossTable.baseID = baseproduct.baseId;
-                crossTable.productID = product.productID;
-                crossTable.pname = baseproduct.name;
-                crossTable.packedID = 0;
-                _context.Add(crossTable);
-                _context.SaveChanges();
-                return RedirectToAction(nameof(Index));
+                if (baseproduct.barcodeID.Length == 13)
+                {
+                    barcodeController barcode = new barcodeController(_context);
+                    string checkDigit = barcode.calcCheckDigit(baseproduct.barcodeID.Substring(0, 12));
+                    if (checkDigit != baseproduct.barcodeID.Substring(12, 1))
+                    {
+                        error_msg = "Barkod kontrol karakteri hatalı.";
+                    }
+                }
+                else
+                {
+                    error_msg = "Barkod Uzunluğu 13 karakter olmalı";
+                }
+                if (error_msg != "")
+                {
+                    ModelState.AddModelError("barkod", error_msg);
+                }
+                else
+                {
+                    _context.Add(baseproduct);
+                    _context.SaveChanges();
+                    _context.SaveChanges();
+                    return RedirectToAction(nameof(Index));
+                }
             }
             return View(baseproduct);
         }
@@ -87,7 +95,6 @@ namespace order_and_sales_management_ver1.Controllers
         // GET: baseproducts/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            int initialProductID = 317;
 
             if (id == null)
             {
@@ -99,12 +106,6 @@ namespace order_and_sales_management_ver1.Controllers
             {
                 return NotFound();
             }
-            if (baseproduct.barcodeID == null || baseproduct.barcodeID.Length != 13)
-            {
-                barcodeController barcode = new barcodeController(_context);
-                baseproduct.barcodeID = barcode.getFirstAvailableBarcode(ref initialProductID);
-            }
-
             return View(baseproduct);
         }
 
@@ -113,7 +114,7 @@ namespace order_and_sales_management_ver1.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("baseId,retailPrice,barcodeID, wholeSalePrice,name,sellersID,detailsId")] baseproduct baseproduct)
+        public async Task<IActionResult> Edit(int id, [Bind("baseId,retailPrice,barcodeID, productKDV, wholeSalePrice,name,sellersID,detailsId")] baseproduct baseproduct)
         {
             if (id != baseproduct.baseId)
             {
@@ -164,11 +165,11 @@ namespace order_and_sales_management_ver1.Controllers
         // POST: baseproducts/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public IActionResult DeleteConfirmed(int id)
         {
-            var baseproduct = await _context.baseProducts.FindAsync(id);
+            var baseproduct = _context.baseProducts.Find(id);
             _context.baseProducts.Remove(baseproduct);
-            await _context.SaveChangesAsync();
+            _context.SaveChanges();
             return RedirectToAction(nameof(Index));
         }
 
@@ -176,59 +177,155 @@ namespace order_and_sales_management_ver1.Controllers
         {
             return _context.baseProducts.Any(e => e.baseId == id);
         }
-
-        public List<baseproduct>CheckandUpdateBarcodes_baseproducts()
+        public string getBarcode()
         {
-            List<baseproduct> baseproduct = new List<baseproduct>();
-            List<baseproduct> bprodWithWrongBarcode = new List<baseproduct>();
-            int initialProductID = 306;
-            barcodeController barcode=new barcodeController(_context);
-            baseproduct=_context.baseProducts.ToList<baseproduct>();
-            foreach (baseproduct bprod in baseproduct)
-            {
-                if ( bprod.barcodeID != null && bprod.barcodeID.Length == 13 )
-                {
-                    string checkDigit = barcode.calcCheckDigit(bprod.barcodeID.Substring(0, 12));
-                    if (checkDigit != bprod.barcodeID.Substring(12, 1))
-                    {
-                        bprodWithWrongBarcode.Add(bprod);
-                    }
-                } else
-                {
-                        bprod.barcodeID = barcode.getFirstAvailableBarcode(ref initialProductID);
-
-                      _context.baseProducts.Update(bprod);
-                      _context.SaveChanges();
-                }
-            }
-            return bprodWithWrongBarcode;
-        }
-
-        public List<packedproduct> CheckandUpdateBarcodes_packedproducts()
-        {
-            List<packedproduct> packedproduct = new List<packedproduct>();
-            List<packedproduct> packedProductWithWrongBarcode = new List<packedproduct>();
-            int initialProductID = 139;
+            baseproduct baseProduct = new baseproduct();
             barcodeController barcode = new barcodeController(_context);
-            packedproduct = _context.packedProducts.ToList<packedproduct>();
-            foreach (packedproduct pprod in packedproduct)
+            var barcodeID = barcode.getFirstAvailableBarcode();
+            return (barcodeID);
+        }
+
+        public string changeProductNameToCamelCase(string prdName)
+        {
+            char[] lowerTurkishChars = new char[] { 'ğ', 'ü', 'ş', 'ı', 'i', 'ö', 'ç' };
+            char[] upperTurkishChars = new char[] { 'Ğ', 'Ü', 'Ş', 'I', 'İ', 'Ö', 'Ç' };
+            string tmpName;
+            string[] strParts;
+
+            /* Eğer kısaltmalar kullanıldıysa her .'dan sonrasına bir boşluk atılarak split fonksiyonun kıslatmaları ayırması sağlanır. */
+            if (prdName.Contains('.'))
             {
-                if (pprod.packedProductBarcodeID!= null && pprod.packedProductBarcodeID.Length == 13)
+                tmpName = "";
+                while (prdName.Contains('.'))
                 {
-                    string checkDigit = barcode.calcCheckDigit(pprod.packedProductBarcodeID.Substring(0, 12));
-                    if (checkDigit != pprod.packedProductBarcodeID.Substring(12, 1))
-                    {
-                        packedProductWithWrongBarcode.Add(pprod);
-                    }
+                    tmpName = tmpName + prdName.Substring(0, prdName.IndexOf(".") + 1) + " ";
+                    prdName = prdName.Remove(0, prdName.IndexOf(".") + 1);
                 }
-                else
+                tmpName = tmpName + " " + prdName;
+            }
+            else
+            {
+                tmpName = prdName;
+            }
+            /* İsmi kelimelere ayır ve ilk karakteri büyüğk harf yap*/
+            strParts = tmpName.Split(" ", StringSplitOptions.RemoveEmptyEntries);
+            prdName = "";
+            for (int j = 0; j < strParts.Length; j++)
+            {
+                    char v = strParts[j][0];
+                /* Eğer ilk karakter numeric bir değer ise aynen al. Diğer durumlarda ilk karakteri büyük Harfe çevir */
+                    if ((int)v > 57)
+                    {
+                        if (lowerTurkishChars.Contains(v))
+                        {
+                            for (int k = 0; k < lowerTurkishChars.Length; k++)
+                            {
+                                if (v == lowerTurkishChars[k])
+                                {
+                                    v = upperTurkishChars[k];
+                                    break;
+                                }
+                            }
+                        }
+                        else
+                        {
+                            v = (char)((int)v - 32);
+                        }
+                        strParts[j] = v + strParts[j].Remove(0, 1);
+                    /* Eğer iki karakter ise "H." gibi sonrasına bir boşluk ekleme. Diğer durumlarda bir boşluk ekle. Eğer Gr var ise sonuna nokta ekle */
+                        if (strParts[j].Length == 2)
+                            if (strParts[j] == "Gr" || strParts[j]=="Kg")
+                            prdName = prdName + strParts[j] + ". ";
+                            else
+                                prdName = prdName + strParts[j];
+                        else
+                            prdName = prdName + strParts[j] + " ";
+                    }
+                    else
+                        prdName = prdName + strParts[j] + " ";
+            }
+            return (prdName.Trim());
+        }
+
+        public string UpdateNamesAsCamelCase()
+        {
+            string prdName="";
+
+            List<packedproduct> pProducts = _context.packedProducts.ToList();
+            for (int i = 0; i < pProducts.Count; i++)
+            {
+                prdName = pProducts[i].packedProductName.ToLower();
+                pProducts[i].packedProductName = changeProductNameToCamelCase(prdName);
+                _context.packedProducts.Update(pProducts[i]);
+            }
+            _context.SaveChanges();
+
+            List<baseproduct> bProducts = _context.baseProducts.ToList();
+            for (int i = 0; i < bProducts.Count; i++)
+            {
+                prdName = bProducts[i].name.ToLower();
+                bProducts[i].name= changeProductNameToCamelCase(prdName);
+                _context.baseProducts.Update(bProducts[i]);
+            }
+            _context.SaveChanges();
+            return ("OK");
+        }
+        /*
+         * Can be used when necessary 
+         * 
+                public List<baseproduct>CheckandUpdateBarcodes_baseproducts()
                 {
-                        pprod.packedProductBarcodeID= barcode.getFirstAvailableBarcode(ref initialProductID);
-                        _context.packedProducts.Update(pprod);
-                        _context.SaveChanges();
+                    List<baseproduct> baseproduct = new List<baseproduct>();
+                    List<baseproduct> bprodWithWrongBarcode = new List<baseproduct>();
+
+                    barcodeController barcode=new barcodeController(_context);
+                    baseproduct=_context.baseProducts.ToList<baseproduct>();
+                    foreach (baseproduct bprod in baseproduct)
+                    {
+                        if ( bprod.barcodeID != null && bprod.barcodeID.Length == 13 )
+                        {
+                            string checkDigit = barcode.calcCheckDigit(bprod.barcodeID.Substring(0, 12));
+                            if (checkDigit != bprod.barcodeID.Substring(12, 1))
+                            {
+                                bprodWithWrongBarcode.Add(bprod);
+                            }
+                        } else
+                        {
+                                bprod.barcodeID = barcode.getFirstAvailableBarcode();
+
+                              _context.baseProducts.Update(bprod);
+                              _context.SaveChanges();
+                        }
+                    }
+                    return bprodWithWrongBarcode;
+                }
+
+                public List<packedproduct> CheckandUpdateBarcodes_packedproducts()
+                {
+                    List<packedproduct> packedproduct = new List<packedproduct>();
+                    List<packedproduct> packedProductWithWrongBarcode = new List<packedproduct>();
+                    barcodeController barcode = new barcodeController(_context);
+                    packedproduct = _context.packedProducts.ToList<packedproduct>();
+                    foreach (packedproduct pprod in packedproduct)
+                    {
+                        if (pprod.packedProductBarcodeID!= null && pprod.packedProductBarcodeID.Length == 13)
+                        {
+                            string checkDigit = barcode.calcCheckDigit(pprod.packedProductBarcodeID.Substring(0, 12));
+                            if (checkDigit != pprod.packedProductBarcodeID.Substring(12, 1))
+                            {
+                                packedProductWithWrongBarcode.Add(pprod);
+                            }
+                        }
+                        else
+                        {
+                                pprod.packedProductBarcodeID= barcode.getFirstAvailableBarcode();
+                                _context.packedProducts.Update(pprod);
+                                _context.SaveChanges();
+                        }
+                    }
+                    return packedProductWithWrongBarcode;
                 }
             }
-            return packedProductWithWrongBarcode;
-        }
+        */
     }
 }

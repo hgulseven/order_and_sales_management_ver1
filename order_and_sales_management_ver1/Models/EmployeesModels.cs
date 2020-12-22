@@ -25,6 +25,8 @@ namespace order_and_sales_management_ver1.Models
         [Display(Name ="Lokasyon")]
         public virtual stocklocationmodel empLocation { get; set; }
 
+        public virtual ICollection<KasaMutabakat> kasamutabakat { get; set; }
+
         public string userName { get; set; }
 
         public string connectionId{ get; set; }

@@ -9,8 +9,6 @@ namespace order_and_sales_management_ver1.Models
 {
     public class LabelModel
     {
-        [Display(Name = "Sistem Ürün Kodu")]
-        public int productID { get; set; }
         [Display(Name = "Ürün Adı")]
         public string productName { get; set; }
         [Display(Name = "Miktar Satırı")]
@@ -29,8 +27,10 @@ namespace order_and_sales_management_ver1.Models
 
         [Display(Name = "Parti No")]
         public string productLotNo { get; set; }
+        [Key]
         [Display(Name = "Ürün Barkod")]
-        public string productBarcodID { get; set; }
+        [StringLength(13)]
+        public string productBarcodeID { get; set; }
         [Display(Name = "Firma Bilgisi")]
         public string companyInfo { get; set; }
 

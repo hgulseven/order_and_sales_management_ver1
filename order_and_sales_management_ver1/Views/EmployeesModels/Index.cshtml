@@ -4,61 +4,51 @@
     ViewData["Title"] = "Index";
 }
 <div class="panel-info">
-    <h1>Liste</h1>
-    <p>
-        <a asp-action="Create">Yeni Kayıt Ekle</a>
-    </p>
+    <h5>_Personel Liste</h5>
 </div>
 <div class="alert alert-danger">
     @Html.ValidationSummary(false)
 </div>
-<table class="table table-striped table-curved">
-    <thead class="table-head">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.persName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.persSurName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.password)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.empLocation)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.userName)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.persName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.persSurName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.password)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.empLocation.locationName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.userName)
-            </td>
-            <td align="right">
-                <a asp-action="Edit" asp-route-id="@item.personelID"><button type="button" class="btn btn-primary">Düzenle</button></a>
-                <a asp-action="Details" asp-route-id="@item.personelID"><button type="button" class="btn btn-secondary">Kaydı Görüntüle</button></a>
-                <a asp-action="Delete" asp-route-id="@item.personelID"><button type="button" class="btn btn-danger">Sil</button></a>
-            </td>
-        </tr>
-        }
-    </tbody>
-</table>
+@Html.ActionLink("Yeni Personel Ekle", "Create", "EmployeesModels", new { }, new { @class = "btn btn-info  btn-lg", @style = "font-size:12px" })
+<div class="table-responsive table-wrapper-scroll-y my-custom-scrollbar">
+    <table id="dtDynamicVerticalScroll" class="table table-striped table-curved table-sm" style="font-size:0.9em">
+        <thead class="table-head">
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.persName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.persSurName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.empLocation)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.persName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.persSurName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.empLocation.locationName)
+                    </td>
+                    <td align="right">
+                        <a asp-action="Edit" asp-route-id="@item.personelID"><button type="button" class="btn btn-primary btn-sm">Düzenle</button></a>
+                        <a asp-action="Details" asp-route-id="@item.personelID"><button type="button" class="btn btn-secondary btn-sm">Kaydı Görüntüle</button></a>
+                        <a asp-action="Delete" asp-route-id="@item.personelID"><button type="button" class="btn btn-danger btn-sm">Sil</button></a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+<script>
+ 
+</script>

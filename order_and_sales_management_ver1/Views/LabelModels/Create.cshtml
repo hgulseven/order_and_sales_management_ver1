@@ -16,16 +16,10 @@
     <div class="form-group">
         <div class="row">
             <div class="col-md-2">
-                @Html.LabelFor(modelitem => Model.productBarcodID)
+                @Html.LabelFor(modelitem => Model.productBarcodeID)
              </div>
             <div class="col-md-4">
-                @Html.TextBoxFor(modelitem => Model.productBarcodID, null, new { onblur = "getRecordDetails()" })
-            </div>
-            <div class="col-md-2">
-                @Html.LabelFor(modelitem => Model.productID)
-            </div>
-            <div class="col-md-4">
-                @Html.TextBoxFor(modelitem => Model.productID)
+                @Html.TextBoxFor(modelitem => Model.productBarcodeID, null, new { onblur = "getRecordDetails()" })
             </div>
         </div>
         <div class="row">
@@ -90,7 +84,7 @@
                 @Html.LabelFor(modelitem => Model.productShelfLife)
             </div>
             <div class="col-md-2">
-                <input asp-for="productDuration" type="number" id="duration" size=4 onblur="calculateProductValidtyDate()"/>
+                <input asp-for="productDuration" type="number" id="productDuration" size=4 onblur="calculateProductValidtyDate()"/>
             </div>
             <div class="col-md-8">
                 @Html.TextBoxFor(modelitem => Model.productShelfLife, new {@class = "w-100" })
@@ -126,12 +120,9 @@
         calculateProductValidtyDate();
         if (recordExists.value == "yes")
         {
-            var BarcodeID = document.getElementById("productBarcodID");
+            var BarcodeID = document.getElementById("productBarcodeID");
             BarcodeID.readonly = true;
             BarcodeID.style.color = "#c0c0c0";
-            var ProductID = document.getElementById("productID");
-            ProductID.readonly = true;
-            ProductID.style.color = "#c0c0c0";
         }
     });
 
@@ -141,7 +132,7 @@
     }
 
     function getRecordDetails() {
-        var BarcodeID = document.getElementById("productBarcodID");
+        var BarcodeID = document.getElementById("productBarcodeID");
         BarcodeID.readonly = true;
         BarcodeID.style.color = "#c0c0c0";
         var urlPath=location.host+"/LabelModels/getProductData"
@@ -177,7 +168,7 @@
 
     function calculateProductValidtyDate() {
         var shelfLife = document.getElementById("productShelfLife");
-        var duration = document.getElementById("duration");
+        var duration = document.getElementById("productDuration");
         var intDuration = parseInt(duration.value);
         if (intDuration != NaN) {
             var today = new Date();

@@ -14,7 +14,7 @@
 <hr />
 <form id="myform">
     <div class="table-responsive">
-        <table class="table table-striped table-curved " style="font-size:0.8em">
+        <table class="table table-striped table-curved " style="font-size:0.9em">
             <thead class="table-head">
                 <tr>
                     <th>
@@ -59,7 +59,7 @@
                             @Html.DisplayNameFor(x => item.orderdetailsmodels.ElementAt(0).orderLineNo)
                         </th>
                         <th>
-                            @Html.DisplayNameFor(x => item.orderdetailsmodels.ElementAt(0).ProductModel.ProductName)
+                            @Html.DisplayNameFor(x => item.orderdetailsmodels.ElementAt(0).Product.productName)
                         </th>
                         <th>
                             @Html.DisplayNameFor(x => item.orderdetailsmodels.ElementAt(0).productAmount)
@@ -73,7 +73,7 @@
                             @Html.DisplayFor(x => detailsItem.orderLineNo)
                         </td>
                         <td>
-                            @Html.DisplayFor(x => detailsItem.ProductModel.ProductName)
+                            @Html.DisplayFor(x => detailsItem.Product.productName)
                         </td>
                         <td>
                             @Html.DisplayFor(x => detailsItem.productAmount)

@@ -63,10 +63,10 @@
             @Html.DisplayFor(model => model.productLotNo)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.productBarcodID)
+            @Html.DisplayNameFor(model => model.productBarcodeID)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.productBarcodID)
+            @Html.DisplayFor(model => model.productBarcodeID)
         </dd>
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.companyInfo)
@@ -83,8 +83,8 @@
     </dl>
 
     <form asp-action="Delete">
-        <input type="hidden" asp-for="productID" />
+        <input type="hidden" asp-for="productBarcodeID" />
         <input type="submit" value="Sil" class="btn btn-sm btn-danger" />
-        @Html.ActionLink("Liste", "Index", "LabelModels", new { id = Model.productID }, new { @class = "btn btn-secondary  btn-sm ", @style = "font-size:12px", })
+        @Html.ActionLink("Liste", "Index", "LabelModels", new { id = Model.productBarcodeID}, new { @class = "btn btn-secondary  btn-sm ", @style = "font-size:12px", })
     </form>
 </div>

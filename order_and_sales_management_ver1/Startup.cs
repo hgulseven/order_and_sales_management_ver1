@@ -19,9 +19,12 @@ using Microsoft.AspNetCore.HttpOverrides;
 using System.Net;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using order_and_sales_management_ver1.Services;
+using Newtonsoft.Json;
+using System;
 
 namespace order_and_sales_management_ver1
 {
+
     public class CustomerCultureProvider : RequestCultureProvider
     {
         public override async Task<ProviderCultureResult> DetermineProviderCultureResult(HttpContext httpContext)
@@ -39,6 +42,7 @@ namespace order_and_sales_management_ver1
     }
     public class Startup
     {
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -89,7 +93,7 @@ namespace order_and_sales_management_ver1
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, Microsoft.AspNetCore.Hosting.IWebHostEnvironment env)
         {
 
             var cultureInfo = new CultureInfo("tr-TR");
@@ -109,7 +113,8 @@ namespace order_and_sales_management_ver1
                                                             cultureInfo,
                                                         }
             });
-            if (env.IsDevelopment())
+
+            if (env.EnvironmentName == "Development")
             {
                 app.UseDeveloperExceptionPage();
                 app.UseBrowserLink();
@@ -120,7 +125,7 @@ namespace order_and_sales_management_ver1
                 app.UseExceptionHandler("/Home/Error");
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
-            }
+           }
 
             app.UseForwardedHeaders(new ForwardedHeadersOptions
             {

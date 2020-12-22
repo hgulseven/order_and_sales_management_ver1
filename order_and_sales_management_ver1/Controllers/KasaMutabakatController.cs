@@ -54,18 +54,20 @@ namespace order_and_sales_management_ver1.Controllers
                     mySqlCommand.Parameters.AddWithValue("@endTime", DateTime.Now);
                     mySqlCommand.Parameters.AddWithValue("@locationID", location);
                     MySqlDataReader reader = mySqlCommand.ExecuteReader();
+                    kasaMutabakat.sistemNakitToplam = 0;
                     while (reader.Read())
                     {
                         var typeOfCollection = int.Parse(reader["typeOfCollection"].ToString());
                         switch (typeOfCollection)
                         {
                             case 1:
-                                kasaMutabakat.sistemNakitToplam = float.Parse(reader["paidAmount"].ToString());
+                                kasaMutabakat.sistemNakitToplam = kasaMutabakat.sistemNakitToplam + float.Parse(reader["paidAmount"].ToString());
                                 break;
                             case 2:
                                 kasaMutabakat.sistemKrediKartıToplam = float.Parse(reader["paidAmount"].ToString());
                                 break;
                             case 3:
+                                kasaMutabakat.sistemNakitToplam = kasaMutabakat.sistemNakitToplam+float.Parse(reader["paidAmount"].ToString());
                                 kasaMutabakat.sistemDigerToplam = float.Parse(reader["paidAmount"].ToString());
                                 break;
                         }
@@ -92,7 +94,7 @@ namespace order_and_sales_management_ver1.Controllers
             return View(kasaMutabakat);
         }
         [HttpPost]
-        public ActionResult MutabakatSave([Bind("mutabakatDate","mutabakatTimeStamp","personelID","locationID","typeOfMutabakat","change10KRS","change25KRS","change50KRS","change1TL","change5TL","change10TL","change20TL","change50TL","change100TL","change200TL","nakit10KRS","nakit25KRS","nakit50KRS","nakit1TL","nakit5TL", "nakit10TL","nakit20TL","nakit50TL","nakit100TL","nakit200TL","diger10KRS","diger25KRS","diger50KRS","diger1TL","diger5TL","diger10TL","diger20TL","diger50TL","diger100TL","diger200TL","krediKartıToplam","sistemNakitToplam","sistemKrediKartıToplam","sistemDigerToplam")] KasaMutabakat kasaMutabakat)
+        public ActionResult MutabakatSave([Bind("mutabakatDate","mutabakatTimeStamp","personelID","locationID","typeOfMutabakat","change5KRS","change10KRS","change25KRS","change50KRS","change1TL","change5TL","change10TL","change20TL","change50TL","change100TL","change200TL","nakit10KRS","nakit25KRS","nakit50KRS","nakit1TL","nakit5TL", "nakit10TL","nakit20TL","nakit50TL","nakit100TL","nakit200TL","krediKartıToplam","sistemNakitToplam","sistemKrediKartıToplam","sistemDigerToplam")] KasaMutabakat kasaMutabakat)
         {
             var applicationDBContext = _context.kasamutabakat;
             if (kasaMutabakat.typeOfMutabakat!= "Gün Başı Mutabakat")

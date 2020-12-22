@@ -24,7 +24,11 @@ namespace order_and_sales_management_ver1.Models
         public int detailsId { get; set; }
         [Display(Name = "Ürün Barkod")]
         [StringLength(13)]
+        [MinLength(13, ErrorMessage ="Barkod uzunluğu 13 karakter olmalı")]
+        [MaxLength(13, ErrorMessage = "Barkod uzunluğu 13 karakter olmalı")]
         public string barcodeID { get; set; }
+        [Display(Name="KDV Oranı")]
+        public decimal productKDV { get; set; }
         public virtual ICollection<packedproductdetail> packedProductDetail { get; set; }  
     }
 }
