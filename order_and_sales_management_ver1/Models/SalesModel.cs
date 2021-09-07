@@ -50,6 +50,8 @@ namespace order_and_sales_management_ver1.Models
         public virtual stocklocationmodel location { get; set; }
 
         public float dara { get; set; }
+        
+        public  decimal wholesaleamount { get; set; }
     }
 
     [NotMapped]
@@ -69,6 +71,7 @@ namespace order_and_sales_management_ver1.Models
  
         [JsonProperty("tutar")]
         public float tutar { get; set; }
+        public decimal wholesaleamount { get; set; }
     }
 
 }

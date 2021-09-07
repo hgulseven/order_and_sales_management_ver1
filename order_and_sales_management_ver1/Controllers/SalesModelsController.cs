@@ -25,14 +25,51 @@ public class SalesModelsController : Controller
         // GET: SalesModels
         public async Task<IActionResult> Index(int salesID)
         {
+            List<SalesModel> saleList = new List<SalesModel>();
             int location = int.Parse(HttpContext.User.Claims.Where(c => c.Type == "location").FirstOrDefault().Value.ToString());
-            var saleList = _context.salesmodels.Where(x => x.salesID==salesID && x.saleDate == DateTime.Today && x.locationID == location).ToList();
-            foreach (SalesModel sale_item in saleList)
+            if (salesID != null  && salesID != 0)
             {
-                sale_item.Products= _context.Products.Where(x => x.productBarcodeID == sale_item.productBarcodeID).FirstOrDefault();
-                sale_item.employeesmodels = _context.employeesmodels.Where(x => x.personelID == sale_item.personelID).FirstOrDefault();
-                sale_item.personelNameSurname = sale_item.employeesmodels.persName + " " + sale_item.employeesmodels.persSurName;
-                sale_item.tutar =(decimal) (sale_item.amount * sale_item.Products.productRetailPrice);
+                saleList = _context.salesmodels.Where(x => x.salesID == salesID && x.saleDate == DateTime.Today && x.locationID == location).ToList();
+                int i = 2;
+                foreach (SalesModel sale_item in saleList)
+                {
+                    sale_item.Products = _context.Products.Where(x => x.productBarcodeID == sale_item.productBarcodeID).FirstOrDefault();
+                    sale_item.employeesmodels = _context.employeesmodels.Where(x => x.personelID == sale_item.personelID).FirstOrDefault();
+                    sale_item.personelNameSurname = sale_item.employeesmodels.persName + " " + sale_item.employeesmodels.persSurName;
+                    sale_item.tutar = (decimal)(sale_item.amount * sale_item.Products.productRetailPrice);
+                    sale_item.wholesaleamount = (decimal)(sale_item.amount * sale_item.Products.productWholesalePrice);
+                    sale_item.salesLineId = i;
+                    i = i + 1;
+                }
+                SalesModel saleItem = new SalesModel();
+                saleItem.salesID = salesID;
+                saleItem.salesLineId = 1;
+                saleList.Insert(0, saleItem);
+
+            }
+            else
+            {
+                saleList = new List<SalesModel>();
+                var sale_item = new SalesModel();
+                salescounter salesCounter = _context.salescounter.Find(DateTime.Today, location);
+                if (salesCounter == null)
+                {
+                    salesCounter = new salescounter();
+                    salesCounter.counter = 1;
+                    salesCounter.locationID = location;
+                    salesCounter.salesDate = DateTime.Today;
+                    _context.salescounter.Add(salesCounter);
+
+                }
+                else
+                {
+                    salesCounter.counter = salesCounter.counter + 1;
+                    _context.salescounter.Update(salesCounter);
+                }
+                _context.SaveChanges();
+                sale_item.salesID = salesCounter.counter;
+                sale_item.salesLineId = 1;
+                saleList.Add(sale_item);
             }
             return View(saleList);
         }
@@ -40,12 +77,25 @@ public class SalesModelsController : Controller
         public  void UpdateSales(string listOfProducts)
         {
 
-            List<saleItem> newSales = new List<saleItem>();
 
+            List<saleItem> newSales = new List<saleItem>();
             SalesModel salesModel = new SalesModel();
             newSales = Newtonsoft.Json.JsonConvert.DeserializeObject <List<saleItem>> (listOfProducts);
             int location = int.Parse(HttpContext.User.Claims.Where(c => c.Type == "location").FirstOrDefault().Value.ToString());
+            int salesLineId = 1;
+            while ((salesModel = _context.salesmodels.Find(DateTime.Today, newSales[0].salesID,salesLineId,location)) != null)
+            {
+                _context.salesmodels.Remove(salesModel);
+                salesLineId = salesLineId+1;
+            }
+            _context.SaveChanges();
+            salesModel = new SalesModel();
             int i = 1;
+            float paidAmount = 0;
+            foreach (saleItem item in newSales)
+            {
+                paidAmount = paidAmount + item.tutar;
+            }
             foreach (saleItem item in newSales)
             {
                 salesModel.amount = item.amount;
@@ -58,17 +108,18 @@ public class SalesModelsController : Controller
                 salesModel.salesLineId = i;
                 salesModel.typeOfCollection = 0;
                 salesModel.saleTime = DateTime.Now;
-                if (_context.salesmodels.Find(salesModel.saleDate,salesModel.salesID,salesModel.salesLineId,salesModel.locationID) == null)
-                {
-                    _context.salesmodels.Add(salesModel);
-                    _context.SaveChanges();
-                }
+                salesModel.paidAmount = paidAmount;
+                salesModel.wholesaleamount = item.wholesaleamount;
+
+                _context.salesmodels.Add(salesModel);
+                _context.SaveChanges();
                 i = i + 1;
             }
         }
         public SalesModel getProductByBarcode(string barcodeID, string salesID)
         {
             SalesModel sale_item= new SalesModel();
+            sale_item.salesID = -1;
             int personelID= int.Parse(HttpContext.User.Claims.Where(c => c.Type == "personelID").FirstOrDefault().Value.ToString());
             sale_item.employeesmodels = _context.employeesmodels.Where(c => c.personelID == personelID).FirstOrDefault();
             products productsView = _context.Products.Where(x => x.productBarcodeID == barcodeID).FirstOrDefault();
@@ -83,6 +134,7 @@ public class SalesModelsController : Controller
                 sale_item.dueAmount = sale_item.amount * productsView.productRetailPrice;
                 sale_item.Products= new products();
                 sale_item.Products.productName = productsView.productName;
+                sale_item.wholesaleamount = (decimal)(sale_item.amount * productsView.productWholesalePrice);
             }
             return sale_item;
         }
