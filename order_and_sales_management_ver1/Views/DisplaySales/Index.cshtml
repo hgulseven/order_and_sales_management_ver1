@@ -65,13 +65,13 @@
                         @Html.ActionLink("Ekle", "Index", "SalesModels", new { salesID = item.salesID }, new { @class = "btn btn-secondary btn-sm btn-block", @style = "font-size:12px" })
                     </td>
                     <td width="75">
-                        @Html.ActionLink("Nakit", "Tahsilat", "DisplaySales", new { salesID = item.salesID, typeOfCollection = 1 }, new { @class = "btn btn-danger  btn-sm btn-block", @style = "font-size:12px", @onclick = "getValue2(this)" })
+                        @Html.ActionLink("Nakit", "Tahsilat", "DisplaySales", new { salesID = item.salesID, typeOfCollection = 1 }, new { @class = "btn btn-danger  btn-sm btn-block", @style = "font-size:12px", @onclick = "getValueold2(this)" })
                     </td>
                     <td width="120">
-                        @Html.ActionLink("Kredi Kartı", "Tahsilat", "DisplaySales", new { salesID = item.salesID, typeOfCollection = 2 }, new { @class = "btn btn-danger btn-sm btn-block", @style = "font-size:12px", @onclick = "getValue2(this)" })
+                        @Html.ActionLink("Kredi Kartı", "Tahsilat", "DisplaySales", new { salesID = item.salesID, typeOfCollection = 2 }, new { @class = "btn btn-danger btn-sm btn-block", @style = "font-size:12px", @onclick = "getValueold2(this)" })
                     </td>
                     <td width="75">
-                        @Html.ActionLink("Diğer", "Tahsilat", "DisplaySales", new { salesID = item.salesID, typeOfCollection = 3 }, new { @class = "btn btn-danger btn-sm btn-block", @style = "font-size:12px", @onclick = "getValue2(this)" })
+                        @Html.ActionLink("Diğer", "Tahsilat", "DisplaySales", new { salesID = item.salesID, typeOfCollection = 3 }, new { @class = "btn btn-danger btn-sm btn-block", @style = "font-size:12px", @onclick = "getValueold2(this)" })
                     </td>
                 </tr>
             }
@@ -205,41 +205,36 @@
 
 	function getValue2(Id) {
            var xmlhttp = new XMLHttpRequest();
+            
            var curRow = Id.parentNode.parentNode;
            var salesID = curRow.cells.item(0).innerHTML.trim();
-            var val = document.getElementById("paidTutar" + salesID).value;
-            val = val.replace(".", ",");
+           var val = document.getElementById("paidTutar" + salesID).value;
+           val = val.replace(".", ",");
+           xmlhttp.open("GET", "/DisplaySales/updatePaidAmount?salesID=" + salesID + "&paidAmount=" + val, false);
            xmlhttp.onreadystatechange = function() {
-             if (xmlhttp.readyState == XMLHttpRequest.DONE) {   // XMLHttpRequest.DONE == 4
-               if (xmlhttp.status == 200)
-               {
-               }
-               else if (xmlhttp.status == 400)
-                    {
-                        alert('There was an error 400');
-                    }
-                    else
-                    {
-                        alert('something else other than 200 was returned');
-                    }
+               if (xmlhttp.readyState == XMLHttpRequest.DONE) {   // XMLHttpRequest.DONE == 4
+                   var status = xmlhttp.status;
+                   if (status === 0 || (status >= 200 && status < 400)) {
+                       xmlhttp.send();
+                       location.url("DisplaySales");
+                   } else {
+                   }
                }
          };
-
-         xmlhttp.open("GET","/DisplaySales/updatePaidAmount?salesID="+salesID+"&paidAmount="+val , false);
-         xmlhttp.send();
-        location.url("DisplaySales");
        }
 
 
         function getValueold2(Id) {
             var curRow = Id.parentNode.parentNode;
-            var salesID = curRow.cells.item(0).innerHTML;
-            var val=document.getElementById("paidTutar"+salesID.toString().trim()).value;
+            var salesID = curRow.cells.item(0).innerHTML.trim();
+            var val = document.getElementById("paidTutar" + salesID).value;
+            val = val.replace(".", ",");
             $.ajax({
                 type: 'POST',
                 url: '@Url.Action("updatePaidAmount", "DisplaySales")',
                 data: { "salesID": salesID, "paidAmount": val },
                 success: function (data) {
+                    location.url("DisplaySales");
                 }
             });
             return false;

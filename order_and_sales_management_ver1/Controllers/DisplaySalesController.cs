@@ -295,25 +295,29 @@ namespace management_ver1.Controllers
                     mySqlCommand.ExecuteNonQuery();
                     mySqlCommand.Dispose();
                     mySqlCommand = cnn.CreateCommand();
-                    mySqlCommand.CommandText = "select productBarcodeID from salesmodels where salesID=@salesID and saleDate = @saleDate and locationID=@locationID Limit 1";
+                    mySqlCommand.CommandText = "select packagedProductBarcodeID from salesmodels where salesID=@salesID and saleDate = @saleDate and locationID=@locationID Limit 1";
                     mySqlCommand.Parameters.AddWithValue("@saleDate", DateTime.Now.ToString("yyyy-MM-dd"));
                     mySqlCommand.Parameters.AddWithValue("@locationID", location);
                     mySqlCommand.Parameters.AddWithValue("@salesID", intSalesID);
                     MySqlDataReader reader = mySqlCommand.ExecuteReader();
                     if (reader.HasRows) {
                         reader.Read();
-                        var barcodeID=reader["productBarcodeID"].ToString();
+                        var barcodeID=reader["packagedProductBarcodeID"].ToString();
                         reader.Close();
                         mySqlCommand.Dispose();
-                        mySqlCommand = cnn.CreateCommand();
-                        mySqlCommand.CommandText = "update packagedproductsbarcodes set recStatus=0 where barcodeID=@barcodeID and recStatus=1";
-                        mySqlCommand.Parameters.AddWithValue("@barcodeID", barcodeID);
-                        mySqlCommand.ExecuteNonQuery();
-                        mySqlCommand.Dispose();
-                        mySqlCommand = cnn.CreateCommand();
-                        mySqlCommand.CommandText = "update packagedproductdetailsmodel set recStatus=1 where PackedProductID=@barcodeID and recStatus=0";
-                        mySqlCommand.Parameters.AddWithValue("@barcodeID", barcodeID);
-                        mySqlCommand.ExecuteNonQuery();
+                        if (barcodeID != "")
+                        {
+                            mySqlCommand = cnn.CreateCommand();
+                            mySqlCommand.CommandText = "update packagedproductsbarcodes set recStatus=0 where barcodeID=@barcodeID and recStatus=1";
+                            mySqlCommand.Parameters.AddWithValue("@barcodeID", barcodeID);
+                            mySqlCommand.ExecuteNonQuery();
+                            mySqlCommand.Dispose();
+                            mySqlCommand = cnn.CreateCommand();
+                            mySqlCommand.CommandText = "update packagedproductdetailsmodel set recStatus=1 where PackedProductID=@barcodeID and recStatus=0";
+                            mySqlCommand.Parameters.AddWithValue("@barcodeID", barcodeID);
+                            mySqlCommand.ExecuteNonQuery();
+                            mySqlCommand.Dispose();
+                        }
                     }
                 }
                 else
